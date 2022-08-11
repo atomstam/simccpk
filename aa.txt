@@ -1,0 +1,112 @@
+web_activeuser
+ct_area='".$_SESSION['admin_area']."' and ct_school='".$_SESSION['admin_school']."'
+
+web_bad
+bad_area='".$_SESSION['admin_area']."' and bad_code='".$_SESSION['admin_school']."'
+web_good
+good_area='".$_SESSION['admin_area']."' and good_code='".$_SESSION['admin_school']."'
+web_chclass
+c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."'
+
+update web_chclass  set c_area='101726',c_code='44012023';
+
+
+update `web_bad` set bad_code='44012023' 
+update `web_bad` set bad_area='101726' 
+
+update `web_good` set good_code='44012023' ;
+update `web_good` set good_area='101726' ;
+
+web_badtail
+badtail_area='".$_SESSION['admin_area']."' and badtail_code='".$_SESSION['admin_school']."'
+
+web_goodtail
+goodtail_area='".$_SESSION['admin_area']."' and goodtail_code='".$_SESSION['admin_school']."'
+
+web_message
+ms_area='".$_SESSION['admin_area']."' and ms_school='".$_SESSION['admin_school']."'
+
+web_person
+per_area='".$_SESSION['admin_area']."' and per_code='".$_SESSION['admin_school']."'
+
+web_admin
+area_code ='".$_SESSION['admin_area']."' and school_code='".$_SESSION['admin_school']."' 
+
+web_user
+area='".$_SESSION['admin_area']."' and code='".$_SESSION['admin_school']."' 
+
+web_student
+stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' 
+
+web_class
+class_area='".$_SESSION['admin_area']."' and class_school='".$_SESSION['admin_school']."' 
+
+web_class_group
+clg_area='".$_SESSION['admin_area']."' and clg_school='".$_SESSION['admin_school']."' 
+
+web_class_person
+clper_area='".$_SESSION['admin_area']."' and clper_code='".$_SESSION['admin_school']."' 
+
+web_besttail
+btail_area='".$_SESSION['admin_area']."' and btail_code='".$_SESSION['admin_school']."' 
+
+web_spacialtail
+stail_area='".$_SESSION['admin_area']."' and stail_code='".$_SESSION['admin_school']."' 
+
+web_motortail
+mot_area='".$_SESSION['admin_area']."' and mot_code='".$_SESSION['admin_school']."' 
+
+web_put
+pu_area='".$_SESSION['admin_area']."' and pu_code='".$_SESSION['admin_school']."' 
+
+web_puttail
+pt_area='".$_SESSION['admin_area']."' and pt_code='".$_SESSION['admin_school']."' 
+
+web_counciltail
+cot_area='".$_SESSION['admin_area']."' and cot_code='".$_SESSION['admin_school']."'
+
+web_whitecltail
+whcl_area='".$_SESSION['admin_area']."' and whcl_code='".$_SESSION['admin_school']."'
+
+web_affairs
+aff_area='".$_SESSION['admin_area']."' and aff_code='".$_SESSION['admin_school']."'
+
+web_afftail
+afft_area='".$_SESSION['admin_area']."' and afft_code='".$_SESSION['admin_school']."'
+
+web_ent
+go_area='".$_SESSION['admin_area']."' and go_code='".$_SESSION['admin_school']."'
+
+update web_ent set go_area='101726',go_code='44012023';
+
+web_enttail
+got_area='".$_SESSION['admin_area']."' and got_code='".$_SESSION['admin_school']."'
+
+
+web_exit
+ex_area='".$_SESSION['admin_area']."' and ex_code='".$_SESSION['admin_school']."'
+
+web_exittail
+ext_area='".$_SESSION['admin_area']."' and ext_code='".$_SESSION['admin_school']."'
+
+web_rubrong
+rub_area='".$_SESSION['admin_area']."' and rub_code='".$_SESSION['admin_school']."'
+
+web_rubrongtail
+rb_area='".$_SESSION['admin_area']."' and rb_code='".$_SESSION['admin_school']."'
+
+web_nut
+nut_area='".$_SESSION['admin_area']."' and nut_code='".$_SESSION['admin_school']."'
+
+
+if($_SESSION['admin_group']==1){ 
+
+}
+
+<?php if($_SESSION['admin_group']==1){ ?>
+
+<?php } else {?>#<?php } ?>
+
+<?php } else { echo $i;} ?>
+
+<?php } ?>
