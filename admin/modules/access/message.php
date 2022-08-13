@@ -18,11 +18,11 @@ $add='';
 $edit='';
 if($op=='delcom'){
 		
-		@$res['res'] = $db->select_query("SELECT * FROM ".TB_MESSAGE_COM." WHERE mc_id='".$_GET['McID']."'  "); 
-		@$rows['res'] = $db->rows(@$res['res']);
-		if(@$rows['res']){
-		@$arr['res'] = $db->fetch(@$res['res']);
-		$q['up'] = "UPDATE ".TB_MESSAGE." SET ms_comm = ms_comm-1 WHERE ms_id = '".@$arr['res']['mc_ms']."' ";
+		$res['res'] = $db->select_query("SELECT * FROM ".TB_MESSAGE_COM." WHERE mc_id='".$_GET['McID']."'  "); 
+		$rows['res'] = $db->rows($res['res']);
+		if($rows['res']){
+		$arr['res'] = $db->fetch($res['res']);
+		$q['up'] = "UPDATE ".TB_MESSAGE." SET ms_comm = ms_comm-1 WHERE ms_id = '".$arr['res']['mc_ms']."' ";
 		$sql['up'] = mysql_query ( $q['up'] ) or sql_error ( "db-query",mysql_error() );
 		$del =$db->del(TB_MESSAGE_COM," mc_id='".$_GET['McID']."'  ");
 
@@ -39,9 +39,9 @@ if($op=='delcom'){
 
 if($op=='del'){
 		
-		@$res['res'] = $db->select_query("SELECT * FROM ".TB_MESSAGE." WHERE ms_id='".$_GET['MsID']."'  "); 
-		@$rows['res'] = $db->rows(@$res['res']);
-		if(@$rows['res']){
+		$res['res'] = $db->select_query("SELECT * FROM ".TB_MESSAGE." WHERE ms_id='".$_GET['MsID']."'  "); 
+		$rows['res'] = $db->rows($res['res']);
+		if($rows['res']){
 		$del =$db->del(TB_MESSAGE," ms_id='".$_GET['MsID']."' ");
 		$del .=$db->del(TB_MESSAGE_CHECK," msc_mss='".$_GET['MsID']."' ");
 		$del .=$db->del(TB_MESSAGE_COM," mc_ms='".$_GET['MsID']."'  ");
@@ -59,9 +59,9 @@ if($op=='del'){
 if($op=='delall'){
 		
 		while(list($key, $value) = each ($_POST['selected'])){
-		@$res['res'] = $db->select_query("SELECT * FROM ".TB_MESSAGE." WHERE ms_id='".$value."'  "); 
-		@$rows['res'] = $db->rows(@$res['res']);
-		if(@$rows['res']){
+		$res['res'] = $db->select_query("SELECT * FROM ".TB_MESSAGE." WHERE ms_id='".$value."'  "); 
+		$rows['res'] = $db->rows($res['res']);
+		if($rows['res']){
 		$del =$db->del(TB_MESSAGE," ms_id='".$value."' ");
 		$del .=$db->del(TB_MESSAGE_CHECK," msc_mss='".$value."' ");
 		$del .=$db->del(TB_MESSAGE_COM," mc_ms='".$value."'  ");
@@ -171,9 +171,9 @@ if($op=='add' and $action==''){
 							<option value="all"><?php echo _text_body_select_list_all;?></option>
 							<?php
 							
-							@$res['res'] = $db->select_query("SELECT * FROM ".TB_ADMIN." where username !='".$admin_login."' order by admin_id"); 
-							while (@$arr['res'] = $db->fetch(@$res['res'])){
-							echo 	"<option value=".@$arr['res']['username'].">".@$arr['res']['firstname']." ".@$arr['res']['lastname']."</option>";
+							$res['res'] = $db->select_query("SELECT * FROM ".TB_ADMIN." where username !='".$admin_login."' order by admin_id"); 
+							while ($arr['res'] = $db->fetch($res['res'])){
+							echo 	"<option value=".$arr['res']['username'].">".$arr['res']['firstname']." ".$arr['res']['lastname']."</option>";
 							}
 							?>
 							</select>
@@ -196,8 +196,8 @@ if($op=='add' and $action==''){
 <?php
 } else if($op=='edit' and $action==''){
 
-@$res['ms'] = $db->select_query("SELECT * FROM ".TB_MESSAGE." where ms_id='".$_GET['MsID']."'  ");
-@$arr['ms'] = $db->fetch(@$res['ms']);
+$res['ms'] = $db->select_query("SELECT * FROM ".TB_MESSAGE." where ms_id='".$_GET['MsID']."'  ");
+$arr['ms'] = $db->fetch($res['ms']);
 ?>
 <div class="row">
    <div class="col-xs-12 connectedSortable">
@@ -209,7 +209,7 @@ if($op=='add' and $action==''){
 
 <form action="index.php?name=access&file=message&op=edit&action=edit&route=<?php echo $route;?>" method="post" enctype="multipart/form-data" id="form" role="form" class="form-horizontal">
 <div id="myTabContent" class="tab-content">
-<input type="hidden" name="MsID" value="<?php echo @$arr['ms']['ms_id'];?>">
+<input type="hidden" name="MsID" value="<?php echo $arr['ms']['ms_id'];?>">
 					    <div class="box box-success" id="loading-example">
                                 <div class="box-header">
                                 <i class="fa fa-folder-open"></i>
@@ -220,14 +220,14 @@ if($op=='add' and $action==''){
 							<div class="form-group">
 							<label class="col-sm-3 control-label" ><?php echo _text_box_body_message_topic; ?></label>
 							<div class="col-sm-4" ><p class="form-control-static">
-							<input type="text" name="ms_topic" class="form-control" value="<?php echo @$arr['ms']['ms_topic'];?>">
+							<input type="text" name="ms_topic" class="form-control" value="<?php echo $arr['ms']['ms_topic'];?>">
 							</p>
 							</div>
 							</div>
 							<div class="form-group">
 							<label class="col-sm-3 control-label" ><?php echo _text_box_body_message_detail; ?></label>
 							<div class="col-sm-6" ><p class="form-control-static">
-							<textarea class="form-control" id="editor1" rows="5" cols="80" name="ms_message"><?php echo @$arr['ms']['ms_message'];?></textarea>
+							<textarea class="form-control" id="editor1" rows="5" cols="80" name="ms_message"><?php echo $arr['ms']['ms_message'];?></textarea>
 							</p>
 							</div>
 							</div>
@@ -238,11 +238,11 @@ if($op=='add' and $action==''){
 							<option value="all"><?php echo _text_body_select_list_all;?></option>
 							<?php
 							
-							@$res['res'] = $db->select_query("SELECT * FROM ".TB_ADMIN." where username !='".$admin_login."' order by admin_id"); 
-							while (@$arr['res'] = $db->fetch(@$res['res'])){
-							echo 	"<option value=".@$arr['res']['username']."";
-							if(@$arr['ms']['ms_posted']==@$arr['res']['username']){ echo " selected";}
-							echo " >".@$arr['res']['firstname']." ".@$arr['res']['lastname']."</option>";
+							$res['res'] = $db->select_query("SELECT * FROM ".TB_ADMIN." where username !='".$admin_login."' order by admin_id"); 
+							while ($arr['res'] = $db->fetch($res['res'])){
+							echo 	"<option value=".$arr['res']['username']."";
+							if($arr['ms']['ms_posted']==$arr['res']['username']){ echo " selected";}
+							echo " >".$arr['res']['firstname']." ".$arr['res']['lastname']."</option>";
 							}
 							?>
 							</select>
@@ -270,9 +270,9 @@ if(empty($_POST['mc_message'])){
 $q['up'] = "UPDATE ".TB_MESSAGE." SET ms_views = ms_views+1 WHERE ms_id = '".$_GET['MsID']."' ";
 $sql['up'] = mysql_query ( $q['up'] ) or sql_error ( "db-query",mysql_error() );
 
-@$res['ck']=$db->select_query("SELECT * FROM ".TB_MESSAGE_CHECK." where msc_user='".$admin_login."' and msc_mss='".$_GET['MsID']."' ");
-@$arr['ck'] = $db->rows(@$res['ck']);
-if(!@$arr['ck']){
+$res['ck']=$db->select_query("SELECT * FROM ".TB_MESSAGE_CHECK." where msc_user='".$admin_login."' and msc_mss='".$_GET['MsID']."' ");
+$arr['ck'] = $db->rows($res['ck']);
+if(!$arr['ck']){
 		$db->add_db(TB_MESSAGE_CHECK,array(
 //			"msc_school"=>"".$user_school."",
 			"msc_user"=>"".$admin_login."",
@@ -300,8 +300,8 @@ $sql['up'] = mysql_query ( $q['up'] ) or sql_error ( "db-query",mysql_error() );
 }
 
 
-@$res['ms'] = $db->select_query("SELECT * FROM ".TB_MESSAGE." where ms_id='".$_GET['MsID']."' ");
-@$arr['ms'] = $db->fetch(@$res['ms']);
+$res['ms'] = $db->select_query("SELECT * FROM ".TB_MESSAGE." where ms_id='".$_GET['MsID']."' ");
+$arr['ms'] = $db->fetch($res['ms']);
 ?>
 <div class="row">
    <div class="col-xs-12 connectedSortable">
@@ -326,49 +326,49 @@ $sql['up'] = mysql_query ( $q['up'] ) or sql_error ( "db-query",mysql_error() );
                             <ul class="timeline">
                                 <!-- timeline time label -->
 							<?php
-							@$res['mss'] = $db->select_query("SELECT * FROM ".TB_MESSAGE." where ms_id='".$_GET['MsID']."' ");
-							@$arr['mss'] = $db->fetch(@$res['mss']);
-							@$res['usere'] = $db->select_query("SELECT * FROM ".TB_ADMIN." where username='".@$arr['mss']['ms_posted']."' "); 
-							@$arr['usere'] = $db->fetch(@$res['usere']);
+							$res['mss'] = $db->select_query("SELECT * FROM ".TB_MESSAGE." where ms_id='".$_GET['MsID']."' ");
+							$arr['mss'] = $db->fetch($res['mss']);
+							$res['usere'] = $db->select_query("SELECT * FROM ".TB_ADMIN." where username='".$arr['mss']['ms_posted']."' "); 
+							$arr['usere'] = $db->fetch($res['usere']);
 							?>
                                 <li class="time-label">
                                     <span class="bg-red">
-                                        <?php echo ThaiTimeConvert(@$arr['mss']['ms_date'],"","");?>
+                                        <?php echo ThaiTimeConvert($arr['mss']['ms_date'],"","");?>
                                     </span>
                                 </li>
                                 <!-- /.timeline-label -->
 								<li>
                                     <div class="timeline-item">
-                                        <span class="time"><i class="fa fa-clock-o"></i> <?php echo fb_date(@$arr['mss']['ms_date']);?></span>
-                                        <h3 class="timeline-header"><a href=""><?php echo @$arr['mss']['ms_posted'];?></a> : <?php echo @$arr['mss']['ms_topic'];?></h3>
+                                        <span class="time"><i class="fa fa-clock-o"></i> <?php echo fb_date($arr['mss']['ms_date']);?></span>
+                                        <h3 class="timeline-header"><a href=""><?php echo $arr['mss']['ms_posted'];?></a> : <?php echo $arr['mss']['ms_topic'];?></h3>
                                         <div class="timeline-body">
-										 <img src="<?php if(@$arr['usere']['img']){echo WEB_URL_IMG_ADMIN.@$arr['usere']['img'];}else{echo WEB_URL_IMG_ADMIN."no_image.jpg";}?>" width="50" height="50"  class="img-circle" alt="User Image"/>&nbsp;
-										<?php echo @$arr['mss']['ms_message'];?>
+										 <img src="<?php if($arr['usere']['img']){echo WEB_URL_IMG_ADMIN.$arr['usere']['img'];}else{echo WEB_URL_IMG_ADMIN."no_image.jpg";}?>" width="50" height="50"  class="img-circle" alt="User Image"/>&nbsp;
+										<?php echo $arr['mss']['ms_message'];?>
                                         </div>
                                         <div class='timeline-footer'>
-										<?php if($admin_login==@$arr['usere']['username']){?>
-                                            <a class="btn btn-danger btn-xs" href="index.php?name=access&file=message&op=del&route=<?php echo $route;?>&MsID=<?php echo @$arr['mss']['ms_id'];?>">Delete</a>
+										<?php if($admin_login==$arr['usere']['username']){?>
+                                            <a class="btn btn-danger btn-xs" href="index.php?name=access&file=message&op=del&route=<?php echo $route;?>&MsID=<?php echo $arr['mss']['ms_id'];?>">Delete</a>
 										<?php } ?>
-                                            <a class="btn bg-orange btn-flat btn-xs">Views : <?php echo @$arr['mss']['ms_views'];?></a>
-                                            <a class="btn btn-info btn-xs">Commment : <?php echo @$arr['mss']['ms_comm'];?></a>
+                                            <a class="btn bg-orange btn-flat btn-xs">Views : <?php echo $arr['mss']['ms_views'];?></a>
+                                            <a class="btn btn-info btn-xs">Commment : <?php echo $arr['mss']['ms_comm'];?></a>
                                         </div>
                                     </div>
 								</li>
                                 <!-- END timeline item -->
                                 <!-- timeline item -->
 								<?php
-								@$res['mc'] = $db->select_query("SELECT * FROM ".TB_MESSAGE_COM." where mc_ms='".@$arr['mss']['ms_id']."' order by mc_id");
+								$res['mc'] = $db->select_query("SELECT * FROM ".TB_MESSAGE_COM." where mc_ms='".$arr['mss']['ms_id']."' order by mc_id");
 								$i=1;
 								$k=0;
-								@$resultArray = array();
-								while (@$arr['mc'] = $db->fetch(@$res['mc'])){
-								$dateback=(@$arr['mc']['mc_id'])-1;
-								@$res['mcc'] = $db->select_query("SELECT * FROM ".TB_MESSAGE_COM." where mc_id='".$dateback."' ");
-								@$arr['mcc'] = $db->fetch(@$res['mcc']);
-								@$res['usert'] = $db->select_query("SELECT * FROM ".TB_ADMIN." where username='".@$arr['mc']['mc_posted']."' "); 
-								@$arr['usert'] = $db->fetch(@$res['usert']);
-								$TimeLaBelbefor=date('Y-m-d', @$arr['mcc']['mc_date']);
-								$TimeLaBelback=date('Y-m-d', @$arr['mc']['mc_date']);
+								$resultArray = array();
+								while ($arr['mc'] = $db->fetch($res['mc'])){
+								$dateback=($arr['mc']['mc_id'])-1;
+								$res['mcc'] = $db->select_query("SELECT * FROM ".TB_MESSAGE_COM." where mc_id='".$dateback."' ");
+								$arr['mcc'] = $db->fetch($res['mcc']);
+								$res['usert'] = $db->select_query("SELECT * FROM ".TB_ADMIN." where username='".$arr['mc']['mc_posted']."' "); 
+								$arr['usert'] = $db->fetch($res['usert']);
+								$TimeLaBelbefor=date('Y-m-d', $arr['mcc']['mc_date']);
+								$TimeLaBelback=date('Y-m-d', $arr['mc']['mc_date']);
 								$strdate = explode("-",$TimeLaBelback);
 								$strdateto = explode("-",$TimeLaBelbefor);
 								$d1= mktime(0, 0, 0, $strdateto['1'], $strdateto['2'], $strdateto['0']);
@@ -380,7 +380,7 @@ $sql['up'] = mysql_query ( $q['up'] ) or sql_error ( "db-query",mysql_error() );
 								 <!-- timeline time label -->
                                 <li class="time-label">
                                     <span class="<?php echo $timeLabel[$i];?>">
-                                        <?php echo ThaiTimeConvert(@$arr['mc']['mc_date'],"","");?>
+                                        <?php echo ThaiTimeConvert($arr['mc']['mc_date'],"","");?>
                                     </span>
                                 </li>
                                 <!-- /.timeline-label -->
@@ -390,7 +390,7 @@ $sql['up'] = mysql_query ( $q['up'] ) or sql_error ( "db-query",mysql_error() );
 								 <!-- timeline time label -->
                                 <li class="time-label">
                                     <span class="<?php echo $timeLabel[$i];?>">
-                                        <?php echo ThaiTimeConvert(@$arr['mc']['mc_date'],"","");?>
+                                        <?php echo ThaiTimeConvert($arr['mc']['mc_date'],"","");?>
                                     </span>
                                 </li>
                                 <!-- /.timeline-label -->
@@ -399,15 +399,15 @@ $sql['up'] = mysql_query ( $q['up'] ) or sql_error ( "db-query",mysql_error() );
                                 <li>
                                     <i class="<?php echo $timeIcon[$i];?> <?php echo $timeBg[$i];?>"></i>
                                     <div class="timeline-item">
-                                        <span class="time"><i class="fa fa-clock-o"></i> <?php echo fb_date(@$arr['mc']['mc_date']);?></span>
-                                        <h3 class="timeline-header">Comment : <?php echo $i;?> , Posted by : <a href="#"><?php echo @$arr['mc']['mc_posted'];?></a></h3>
+                                        <span class="time"><i class="fa fa-clock-o"></i> <?php echo fb_date($arr['mc']['mc_date']);?></span>
+                                        <h3 class="timeline-header">Comment : <?php echo $i;?> , Posted by : <a href="#"><?php echo $arr['mc']['mc_posted'];?></a></h3>
                                         <div class="timeline-body">
-   										 <img src="<?php if(@$arr['usert']['img']){echo WEB_URL_IMG_ADMIN.@$arr['usert']['img'];}else{echo WEB_URL_IMG_ADMIN."no_image.jpg";}?>" width="50" height="50"  class="img-circle" alt="User Image"/>&nbsp;
-										<?php echo @$arr['mc']['mc_message'];?>
+   										 <img src="<?php if($arr['usert']['img']){echo WEB_URL_IMG_ADMIN.$arr['usert']['img'];}else{echo WEB_URL_IMG_ADMIN."no_image.jpg";}?>" width="50" height="50"  class="img-circle" alt="User Image"/>&nbsp;
+										<?php echo $arr['mc']['mc_message'];?>
                                         </div>
-										<?php if($admin_login==@$arr['usert']['username']){?>
+										<?php if($admin_login==$arr['usert']['username']){?>
                                         <div class='timeline-footer'>
-                                            <a class="btn btn-danger btn-xs" href="index.php?name=access&file=message&op=delcom&route=<?php echo $route;?>&McID=<?php echo @$arr['mc']['mc_id'];?>">Delete</a>
+                                            <a class="btn btn-danger btn-xs" href="index.php?name=access&file=message&op=delcom&route=<?php echo $route;?>&McID=<?php echo $arr['mc']['mc_id'];?>">Delete</a>
                                         </div>
 										<?php } ?>
                                     </div>
@@ -464,9 +464,9 @@ $sql['up'] = mysql_query ( $q['up'] ) or sql_error ( "db-query",mysql_error() );
       <div class="box-body ">
 	  <?php
 		
-		@$res['ms'] = $db->select_query("SELECT * FROM ".TB_MESSAGE."  where ms_to in ('all' ,'".$admin_login."') or ms_posted='".$admin_login."' order by ms_id desc"); 
-		@$rows['ms'] = $db->rows(@$res['ms']);
-		if(@$rows['ms']) {
+		$res['ms'] = $db->select_query("SELECT * FROM ".TB_MESSAGE."  where ms_to in ('all' ,'".$admin_login."') or ms_posted='".$admin_login."' order by ms_id desc"); 
+		$rows['ms'] = $db->rows($res['ms']);
+		if($rows['ms']) {
 		?>
       <form action="index.php?name=access&file=message&op=delall&route=<?php echo $route;?>" method="post" enctype="multipart/form-data" id="form" class="form-inline">
         <table id="example1" class="table table-bordered table-striped responsive" style="width:100%">
@@ -484,21 +484,21 @@ $sql['up'] = mysql_query ( $q['up'] ) or sql_error ( "db-query",mysql_error() );
           <tbody>
 		<?php
 		$i=1;
-		while (@$arr['ms'] = $db->fetch(@$res['ms'])){
-		@$res['com'] = $db->select_query("SELECT * FROM ".TB_MESSAGE_CHECK." WHERE msc_user='".$admin_login."' and msc_mss='".@$arr['ms']['ms_id']."' "); 
-		@$rows['com'] = $db->rows(@$res['com']);
+		while ($arr['ms'] = $db->fetch($res['ms'])){
+		$res['com'] = $db->select_query("SELECT * FROM ".TB_MESSAGE_CHECK." WHERE msc_user='".$admin_login."' and msc_mss='".$arr['ms']['ms_id']."' "); 
+		$rows['com'] = $db->rows($res['com']);
 		?>
             <tr>
-              <td style="text-align: center;"><input type="checkbox" name="selected[]" value="<?php echo @$arr['ms']['ms_id']; ?>" class="selector flat"/></td>
-              <td class="left"><ul class="massages"><li><?php if(@$rows['com']){ echo "<i class=\"fa fa-comment bg-green\"></i>";} else { echo "<i class=\"fa fa-comment-o bg-yellow\"></i>";}?>&nbsp;<?php echo @$arr['ms']['ms_topic']; ?>&nbsp;<?=NewsIcon(TIMESTAMP, @$arr['ms']['ms_date']);?></li></ul></td>
-              <td style="text-align: center;"><?php echo @$arr['ms']['ms_views']; ?></td>
-              <td style="text-align: center;"><?php echo @$arr['ms']['ms_comm']; ?></td>
-              <td style="text-align: center;"><?php echo @$arr['ms']['ms_posted']; ?></td>
-              <td  style="text-align: center;"><?php echo ThaiTimeConvert(@$arr['ms']['ms_date'],'',1);?></td>
+              <td style="text-align: center;"><input type="checkbox" name="selected[]" value="<?php echo $arr['ms']['ms_id']; ?>" class="selector flat"/></td>
+              <td class="left"><ul class="massages"><li><?php if($rows['com']){ echo "<i class=\"fa fa-comment bg-green\"></i>";} else { echo "<i class=\"fa fa-comment-o bg-yellow\"></i>";}?>&nbsp;<?php echo $arr['ms']['ms_topic']; ?>&nbsp;<?=NewsIcon(TIMESTAMP, $arr['ms']['ms_date']);?></li></ul></td>
+              <td style="text-align: center;"><?php echo $arr['ms']['ms_views']; ?></td>
+              <td style="text-align: center;"><?php echo $arr['ms']['ms_comm']; ?></td>
+              <td style="text-align: center;"><?php echo $arr['ms']['ms_posted']; ?></td>
+              <td  style="text-align: center;"><?php echo ThaiTimeConvert($arr['ms']['ms_date'],'',1);?></td>
               <td style="text-align: center;">
-				<a href="index.php?name=access&file=message&op=detail&MsID=<?php echo @$arr['ms']['ms_id']; ?>&route=<?php echo $route;?>" class="btn bg-green btn-flat btn-sm"><i class="fa fa-search-plus "></i></a>
-				<a href="index.php?name=access&file=message&op=edit&MsID=<?php echo @$arr['ms']['ms_id']; ?>&route=<?php echo $route;?>" class="btn bg-aqua btn-flat btn-sm"><i class="fa fa-edit "></i></a>
-				<a href="index.php?name=access&file=message&op=del&MsID=<?php echo @$arr['ms']['ms_id']; ?>&route=<?php echo $route;?>" class="btn bg-red btn-flat btn-sm"><i class="fa fa-trash-o "></i></a>
+				<a href="index.php?name=access&file=message&op=detail&MsID=<?php echo $arr['ms']['ms_id']; ?>&route=<?php echo $route;?>" class="btn bg-green btn-flat btn-sm"><i class="fa fa-search-plus "></i></a>
+				<a href="index.php?name=access&file=message&op=edit&MsID=<?php echo $arr['ms']['ms_id']; ?>&route=<?php echo $route;?>" class="btn bg-aqua btn-flat btn-sm"><i class="fa fa-edit "></i></a>
+				<a href="index.php?name=access&file=message&op=del&MsID=<?php echo $arr['ms']['ms_id']; ?>&route=<?php echo $route;?>" class="btn bg-red btn-flat btn-sm"><i class="fa fa-trash-o "></i></a>
 			  </td>
             </tr>
             <?php } ?>

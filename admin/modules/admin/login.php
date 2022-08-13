@@ -163,7 +163,6 @@ if(!empty(@$rows['user'])){
 	$_SESSION['admin_school'] = @$arr['user']['school_code'] ;
 	$_SESSION['admin_area'] = @$arr['user']['area_code'] ;
 	$_SESSION['admin_role'] = @$arr['user']['role'] ;
-	$_SESSION['auth'] = "admin";
 
 	@$res['sh'] = $db->select_query("SELECT * FROM ".TB_SCHOOL." WHERE sh_code='".@$arr['user']['school_code']."' AND sh_area='".@$arr['user']['area_code']."' "); 
 	@$arr['sh'] = $db->fetch(@$res['sh']);

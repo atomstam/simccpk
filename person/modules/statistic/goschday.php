@@ -1,12 +1,12 @@
 <?php
-if(!empty($_SESSION['person_login'])){
+if(!empty($_SESSION['admin_login'])){
 ?>
 <div class="col-xs-12">
 
 <?php
 if($op =='bdetail' ){
 $db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
-@$res['user'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."' and stu_id='".$_GET['id']."' order by stu_class,stu_id"); 
+@$res['user'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_id='".$_GET['id']."' order by stu_class,stu_id"); 
 @$arr['user'] = $db->fetch(@$res['user']);
 @$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".@$arr['user']['stu_class']."' "); 
 @$arr['class'] = $db->fetch(@$res['class']);
@@ -110,7 +110,7 @@ $db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
 		while (@$arr['num'] = $db->fetch(@$res['num'])){
 			@$res['tail'] = $db->select_query("SELECT * FROM ".TB_BADTAIL." WHERE badtail_id='".@$arr['num']['bad_tail']."' "); 
 			@$arr['tail'] =$db->fetch(@$res['tail']);
-			@$res['stu'] = $db->select_query("SELECT * FROM ".TB_STUDENT." WHERE stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."' and stu_id='".@$arr['user']['stu_id']."' "); 
+			@$res['stu'] = $db->select_query("SELECT * FROM ".TB_STUDENT." WHERE stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_id='".@$arr['user']['stu_id']."' "); 
 			@$arr['stu'] =$db->fetch(@$res['stu']);
 //		@$PerC=(100*(@$arr['num']['CO']))/(@$rows['count']);
 			@$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".@$arr['stu']['stu_class']."' "); 
@@ -288,7 +288,7 @@ $db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
 <?php
 } else if($op =='gdetail' ){
 $db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
-@$res['user'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."' and stu_id='".$_GET['id']."' order by stu_class,stu_id"); 
+@$res['user'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_id='".$_GET['id']."' order by stu_class,stu_id"); 
 @$arr['user'] = $db->fetch(@$res['user']);
 @$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".@$arr['user']['stu_class']."' "); 
 @$arr['class'] = $db->fetch(@$res['class']);
@@ -392,7 +392,7 @@ $db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
 		while (@$arr['num'] = $db->fetch(@$res['num'])){
 			@$res['tail'] = $db->select_query("SELECT * FROM ".TB_GOODTAIL." WHERE goodtail_id='".@$arr['num']['good_tail']."' "); 
 			@$arr['tail'] =$db->fetch(@$res['tail']);
-			@$res['stu'] = $db->select_query("SELECT * FROM ".TB_STUDENT." WHERE stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."' and stu_id='".@$arr['user']['stu_id']."' "); 
+			@$res['stu'] = $db->select_query("SELECT * FROM ".TB_STUDENT." WHERE stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_id='".@$arr['user']['stu_id']."' "); 
 			@$arr['stu'] =$db->fetch(@$res['stu']);
 //		@$PerC=(100*(@$arr['num']['CO']))/(@$rows['count']);
 			@$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".@$arr['stu']['stu_class']."' "); 
@@ -576,7 +576,7 @@ $ToDayDate=date('Y-m-d');
 
 <?php
 		$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
-		@$res['num'] = $db->select_query("select *,sum(badtail_point) as CO  from ".TB_BAD." as a ,".TB_STUDENT." as b,".TB_BADTAIL." as c where b.stu_area='".$_SESSION['person_area']."' and b.stu_code='".$_SESSION['person_school']."' and b.stu_id=a.bad_stu and a.bad_tail=c.badtail_id and a.b_date='".$ToDayDate."' and stu_suspend ='0' group by b.stu_id order by CO desc"); 
+		@$res['num'] = $db->select_query("select *,sum(badtail_point) as CO  from ".TB_BAD." as a ,".TB_STUDENT." as b,".TB_BADTAIL." as c where b.stu_area='".$_SESSION['admin_area']."' and b.stu_code='".$_SESSION['admin_school']."' and b.stu_id=a.bad_stu and a.bad_tail=c.badtail_id and a.b_date='".$ToDayDate."' and stu_suspend ='0' group by b.stu_id order by CO desc"); 
 		@$rows['num'] = $db->rows(@$res['num']);
 ?>
       <div class="row">
@@ -736,7 +736,7 @@ $ToDayDate=date('Y-m-d');
 
 <?php
 		$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
-		@$res['nums'] = $db->select_query("select *,sum(goodtail_point) as GO  from ".TB_GOOD." as a,".TB_STUDENT." as b,".TB_GOODTAIL." as c where b.stu_area='".$_SESSION['person_area']."' and b.stu_code='".$_SESSION['person_school']."' and b.stu_id=a.good_stu and a.good_tail=c.goodtail_id and a.g_date='".$ToDayDate."' and stu_suspend ='0' group by b.stu_id order by GO desc"); 
+		@$res['nums'] = $db->select_query("select *,sum(goodtail_point) as GO  from ".TB_GOOD." as a,".TB_STUDENT." as b,".TB_GOODTAIL." as c where b.stu_area='".$_SESSION['admin_area']."' and b.stu_code='".$_SESSION['admin_school']."' and b.stu_id=a.good_stu and a.good_tail=c.goodtail_id and a.g_date='".$ToDayDate."' and stu_suspend ='0' group by b.stu_id order by GO desc"); 
 		@$rows['nums'] = $db->rows(@$res['nums']);
 ?>
 

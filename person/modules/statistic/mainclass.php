@@ -1,13 +1,13 @@
 <?php 
 //require_once ("mainfile.php"); 
 //require_once ("header.php"); 
-if(!empty($_SESSION['person_login'])){
+if(!empty($_SESSION['admin_login'])){
 ?>
 
 <div class="col-xs-12">
 <?php
 if($op=='cldetail' and $action=='' ){
-@$res['count'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."' and stu_class='".$_GET['class_id']."' "); 
+@$res['count'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_class='".$_GET['class_id']."' "); 
 @$rows['count'] = $db->rows(@$res['count']);
 @$res['Cl'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".$_GET['class_id']."' "); 
 @$arr['Cl'] =$db->fetch(@$res['Cl']);
@@ -36,7 +36,7 @@ if($op=='cldetail' and $action=='' ){
       <div class="box-body ">
 	  <?php
 		$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
-		@$res['num'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."' and stu_class='".$_GET['class_id']."'  order by id "); 
+		@$res['num'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_class='".$_GET['class_id']."'  order by id "); 
 		@$rows['num'] = $db->rows(@$res['num']);
 		if(@$rows['num']) {
 		?>
@@ -224,7 +224,7 @@ if($op=='cldetail' and $action=='' ){
 <?php
 } else if($op =='studetail' ){
 $db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
-@$res['user'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."' and stu_id='".$_GET['stuid']."' order by stu_class,stu_id"); 
+@$res['user'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_id='".$_GET['stuid']."' order by stu_class,stu_id"); 
 @$arr['user'] = $db->fetch(@$res['user']);
 @$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".@$arr['user']['stu_class']."' "); 
 @$arr['class'] = $db->fetch(@$res['class']);
@@ -705,7 +705,7 @@ $(document).ready(function(){
 	  <div id="Graphclass" ><center><img src="../img/ajax-loader1.gif" border="0"></center></div>
 	  </div>
 <?php
-@$res['count'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."' group by stu_id"); 
+@$res['count'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' group by stu_id"); 
 @$rows['count'] = $db->rows(@$res['count']);
 ?>
 <div class="row">
@@ -727,7 +727,7 @@ $(document).ready(function(){
       <div class="box-body ">
 	  <?php
 		$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
-		@$res['num'] = $db->select_query("SELECT *,count(stu_id) as CO FROM ".TB_STUDENT." where stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."' group by stu_class order by stu_class "); 
+		@$res['num'] = $db->select_query("SELECT *,count(stu_id) as CO FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' group by stu_class order by stu_class "); 
 		@$rows['num'] = $db->rows(@$res['num']);
 		if(@$rows['num']) {
 		?>
@@ -750,9 +750,9 @@ $(document).ready(function(){
 		while (@$arr['num'] = $db->fetch(@$res['num'])){
 		@$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".@$arr['num']['stu_class']."' "); 
 		@$arr['class'] =$db->fetch(@$res['class']);
-		@$res['boy'] = $db->select_query("select *,count(stu_num) as Boy from ".TB_STUDENT."  where stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."' and stu_sex='1' and stu_class='".@$arr['num']['stu_class']."' group by stu_class "); 
+		@$res['boy'] = $db->select_query("select *,count(stu_num) as Boy from ".TB_STUDENT."  where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_sex='1' and stu_class='".@$arr['num']['stu_class']."' group by stu_class "); 
 		@$arr['boy'] =$db->fetch(@$res['boy']);
-		@$res['girl'] = $db->select_query("select *,count(stu_num) as Girl from ".TB_STUDENT."  where stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."' and stu_sex='2' and stu_class='".@$arr['num']['stu_class']."' group by stu_class"); 
+		@$res['girl'] = $db->select_query("select *,count(stu_num) as Girl from ".TB_STUDENT."  where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_sex='2' and stu_class='".@$arr['num']['stu_class']."' group by stu_class"); 
 		@$arr['girl'] =$db->fetch(@$res['girl']);
 		@$PerC=(100*(@$arr['num']['CO']))/(@$rows['count']);
 		?>

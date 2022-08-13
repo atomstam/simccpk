@@ -23,9 +23,9 @@ if(!empty($_SESSION['admin_login'])){
 
 if($op=='edit' and $action=='edit'){
 
-@$res['user'] = $db->select_query("SELECT * FROM ".TB_USER." where user_id !='".$_GET['userId']."' order by user_id "); 
-@$arr['user'] = $db->fetch(@$res['user']);
-if(@$arr['user']['username']!=$_POST['username'] && @$arr['user']['email']!=$_POST['email'] ){
+$res['user'] = $db->select_query("SELECT * FROM ".TB_USER." where user_id !='".$_GET['userId']."' order by user_id "); 
+$arr['user'] = $db->fetch($res['user']);
+if($arr['user']['username']!=$_POST['username'] && $arr['user']['email']!=$_POST['email'] ){
 $added=date("Y-m-d H:i:s");
 		
 		if($_POST['password']){
@@ -127,10 +127,10 @@ $added=date("Y-m-d H:i:s");
 <?php
  if($op=='edit' and $action==''){
 
-@$res['user'] = $db->select_query("SELECT * FROM ".TB_USER." WHERE user_id='".$_GET['userId']."' "); 
-@$arr['user'] = $db->fetch(@$res['user']);
-$usercode=@$arr['user']['user_id'];
-$userimg=@$arr['user']['img'];
+$res['user'] = $db->select_query("SELECT * FROM ".TB_USER." WHERE user_id='".$_GET['userId']."' "); 
+$arr['user'] = $db->fetch($res['user']);
+$usercode=$arr['user']['user_id'];
+$userimg=$arr['user']['img'];
 ?>
 	       <script type="text/javascript">
             $(document).ready(function() {	
@@ -176,11 +176,11 @@ $userimg=@$arr['user']['img'];
 
 	  <?php
 		
-		@$res['user'] = $db->select_query("SELECT * FROM ".TB_USER." WHERE user_id='".$_GET['userId']."' "); 
-		@$arr['user'] = $db->fetch(@$res['user']);
+		$res['user'] = $db->select_query("SELECT * FROM ".TB_USER." WHERE user_id='".$_GET['userId']."' "); 
+		$arr['user'] = $db->fetch($res['user']);
 		?>
-		<form action="index.php?name=user&file=index&op=edit&action=edit&userId=<?php echo @$arr['user']['user_id'];?>&route=<?php echo $route;?>" method="post" enctype="multipart/form-data" id="form" role="form" class="form-horizontal" >
-		<input type="hidden" name="OldName" value="<?php echo @$arr['user']['username'];?>">
+		<form action="index.php?name=user&file=index&op=edit&action=edit&userId=<?php echo $arr['user']['user_id'];?>&route=<?php echo $route;?>" method="post" enctype="multipart/form-data" id="form" role="form" class="form-horizontal" >
+		<input type="hidden" name="OldName" value="<?php echo $arr['user']['username'];?>">
 					    <div class="box box-info" id="loading-example">
                                 <div class="box-header">
                                 <i class="fa fa-user"></i>
@@ -190,15 +190,15 @@ $userimg=@$arr['user']['img'];
 
 							<div class="form-group">
 							<label class="col-sm-4 control-label" ><?php echo _text_box_body_user_name; ?></label>
-							<div class="col-sm-4" ><p class="form-control-static"><input type="text" name="firstname" class="form-control" value="<?php echo @$arr['user']['firstname'];?>"></p></div>
+							<div class="col-sm-4" ><p class="form-control-static"><input type="text" name="firstname" class="form-control" value="<?php echo $arr['user']['firstname'];?>"></p></div>
 							</div>
 							<div class="form-group">
 							<label class="col-sm-4 control-label" ><?php echo _text_box_body_user_surname; ?></label>
-							<div class="col-sm-4" ><p class="form-control-static"><input type="text" name="lastname" class="form-control" value="<?php echo @$arr['user']['lastname'];?>"></p></div>
+							<div class="col-sm-4" ><p class="form-control-static"><input type="text" name="lastname" class="form-control" value="<?php echo $arr['user']['lastname'];?>"></p></div>
 							</div>
 							<div class="form-group">
 							<label class="col-sm-4 control-label" ><?php echo _text_box_body_user_username; ?></label>
-							<div class="col-sm-2" ><p class="form-control-static"><input type="text" name="username" class="form-control" value="<?php echo @$arr['user']['username'];?>"></p></div>
+							<div class="col-sm-2" ><p class="form-control-static"><input type="text" name="username" class="form-control" value="<?php echo $arr['user']['username'];?>"></p></div>
 							</div>
 							<div class="form-group">
 							<label class="col-sm-4 control-label" >password</label>
@@ -206,7 +206,7 @@ $userimg=@$arr['user']['img'];
 							</div>
 							<div class="form-group">
 							<label class="col-sm-4 control-label" ><?php echo _text_box_body_user_email; ?></label>
-							<div class="col-sm-3" ><p class="form-control-static"><input type="text" name="email" class="form-control" value="<?php echo @$arr['user']['email'];?>"></p></div>
+							<div class="col-sm-3" ><p class="form-control-static"><input type="text" name="email" class="form-control" value="<?php echo $arr['user']['email'];?>"></p></div>
 							</div>
 							<div class="form-group">
 							<label class="col-sm-4 control-label" ><?php echo _text_box_body_user_img; ?></label>
@@ -226,10 +226,10 @@ $userimg=@$arr['user']['img'];
 <?php
 } else {
 
-@$res['user'] = $db->select_query("SELECT * FROM ".TB_ADMIN." WHERE username='".$admin_login."' "); 
-@$arr['user'] = $db->fetch(@$res['user']);
-$usercode=@$arr['user']['admin_id'];
-$userimg=@$arr['user']['img'];
+$res['user'] = $db->select_query("SELECT * FROM ".TB_ADMIN." WHERE username='".$admin_login."' "); 
+$arr['user'] = $db->fetch($res['user']);
+$usercode=$arr['user']['admin_id'];
+$userimg=$arr['user']['img'];
 ?>
 	       <script type="text/javascript">
             $(document).ready(function() {	
@@ -273,10 +273,10 @@ $userimg=@$arr['user']['img'];
 
 	  <?php
 		
-		@$res['user'] = $db->select_query("SELECT * FROM ".TB_ADMIN." WHERE username='".$admin_login."' "); 
-		@$arr['user'] = $db->fetch(@$res['user']);
+		$res['user'] = $db->select_query("SELECT * FROM ".TB_ADMIN." WHERE username='".$admin_login."' "); 
+		$arr['user'] = $db->fetch($res['user']);
 		?>
-		<form action="index.php?name=user&file=index&op=edit&userId=<?php echo @$arr['user']['admin_id'];?>&route=<?php echo $route;?>" method="post" enctype="multipart/form-data" id="form" role="form" class="form-horizontal" >
+		<form action="index.php?name=user&file=index&op=edit&userId=<?php echo $arr['user']['admin_id'];?>&route=<?php echo $route;?>" method="post" enctype="multipart/form-data" id="form" role="form" class="form-horizontal" >
 
 					    <div class="box box-info" id="loading-example">
                                 <div class="box-header">
@@ -287,19 +287,19 @@ $userimg=@$arr['user']['img'];
 
 							<div class="form-group">
 							<label class="col-sm-4 control-label" ><?php echo _text_box_body_user_name; ?></label>
-							<div class="col-sm-4" ><p class="form-control-static"><?php echo @$arr['user']['firstname'];?></p></div>
+							<div class="col-sm-4" ><p class="form-control-static"><?php echo $arr['user']['firstname'];?></p></div>
 							</div>
 							<div class="form-group">
 							<label class="col-sm-4 control-label" ><?php echo _text_box_body_user_surname; ?></label>
-							<div class="col-sm-4" ><p class="form-control-static"><?php echo @$arr['user']['lastname'];?></p></div>
+							<div class="col-sm-4" ><p class="form-control-static"><?php echo $arr['user']['lastname'];?></p></div>
 							</div>
 							<div class="form-group">
 							<label class="col-sm-4 control-label" ><?php echo _text_box_body_user_username; ?></label>
-							<div class="col-sm-2" ><p class="form-control-static"><?php echo @$arr['user']['username'];?></p></div>
+							<div class="col-sm-2" ><p class="form-control-static"><?php echo $arr['user']['username'];?></p></div>
 							</div>
 							<div class="form-group">
 							<label class="col-sm-4 control-label" ><?php echo _text_box_body_user_email; ?></label>
-							<div class="col-sm-3" ><p class="form-control-static"><?php echo @$arr['user']['email'];?></p></div>
+							<div class="col-sm-3" ><p class="form-control-static"><?php echo $arr['user']['email'];?></p></div>
 							</div>
 							<div class="form-group">
 							<label class="col-sm-4 control-label" ><?php echo _text_box_body_user_img; ?></label>

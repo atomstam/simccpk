@@ -14,7 +14,7 @@ if($_POST['OP']=='Add'){
 	if( $_POST['Stu_best'] !='' && $_POST['Pu_Dtime'] && $_POST['Btail_name'] !='' ){
 
 	$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
-	$Mtime=time();
+	$Mtime=date("H:i:s");
 		@$res['tail'] = $db->select_query("SELECT * FROM ".TB_AFFAIRS." WHERE aff_area='".$_SESSION['admin_area']."' and aff_code='".$_SESSION['admin_school']."' and aff_id='".$_POST['Stu_best']."' "); 
 		@$arr['tail'] =$db->fetch(@$res['tail']);
 

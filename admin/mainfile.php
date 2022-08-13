@@ -11,7 +11,7 @@ if (@count($arr) > 0)
 extract($arr, EXTR_SKIP);
 }
 }
-ini_set('display_errors', "1");
+//ini_set('display_errors', "0");
 if (preg_match("/mainfile.php/i",$_SERVER['PHP_SELF'])) {
     Header("Location: index.php");
     die();
@@ -27,7 +27,7 @@ $db = New DB();
 $db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
 empty($_GET['name'])?$name="":$name=$_GET['name'];
 empty($_GET['file'])?$file="":$file=$_GET['file'];
-empty($_SESSION['auth'])?$auth="":$auth=$_SESSION['auth'];
+
 empty($_GET['index'])?$index="modules/index/index.php":$index=$_GET['index'];
 empty($_GET['header'])?$header="modules/index/header.php":$header=$_GET['header'];
 empty($_SESSION['admin_login'])?$admin_login="":$admin_login=$_SESSION['admin_login'];

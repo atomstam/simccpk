@@ -7,7 +7,7 @@ $db = New DB();
 //echo $_GET['query'];
 if(isset($_POST['query'])){
 $db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
-@$res['user'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."'  and stu_name LIKE '%".$_POST['query']."%'  order by stu_name "); 
+@$res['user'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."'  and stu_name LIKE '%".$_POST['query']."%'  order by stu_name "); 
 $data=array();
 while($row = $db->fetch(@$res['user'])){
 	$bus = array(

@@ -1,32 +1,32 @@
 <?php
 header('Content-Type: application/json');
 require_once("../../../admin/modules/user/lang/login.php");
-@$res=array();
-@$res['errors']=array();
-@$res['success']=array();
+$res=array();
+$res['errors']=array();
+$res['success']=array();
 if (isset($_POST)) {
 $Username = preg_replace ( '/"/i', '\"' , $_POST['username']); 
 $Password= preg_replace ( "/'/i", "\'" , $_POST['password']);
 	if(empty($Username)) {
-		array_push(@$res['errors'], _LOGIN_ERROR_NULL_USER);
+		array_push($res['errors'], _LOGIN_ERROR_NULL_USER);
 	}
 	if(empty($Password)) {
-		array_push(@$res['errors'], _LOGIN_ERROR_NULL_PASS);
+		array_push($res['errors'], _LOGIN_ERROR_NULL_PASS);
 	}
 
-if(empty(@$res['errors'])) {
+if(empty($res['errors'])) {
 require_once("../../../mainfile.php");
 
-@$resr['user'] = $db->select_query("SELECT * FROM ".TB_ADMIN." WHERE username='".$Username."' AND password='".md5($Password)."' "); 
-@$arr['user'] = $db->fetch(@$resr['user']);
-if(!empty(@$arr['user']['admin_id'])){
-	array_push(@$res['success'], _LOGIN_ACCESS);
-//	@$res['success'] = true;
+$resr['user'] = $db->select_query("SELECT * FROM ".TB_ADMIN." WHERE username='".$Username."' AND password='".md5($Password)."' "); 
+$arr['user'] = $db->fetch($resr['user']);
+if(!empty($arr['user']['admin_id'])){
+	array_push($res['success'], _LOGIN_ACCESS);
+//	$res['success'] = true;
 //if (session_id() =='') { @session_start(); }
 	ob_start();
 	$_SESSION['admin_login'] = $Username ;
 	$_SESSION['admin_pwd'] = md5($Password) ;
-	$_SESSION['admin_group'] = @$arr['user']['admin_group_id'] ;
+	$_SESSION['admin_group'] = $arr['user']['admin_group_id'] ;
 
 
 	$_SESSION['uaAd'] = $_SESSION['admin_login'].":".$_SERVER['HTTP_USER_AGENT'].":".$IPADDRESS.":".$_SERVER['HTTP_ACCEPT_LANGUAGE'];
@@ -53,9 +53,9 @@ if(!empty(@$arr['user']['admin_id'])){
 			"ct_timeout"=>"".$timeout.""
 		));
 //		echo $_SESSION['user_login'];
-		@$rest['online'] = $db->select_query("SELECT * FROM ".TB_ADMIN_ONLINE." WHERE u_user='".$_SESSION['admin_login']."'  "); 
-		@$arr['online'] = $db->fetch(@$rest['online']); 
-		if(!empty(@$arr['online']['u_id'])){
+		$rest['online'] = $db->select_query("SELECT * FROM ".TB_ADMIN_ONLINE." WHERE u_user='".$_SESSION['admin_login']."'  "); 
+		$arr['online'] = $db->fetch($rest['online']); 
+		if(!empty($arr['online']['u_id'])){
 		$db->update_db(TB_ADMIN_ONLINE,array(
 			"u_ip"=>"".$ct_ip."",
 			"u_timein"=>"".$ct_time."",
@@ -71,13 +71,13 @@ if(!empty(@$arr['user']['admin_id'])){
 		}
 //		$db->closedb ();
 }	else {
-			array_push(@$res['errors'], _LOGIN_ERROR_NO_ACCESS);
-			@$res['success'] = false;
+			array_push($res['errors'], _LOGIN_ERROR_NO_ACCESS);
+			$res['success'] = false;
 		}
 } else {
 	//$error_warning =_error_warning;
-		@$res['success'] = false;		
+		$res['success'] = false;		
 }
-echo json_encode(@$res);
+echo json_encode($res);
 }
 ?>

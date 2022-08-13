@@ -7,13 +7,13 @@ $db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
 
 $db->update_db(TB_ADMIN_ONLINE,array(
 	"u_timeout"=>"".time().""
-),"  u_user='".$_SESSION['admin_login']."' " );
+),"  u_user='".@$_SESSION['admin_login']."' " );
 $db->update_db(TB_PERSON_ONLINE,array(
 	"u_timeout"=>"".time().""
-),"  u_user='".$_SESSION['person_login']."' " );
+),"  u_user='".@$_SESSION['person_login']."' " );
 $db->update_db(TB_STUDENT_ONLINE,array(
 	"u_timeout"=>"".time().""
-),"  u_user='".$_SESSION['stu_login']."' " );
+),"  u_user='".@$_SESSION['stu_login']."' " );
 
 //require_once("index.php");
 session_unset();
@@ -29,6 +29,6 @@ unset($_SESSION['access_token']);
 $gClient->revokeToken();
 }
 //require_once ("index.php");
-echo "<meta http-equiv='refresh' content='0; url=".WEB_URL."/index.php'>";
+echo "<meta http-equiv='refresh' content='0; url=".WEB_URL."/auth/index.php'>";
 ?>
 

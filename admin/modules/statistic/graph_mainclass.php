@@ -32,12 +32,12 @@ $db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
                     resize: true,
 					data: [
 					<?php
-						@$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS." order by class_id "); 
-						while($row = $db->fetch(@$res['class'])){ 
-						@$res['Boy'] = $db->select_query("select * from ".TB_STUDENT."  where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_sex='1' and stu_class = '".$row['class_id']."' "); 
-						$rowB = $db->rows(@$res['Boy']);
-						@$res['Girl'] = $db->select_query("select * from ".TB_STUDENT."  where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_sex='2' and stu_class = '".$row['class_id']."'  "); 
-						$rowG = $db->rows(@$res['Girl']);
+						$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS." order by class_id "); 
+						while($row = $db->fetch($res['class'])){ 
+						$res['Boy'] = $db->select_query("select * from ".TB_STUDENT."  where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_sex='1' and stu_class = '".$row['class_id']."' "); 
+						$rowB = $db->rows($res['Boy']);
+						$res['Girl'] = $db->select_query("select * from ".TB_STUDENT."  where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_sex='2' and stu_class = '".$row['class_id']."'  "); 
+						$rowG = $db->rows($res['Girl']);
 
 						$Y=$row['class_short'];
 						$a=(int)$rowB;

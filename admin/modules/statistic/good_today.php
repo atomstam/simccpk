@@ -15,9 +15,9 @@ $ToDayDate=date('Y-m-d');
 
                 <div class="col-md-12 col-sm-12">
 <?php
-		@$res['num'] = $db->select_query("select *,sum(goodtail_point) as GO  from ".TB_GOOD." as a,".TB_STUDENT." as b,".TB_GOODTAIL." as c where b.stu_id=a.good_stu and a.good_tail=c.goodtail_id and a.g_date='".$ToDayDate."' group by b.stu_id order by GO desc"); 
-		@$rows['num'] = $db->rows(@$res['num']);
-		if(@$rows['num']) {
+		$res['num'] = $db->select_query("select *,sum(goodtail_point) as GO  from ".TB_GOOD." as a,".TB_STUDENT." as b,".TB_GOODTAIL." as c where b.stu_id=a.good_stu and a.good_tail=c.goodtail_id and a.g_date='".$ToDayDate."' group by b.stu_id order by GO desc"); 
+		$rows['num'] = $db->rows($res['num']);
+		if($rows['num']) {
 ?>
     <div class="box box-success">
       
@@ -25,7 +25,7 @@ $ToDayDate=date('Y-m-d');
                  <i class="fa fa-user"></i>
                  <h3 class="box-title"><?php echo _text_box_table_good_name_today; ?></h3>
               <div class="box-tools pull-right">
-			  <span class="badge bg-yellow"><?php echo _text_box_table_count." ".@$rows['num'];?></span>
+			  <span class="badge bg-yellow"><?php echo _text_box_table_count." ".$rows['num'];?></span>
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -49,19 +49,19 @@ $ToDayDate=date('Y-m-d');
           <tbody>
 		<?php
 		$i=1;
-		while (@$arr['num'] = $db->fetch(@$res['num'])){
-		@$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".@$arr['num']['stu_class']."' "); 
-		@$arr['class'] = $db->fetch(@$res['class']);
+		while ($arr['num'] = $db->fetch($res['num'])){
+		$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".$arr['num']['stu_class']."' "); 
+		$arr['class'] = $db->fetch($res['class']);
 		?>
             <tr>
               <td style="text-align: center;"><?php echo $i;?></td>
-              <td style="text-align: right;"><?php echo @$arr['num']['stu_id']; ?></td>
-              <td layout="block" style="text-align: left;"><?php echo @$arr['num']['stu_num']."".@$arr['num']['stu_name']." ".@$arr['num']['stu_sur'] ; ?>&nbsp;<?php if(@$arr['num']['stu_pic']){?><a href="<?php echo WEB_URL_IMG_STU.@$arr['num']['stu_pic']."";?>" data-toggle="lightbox" data-title="<?php echo @$arr['num']['stu_name']." ".@$arr['num']['stu_sur'] ; ?>"><i class="glyphicon glyphicon-user  img-fluid"></i></a><?php } ?></td>
-              <td layout="block" style="text-align: left;"><?php echo @$arr['class']['class_name']; ?></td>
-              <td style="text-align: right;"><?php echo @$arr['num']['goodtail_name']; ?></td>
-              <td layout="block" style="text-align: right;">+<?php echo @$arr['num']['GO']; ?></td>
+              <td style="text-align: right;"><?php echo $arr['num']['stu_id']; ?></td>
+              <td layout="block" style="text-align: left;"><?php echo $arr['num']['stu_num']."".$arr['num']['stu_name']." ".$arr['num']['stu_sur'] ; ?>&nbsp;<?php if($arr['num']['stu_pic']){?><a href="<?php echo WEB_URL_IMG_STU.$arr['num']['stu_pic']."";?>" data-toggle="lightbox" data-title="<?php echo $arr['num']['stu_name']." ".$arr['num']['stu_sur'] ; ?>"><i class="glyphicon glyphicon-user  img-fluid"></i></a><?php } ?></td>
+              <td layout="block" style="text-align: left;"><?php echo $arr['class']['class_name']; ?></td>
+              <td style="text-align: right;"><?php echo $arr['num']['goodtail_name']; ?></td>
+              <td layout="block" style="text-align: right;">+<?php echo $arr['num']['GO']; ?></td>
               <td style="text-align: center;">
-			 <a href="index.php?name=statistic&file=score&op=gdetail&id=<?php echo @$arr['num']['stu_id'];?>&route=statistic/score" class="btn bg-green btn-flat btn-sm" ><i class="fa fa-search-plus "></i></a>
+			 <a href="index.php?name=statistic&file=score&op=gdetail&id=<?php echo $arr['num']['stu_id'];?>&route=statistic/score" class="btn bg-green btn-flat btn-sm" ><i class="fa fa-search-plus "></i></a>
 			  </td>
             </tr>
             <?php $i++;} ?>
@@ -202,7 +202,7 @@ $(document).on('click', '[data-toggle="lightbox"]', function(event) {
                  <i class="fa fa-user"></i>
                  <h3 class="box-title"><?php echo _text_box_table_good_name_today; ?></h3>
               <div class="box-tools pull-right">
-			  <span class="badge bg-yellow"><?php echo _text_box_table_count." ".@$rows['num'];?></span>
+			  <span class="badge bg-yellow"><?php echo _text_box_table_count." ".$rows['num'];?></span>
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>

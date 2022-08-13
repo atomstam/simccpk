@@ -191,7 +191,7 @@ require_once ("modules/index/header.php");
 					while(@$arr0 = $db->fetch(@$result0)){
 						@$result22 = $db->select_query("SELECT * FROM ".TB_GOODTAIL." where goodtail_area='".$_SESSION['person_area']."' and goodtail_code='".$_SESSION['person_school']."' and goodtail_id='".@$arr0['good_tail']."' ");
 						@$arr22 = $db->fetch(@$result22);
-						$data0=@$arr0['GOO'];
+						@$data0=@$arr0['GOO'];
 						@$PerC0=(100*$data0)/@$rows0;
 						@$PerCC0=number_format((@$PerC0),2);
 					?>
@@ -275,7 +275,7 @@ $(document).ready(function(){
 
 
 		<!-- ChartJS 1.0.1 -->
-		<script src="../admin/modules/index/js/chart1.js"></script>
+		<script src="../person/modules/index/js/chart1.js"></script>
 
 <script>
         $(document).ready(function() {

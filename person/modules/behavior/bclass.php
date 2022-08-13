@@ -8,12 +8,13 @@ $error_warning='';
 
 <?php
 if(!empty($_SESSION['person_login'])){
-$Mtime=time();
+$Mtime=date("H:i:s");
+//echo $Mtime;
 if($op=='AddTab1'){
 	list($Y , $m , $d) = explode("-" , $_POST['DateID']);
 	$y=$Y+543;
 	
-	$RANK=$rank+1;					
+	@$RANK=count($rank)+1;					
 	
 
 	for ($i=0; $i < $RANK; $i++) {
@@ -25,7 +26,7 @@ if($op=='AddTab1'){
 		if(@$result4['bad_name'] !='ไม่มาโรงเรียน' && @$result4['bad_name'] !='ลาโรงเรียน' ){
 		if(@$_POST['Bad_Status'][$i]=='1'){
 
-			$sql=$db->select_query("SELECT * FROM ".TB_BADTAIL." WHERE badtail_area='".$_SESSION['person_area']."' and badtail_code='".$_SESSION['person_school']."'  and badtail_name='ไม่มาเคารพธงชาติ' ");
+			$sql=$db->select_query("SELECT * FROM ".TB_BADTAIL." WHERE badtail_area='".$_SESSION['person_area']."' and badtail_code='".$_SESSION['person_school']."'  and badtail_name like '%ไม่มาเคารพธงชาติ%' ");
 			@$result=$db->fetch($sql);
 			$Bad_tail=_text_add_tab1_badtail_name_kad;
 			$btailid=@$result['badtail_id'];
@@ -90,7 +91,7 @@ if($op=='AddTab1'){
 
 		} else if(@$_POST['Bad_Status'][$i]=='3'){
 			$Bad_tail=_text_add_tab1_badtail_name_sai;
-			$sql=$db->select_query("SELECT * FROM ".TB_BADTAIL." WHERE badtail_area='".$_SESSION['person_area']."' and badtail_code='".$_SESSION['person_school']."'   and badtail_name='มาสาย' ");
+			$sql=$db->select_query("SELECT * FROM ".TB_BADTAIL." WHERE badtail_area='".$_SESSION['person_area']."' and badtail_code='".$_SESSION['person_school']."'   and badtail_name like '%มาสาย%' ");
 			@$result=$db->fetch($sql);
 			$btailid=@$result['badtail_id'];
 			$add .=$db->add_db(TB_BAD,array(
@@ -152,8 +153,9 @@ if($op=='AddTab1'){
 		}
 
 
-		} else {
-			$Bad_tail=_text_add_tab1_badtail_name_la;
+		} else if(@$_POST['Bad_Status'][$i] =='2'){
+
+		$Bad_tail=_text_add_tab1_badtail_name_la;
 		@$res['chclass'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." WHERE c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_stu='".$_POST['StuID'][$i]."' and c_date='".$_POST['DateID']."' "); 
 		@$arr['chclass'] = $db->fetch(@$res['chclass']);
 		if(@$arr['chclass']['c_id']){
@@ -180,7 +182,11 @@ if($op=='AddTab1'){
 				"c_note"=>$_SESSION['person_login']
 			));
 		}
-		} // $_POST['Bad_Status'][$i]
+
+
+		} else {
+			$add="x";
+		}// $_POST['Bad_Status'][$i]
 		} //@$result4['bad_name'] ไม่มา
 		} // stu id
    } // Rank
@@ -202,7 +208,7 @@ if($op=='AddTab2'){
 	list($Y , $m , $d) = explode("-" , $_POST['DateID']);
 	$y=$Y+543;
 	
-	$RANK=$rank+1;					
+	@$RANK=count($rank)+1;					
 
 	for ($i=0; $i < $RANK; $i++) {
 		if(isset($_POST['StuID'][$i])){
@@ -210,7 +216,7 @@ if($op=='AddTab2'){
 		@$result4=$db->fetch($sq4);
 		if(@$result4['bad_name'] !='ไม่มาโรงเรียน' && @$result4['bad_name'] !='ลาโรงเรียน' ){
 		if(@$_POST['Bad_Status'][$i]=='1'){
-			$sql=$db->select_query("SELECT * FROM ".TB_BADTAIL." WHERE badtail_area='".$_SESSION['person_area']."' and badtail_code='".$_SESSION['person_school']."'  and badtail_name='ไม่ร่วมกิจกรรมโรงเรียน' ");
+			$sql=$db->select_query("SELECT * FROM ".TB_BADTAIL." WHERE badtail_area='".$_SESSION['person_area']."' and badtail_code='".$_SESSION['person_school']."'  and badtail_name like '%ไม่ร่วมกิจกรรมโรงเรียน%' ");
 			@$result=$db->fetch($sql);
 			$Bad_tail=_text_add_tab2_badtail_name_kad;
 			$btailid=@$result['badtail_id'];
@@ -272,7 +278,7 @@ if($op=='AddTab2'){
 		}
 		} else if(@$_POST['Bad_Status'][$i]=='3'){
 			$Bad_tail=_text_add_tab2_badtail_name_sai;
-			$sql=$db->select_query("SELECT * FROM ".TB_BADTAIL." WHERE badtail_area='".$_SESSION['person_area']."' and badtail_code='".$_SESSION['person_school']."'  and badtail_name='มาสาย' ");
+			$sql=$db->select_query("SELECT * FROM ".TB_BADTAIL." WHERE badtail_area='".$_SESSION['person_area']."' and badtail_code='".$_SESSION['person_school']."'  and badtail_name like '%มาสาย%' ");
 			@$result=$db->fetch($sql);
 			$btailid=@$result['badtail_id'];
 			$add .=$db->add_db(TB_BAD,array(
@@ -330,7 +336,7 @@ if($op=='AddTab2'){
 				"c_note"=>$_SESSION['person_login']
 			));
 		}
-		} else {
+		} else if(@$_POST['Bad_Status'][$i] =='2'){
 			$Bad_tail=_text_add_tab2_badtail_name_la;
 		@$res['chclass'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." WHERE c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_stu='".$_POST['StuID'][$i]."' and c_date='".$_POST['DateID']."' "); 
 		@$arr['chclass'] = $db->fetch(@$res['chclass']);
@@ -358,8 +364,10 @@ if($op=='AddTab2'){
 				"c_note"=>$_SESSION['person_login']
 			));
 		}
+		} else {
+			$add="x";
 		}
-		}
+		} 
 		}
    }
 //		$add.=$db->del(TB_CLASS," class_id='".$_GET['class_id']."' ");
@@ -380,7 +388,7 @@ if($op=='AddTab3'){
 	list($Y , $m , $d) = explode("-" , $_POST['DateID']);
 	$y=$Y+543;
 	
-	$RANK=$rank+1;					
+	@$RANK=count($rank)+1;					
 
 	for ($i=0; $i < $RANK; $i++) {
 		if(isset($_POST['StuID'][$i])){
@@ -388,7 +396,7 @@ if($op=='AddTab3'){
 		@$result4=$db->fetch($sq4);
 		if(@$result4['bad_name'] !='ไม่มาโรงเรียน' && @$result4['bad_name'] !='ลาโรงเรียน' ){
 		if(@$_POST['Bad_Status'][$i]=='1'){
-			$sql=$db->select_query("SELECT * FROM ".TB_BADTAIL." WHERE badtail_area='".$_SESSION['person_area']."' and badtail_code='".$_SESSION['person_school']."'  and badtail_name='ไม่ร่วมกิจกรรมโรงเรียน' ");
+			$sql=$db->select_query("SELECT * FROM ".TB_BADTAIL." WHERE badtail_area='".$_SESSION['person_area']."' and badtail_code='".$_SESSION['person_school']."'  and badtail_name like '%ไม่ร่วมกิจกรรมโรงเรียน%' ");
 			@$result=$db->fetch($sql);
 			$Bad_tail=_text_add_tab3_badtail_name_kad;
 			$btailid=@$result['badtail_id'];
@@ -449,7 +457,7 @@ if($op=='AddTab3'){
 		}
 		} else if(@$_POST['Bad_Status'][$i]=='3'){
 			$Bad_tail=_text_add_tab3_badtail_name_sai;
-			$sql=$db->select_query("SELECT * FROM ".TB_BADTAIL." WHERE badtail_area='".$_SESSION['person_area']."' and badtail_code='".$_SESSION['person_school']."'  and badtail_name='มาสาย' ");
+			$sql=$db->select_query("SELECT * FROM ".TB_BADTAIL." WHERE badtail_area='".$_SESSION['person_area']."' and badtail_code='".$_SESSION['person_school']."'  and badtail_name like '%มาสาย%' ");
 			@$result=$db->fetch($sql);
 			$btailid=@$result['badtail_id'];
 			$add .=$db->add_db(TB_BAD,array(
@@ -508,7 +516,7 @@ if($op=='AddTab3'){
 				"c_note"=>$_SESSION['person_login']
 			));
 		}
-		} else {
+		} else if(@$_POST['Bad_Status'][$i] =='2'){
 			$Bad_tail=_text_add_tab3_badtail_name_la;
 		@$res['chclass'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." WHERE c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_stu='".$_POST['StuID'][$i]."' and c_date='".$_POST['DateID']."' "); 
 		@$arr['chclass'] = $db->fetch(@$res['chclass']);
@@ -536,8 +544,10 @@ if($op=='AddTab3'){
 				"c_note"=>$_SESSION['person_login']
 			));
 		}
+		} else {
+			$add="x";
 		}
-		}
+		} 
 		}
    }
 //		$add.=$db->del(TB_CLASS," class_id='".$_GET['class_id']."' ");
@@ -659,22 +669,22 @@ if($op=='AddTab3'){
 							  </thead>
 							  <tbody>
 							<?php
-							$i=1;
+							$iy=1;
 							while (@$arr['num'] = $db->fetch(@$res['num'])){
 							?>
 								<tr>
-								  <td style="text-align: center;"><?php echo $i;?></td>
+								  <td style="text-align: center;"><?php echo $iy;?></td>
 								  <td layout="block" style="text-align: center;"><?php echo @$arr['num']['stu_id'];?></td>
 								  <td layout="block" style="text-align: left;"><?php echo @$arr['num']['stu_num'].@$arr['num']['stu_name']." ".@$arr['num']['stu_sur']; ?></td>
 								  <td layout="block" style="text-align: center;"><?php echo @$arr['num']['stu_cn']; ?></td>
-								  <td layout="block" style="text-align: center;"><input type="radio" name="Bad_Status[<?php echo $i;?>]" class="minimal" value="1" ></td>
-								  <td layout="block" style="text-align: center;"><input type="radio" name="Bad_Status[<?php echo $i;?>]" class="minimal" value="2" ></td>
-								  <td layout="block" style="text-align: center;"><input type="radio" name="Bad_Status[<?php echo $i;?>]" class="minimal" value="3" ></td>
-								  <input type="hidden" name="StuID[<?php echo $i;?>]"  value="<?php echo @$arr['num']['stu_id'];?>">
+								  <td layout="block" style="text-align: center;"><input type="radio" name="Bad_Status[<?php echo $iy;?>]" class="minimal" value="1" ></td>
+								  <td layout="block" style="text-align: center;"><input type="radio" name="Bad_Status[<?php echo $iy;?>]" class="minimal" value="2" ></td>
+								  <td layout="block" style="text-align: center;"><input type="radio" name="Bad_Status[<?php echo $iy;?>]" class="minimal" value="3" ></td>
+								  <input type="hidden" name="StuID[<?php echo $iy;?>]"  value="<?php echo @$arr['num']['stu_id'];?>">
 								  <input type="hidden" name="rank"  value="<?php echo $i;?>">
 								</tr>
 
-								<?php $i++;} ?>
+								<?php $iy++;} ?>
 							  </tbody>
 							  </table>
 												<div class="form-group">
@@ -744,22 +754,22 @@ if($op=='AddTab3'){
 							  </thead>
 							  <tbody>
 							<?php
-							$i=1;
+							$is=1;
 							while (@$arr['num'] = $db->fetch(@$res['num'])){
 							?>
 								<tr>
-								  <td style="text-align: center;"><?php echo $i;?></td>
+								  <td style="text-align: center;"><?php echo $is;?></td>
 								  <td layout="block" style="text-align: center;"><?php echo @$arr['num']['stu_id'];?></td>
 								  <td layout="block" style="text-align: left;"><?php echo @$arr['num']['stu_num'].@$arr['num']['stu_name']." ".@$arr['num']['stu_sur']; ?></td>
 								  <td layout="block" style="text-align: center;"><?php echo @$arr['num']['stu_cn']; ?></td>
-								  <td layout="block" style="text-align: center;"><input type="radio" name="Bad_Status[<?php echo $i;?>]" class="minimal" value="1" ></td>
-								  <td layout="block" style="text-align: center;"><input type="radio" name="Bad_Status[<?php echo $i;?>]" class="minimal" value="2" ></td>
-								  <td layout="block" style="text-align: center;"><input type="radio" name="Bad_Status[<?php echo $i;?>]" class="minimal" value="3" ></td>
-								  <input type="hidden" name="StuID[<?php echo $i;?>]"  value="<?php echo @$arr['num']['stu_id'];?>">
+								  <td layout="block" style="text-align: center;"><input type="radio" name="Bad_Status[<?php echo $is;?>]" class="minimal" value="1" ></td>
+								  <td layout="block" style="text-align: center;"><input type="radio" name="Bad_Status[<?php echo $is;?>]" class="minimal" value="2" ></td>
+								  <td layout="block" style="text-align: center;"><input type="radio" name="Bad_Status[<?php echo $is;?>]" class="minimal" value="3" ></td>
+								  <input type="hidden" name="StuID[<?php echo $is;?>]"  value="<?php echo @$arr['num']['stu_id'];?>">
 								  <input type="hidden" name="rank"  value="<?php echo $i;?>">
 								</tr>
 
-								<?php $i++;} ?>
+								<?php $is++;} ?>
 							  </tbody>
 							  </table>
 												<div class="form-group">
@@ -831,22 +841,22 @@ if($op=='AddTab3'){
 							  </thead>
 							  <tbody>
 							<?php
-							$i=1;
+							$ix=1;
 							while (@$arr['num'] = $db->fetch(@$res['num'])){
 							?>
 								<tr>
-								  <td style="text-align: center;"><?php echo $i;?></td>
+								  <td style="text-align: center;"><?php echo $ix;?></td>
 								  <td layout="block" style="text-align: center;"><?php echo @$arr['num']['stu_id'];?></td>
 								  <td layout="block" style="text-align: left;"><?php echo @$arr['num']['stu_num'].@$arr['num']['stu_name']." ".@$arr['num']['stu_sur']; ?></td>
 								  <td layout="block" style="text-align: center;"><?php echo @$arr['num']['stu_cn']; ?></td>
-								  <td layout="block" style="text-align: center;"><input type="radio" name="Bad_Status[<?php echo $i;?>]" class="minimal" value="1" ></td>
-								  <td layout="block" style="text-align: center;"><input type="radio" name="Bad_Status[<?php echo $i;?>]" class="minimal" value="2" ></td>
-								  <td layout="block" style="text-align: center;"><input type="radio" name="Bad_Status[<?php echo $i;?>]" class="minimal" value="3" ></td>
-								  <input type="hidden" name="StuID[<?php echo $i;?>]"  value="<?php echo @$arr['num']['stu_id'];?>">
+								  <td layout="block" style="text-align: center;"><input type="radio" name="Bad_Status[<?php echo $ix;?>]" class="minimal" value="1" ></td>
+								  <td layout="block" style="text-align: center;"><input type="radio" name="Bad_Status[<?php echo $ix;?>]" class="minimal" value="2" ></td>
+								  <td layout="block" style="text-align: center;"><input type="radio" name="Bad_Status[<?php echo $ix;?>]" class="minimal" value="3" ></td>
+								  <input type="hidden" name="StuID[<?php echo $ix;?>]"  value="<?php echo @$arr['num']['stu_id'];?>">
 								  <input type="hidden" name="rank"  value="<?php echo $i;?>">
 								</tr>
 
-								<?php $i++;} ?>
+								<?php $ix++;} ?>
 							  </tbody>
 							  </table>
 												<div class="form-group">

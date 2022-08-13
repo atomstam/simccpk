@@ -20,7 +20,7 @@ if($_POST['OP']=='Add'){
 		//@$arr['aff'] =$db->rows(@$res['aff']);
 		//if($arr['aff']==0){
 
-		$Mtime=time();
+		$Mtime=date("H:i:s");
 		@$res['tail'] = $db->select_query("SELECT * FROM ".TB_AFFAIRS." WHERE aff_area='".$_SESSION['admin_area']."' and aff_code='".$_SESSION['admin_school']."' and aff_id='".$_POST['Stu_best']."' "); 
 		@$arr['tail'] =$db->fetch(@$res['tail']);
 

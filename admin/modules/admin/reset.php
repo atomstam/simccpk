@@ -83,14 +83,14 @@ if($_GET['op']!='confirm' && empty($_GET['op'])){
 if($_POST['email']){
 
 
-@$res['user']=$db->select_query("SELECT * FROM ".TB_ADMIN." where email='".$_POST['email']."' and status !='0' ");
-@$rows['user'] = $db->rows(@$res['user']);
+$res['user']=$db->select_query("SELECT * FROM ".TB_ADMIN." where email='".$_POST['email']."' and status !='0' ");
+$rows['user'] = $db->rows($res['user']);
 
-if(@$rows['user']){
+if($rows['user']){
 
-@$arr['user'] = $db->fetch(@$res['user']);
-$user=@$arr['user']['username'];
-$Uname=@$arr['user']['firstname']." ".@$arr['user']['lastname'];
+$arr['user'] = $db->fetch($res['user']);
+$user=$arr['user']['username'];
+$Uname=$arr['user']['firstname']." ".$arr['user']['lastname'];
 $Pass=mosMakePassword(4);
 $session=session_id();
 $ses_timein=date("Y-m-d H:i:s");
@@ -179,16 +179,16 @@ if( $mail->send("".$_POST['email'].""))
 <?php } ?>
 <?php } else { 
 
-@$res['user']=$db->select_query("SELECT * FROM ".TB_ADMIN_RESET." where session='".$_GET['session']."' and user='".$_GET['id']."' ");
-@$rows['user'] = $db->rows(@$res['user']);
-if(@$rows['user']){
-@$arr['user'] = $db->fetch(@$res['user']);
+$res['user']=$db->select_query("SELECT * FROM ".TB_ADMIN_RESET." where session='".$_GET['session']."' and user='".$_GET['id']."' ");
+$rows['user'] = $db->rows($res['user']);
+if($rows['user']){
+$arr['user'] = $db->fetch($res['user']);
 $ok= $db->update_db(TB_ADMIN,array(
-		"password"=>"".md5(@$arr['user']['password']).""
-		)," email='".@$arr['user']['email']."' ");
+		"password"=>"".md5($arr['user']['password']).""
+		)," email='".$arr['user']['email']."' ");
 $ok .= $db->update_db(TB_ADMIN_RESET,array(
 		"confirm"=>"1"
-		)," email='".@$arr['user']['email']."' ");
+		)," email='".$arr['user']['email']."' ");
 $Success =_RESET_MAIL_REPORT_OK;
 }
 

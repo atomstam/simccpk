@@ -136,7 +136,7 @@ if($_POST['OP']=='Add'){
 
 if($_POST['OP']=='Edit'){
 	if( $_POST['Good_name'] !='' && $_POST['Good_stu'] !='' && $_POST['Good_tail'] !='' && $_POST['Good_YMD'] !='' && $_POST['Good_dam'] !='' && $_POST['Good_data'] !=''){
-	$Mtime=time();
+	$Mtime=date("H:i:s");
 	$date_array = explode("-",$_POST['Good_YMD']); // split the array
 	$var_year = $date_array[0]; //day seqment
 	$var_month = $date_array[1]; //month segment

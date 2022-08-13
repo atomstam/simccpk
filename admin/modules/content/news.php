@@ -49,9 +49,9 @@ if($op=='newsdelall'){
 }
 if($op=='catedel'){
 		
-		@$res['news'] = $db->select_query("SELECT * FROM ".TB_NEWS." where category='".$_GET['cate_id']."' "); 
-		while(@$arr['news'] = $db->fetch(@$res['news'])){
-		$del .=$db->del(TB_NEWS_COM," news_id='".@$arr['news']['news_id']."' ");
+		$res['news'] = $db->select_query("SELECT * FROM ".TB_NEWS." where category='".$_GET['cate_id']."' "); 
+		while($arr['news'] = $db->fetch($res['news'])){
+		$del .=$db->del(TB_NEWS_COM," news_id='".$arr['news']['news_id']."' ");
 		}
 		$del .=$db->del(TB_NEWS," category='".$_GET['cate_id']."' ");
 		$del .=$db->del(TB_NEWS_CATE," cate_id='".$_GET['cate_id']."' ");
@@ -65,9 +65,9 @@ if($op=='catedel'){
 if($op=='catedelall'){
 		
 		while(list($key, $value) = each ($_POST['selecteds'])){
-		@$res['news'] = $db->select_query("SELECT * FROM ".TB_NEWS." where category='".$value."' "); 
-		while(@$arr['news'] = $db->fetch(@$res['news'])){
-		$del .=$db->del(TB_NEWS_COM," news_id='".@$arr['news']['news_id']."' ");
+		$res['news'] = $db->select_query("SELECT * FROM ".TB_NEWS." where category='".$value."' "); 
+		while($arr['news'] = $db->fetch($res['news'])){
+		$del .=$db->del(TB_NEWS_COM," news_id='".$arr['news']['news_id']."' ");
 		}
 		$del .=$db->del(TB_NEWS," category='".$value."' ");
 		$del .=$db->del(TB_NEWS_CATE," cate_id='".$value."' ");
@@ -237,9 +237,9 @@ if($op=='catedelall'){
 <?php
 } else if($op=='cateedit' ){
 		
-		@$res['cate'] = $db->select_query("SELECT * FROM ".TB_NEWS_CATE." where cate_id='".$_GET['cate_id']."' "); 
-		@$arr['cate'] = $db->fetch(@$res['cate']);
-		$Pic=WEB_URL."/img/news/".@$arr['cate']['icon'];
+		$res['cate'] = $db->select_query("SELECT * FROM ".TB_NEWS_CATE." where cate_id='".$_GET['cate_id']."' "); 
+		$arr['cate'] = $db->fetch($res['cate']);
+		$Pic=WEB_URL."/img/news/".$arr['cate']['icon'];
 ?>
 
       <div class="alert alert-success" name="thanks" id="thanks" style="display: none">
@@ -310,7 +310,7 @@ if($op=='catedelall'){
 
 							<div class="form-group has-feedback" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_body_category_name; ?></label>
-							<div class="col-sm-6"><input type="text" name="Topic"  class="form-control"  placeholder="m1" required value="<?php echo @$arr['cate']['category_name'];?>"><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>
+							<div class="col-sm-6"><input type="text" name="Topic"  class="form-control"  placeholder="m1" required value="<?php echo $arr['cate']['category_name'];?>"><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>
 							</div>
 
 							<div class="form-group has-feedback">
@@ -460,10 +460,10 @@ if($op=='catedelall'){
 							<select class="form-control" name="CAT" >
 							<?php
 							
-							@$res['cate'] = $db->select_query("SELECT * FROM ".TB_NEWS_CATE." ORDER BY cate_id ");
-							while (@$arr['cate'] = $db->fetch(@$res['cate'])){
-							echo "<option value=\"".@$arr['cate']['cate_id']."\"";
-							echo ">".@$arr['cate']['category_name']."</option>";
+							$res['cate'] = $db->select_query("SELECT * FROM ".TB_NEWS_CATE." ORDER BY cate_id ");
+							while ($arr['cate'] = $db->fetch($res['cate'])){
+							echo "<option value=\"".$arr['cate']['cate_id']."\"";
+							echo ">".$arr['cate']['category_name']."</option>";
 							}
 							?>
 							</select>
@@ -593,10 +593,10 @@ if($op=='catedelall'){
 <?php
 } else if($op=='newsedit' ){
 		
-		@$res['news'] = $db->select_query("SELECT * FROM ".TB_NEWS." where news_id='".$_GET['news_id']."' "); 
-		@$arr['news'] = $db->fetch(@$res['news']);
-		$Pic=WEB_URL."/img/news/".@$arr['news']['pic'];
-		$Ran=WEB_URL."/img/news/".@$arr['news']['ran'];
+		$res['news'] = $db->select_query("SELECT * FROM ".TB_NEWS." where news_id='".$_GET['news_id']."' "); 
+		$arr['news'] = $db->fetch($res['news']);
+		$Pic=WEB_URL."/img/news/".$arr['news']['pic'];
+		$Ran=WEB_URL."/img/news/".$arr['news']['ran'];
 ?>
 
       <div class="alert alert-success" name="thanks" id="thanks" style="display: none">
@@ -667,7 +667,7 @@ if($op=='catedelall'){
 
 							<div class="form-group has-feedback" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_body_topic; ?></label>
-							<div class="col-sm-6"><input type="text" name="Topic"  class="form-control"  placeholder="m1" required value="<?php echo @$arr['news']['topic'];?>"><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>
+							<div class="col-sm-6"><input type="text" name="Topic"  class="form-control"  placeholder="m1" required value="<?php echo $arr['news']['topic'];?>"><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>
 							</div>
 
 						    <div class="form-group has-feedback">
@@ -676,11 +676,11 @@ if($op=='catedelall'){
 							<select class="form-control" name="CAT" >
 							<?php
 							
-							@$res['cate'] = $db->select_query("SELECT * FROM ".TB_NEWS_CATE." ORDER BY cate_id ");
-							while (@$arr['cate'] = $db->fetch(@$res['cate'])){
-							echo "<option value=\"".@$arr['cate']['cate_id']."\" ";
-							if(@$arr['news']['category']==@$arr['cate']['cate_id']){ echo " selected";}
-							echo " >".@$arr['cate']['category_name']."</option>";
+							$res['cate'] = $db->select_query("SELECT * FROM ".TB_NEWS_CATE." ORDER BY cate_id ");
+							while ($arr['cate'] = $db->fetch($res['cate'])){
+							echo "<option value=\"".$arr['cate']['cate_id']."\" ";
+							if($arr['news']['category']==$arr['cate']['cate_id']){ echo " selected";}
+							echo " >".$arr['cate']['category_name']."</option>";
 							}
 							?>
 							</select>
@@ -732,14 +732,14 @@ if($op=='catedelall'){
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_body_haedline; ?></label>
 							<div class="col-sm-9">
-							<textarea class="textarea" id="editor" rows="5" cols="100" name="Headline"><?php echo @$arr['news']['headline'];?></textarea>
+							<textarea class="textarea" id="editor" rows="5" cols="100" name="Headline"><?php echo $arr['news']['headline'];?></textarea>
 							</div>
 							</div>
 
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_body_detail; ?></label>
 							<div class="col-sm-9">
-							<textarea id="editor1" rows="10" cols="100" name="Detail" TextMode="MultiLine"><?php echo @$arr['news']['detail'];?></textarea>
+							<textarea id="editor1" rows="10" cols="100" name="Detail" TextMode="MultiLine"><?php echo $arr['news']['detail'];?></textarea>
 							</div>
 							</div>
 
@@ -784,7 +784,7 @@ if($op=='catedelall'){
 
 							
 							<div class="form-group">
-							<div class="col-sm-4" ><input type="hidden" name="OP"  value="NewsEdit"><input type="hidden" name="NEWSID"  value="<?php echo @$arr['news']['news_id'];?>">
+							<div class="col-sm-4" ><input type="hidden" name="OP"  value="NewsEdit"><input type="hidden" name="NEWSID"  value="<?php echo $arr['news']['news_id'];?>">
 							<br>
 							</div>
 							</div>
@@ -812,10 +812,10 @@ if($op=='catedelall'){
 <?php
 } else {
 		
-		@$res['news'] = $db->select_query("SELECT * FROM ".TB_NEWS." order by news_id DESC"); 
-		@$rows['news'] = $db->rows(@$res['news']);
-		@$res['cate'] = $db->select_query("SELECT * FROM ".TB_NEWS_CATE." order by cate_id"); 
-		@$rows['cate'] = $db->rows(@$res['cate']);
+		$res['news'] = $db->select_query("SELECT * FROM ".TB_NEWS." order by news_id DESC"); 
+		$rows['news'] = $db->rows($res['news']);
+		$res['cate'] = $db->select_query("SELECT * FROM ".TB_NEWS_CATE." order by cate_id"); 
+		$rows['cate'] = $db->rows($res['cate']);
 ?>
       <div class="row">
         <div class="col-xs-12 connectedSortable">
@@ -848,7 +848,7 @@ if($op=='catedelall'){
                  <i class="fa fa-pencil-square-o"></i>
                  <h3 class="box-title"><?php echo _heading_title_news; ?></h3>
               <div class="box-tools pull-right">
-			  <span class="badge bg-yellow"><?php echo _text_box_table_count." ".@$rows['news'];?></span>
+			  <span class="badge bg-yellow"><?php echo _text_box_table_count." ".$rows['news'];?></span>
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -857,7 +857,7 @@ if($op=='catedelall'){
             <!-- /.box-header -->
 	<div class="box-body ">
 		<?php
-		if(@$rows['news']) {
+		if($rows['news']) {
 		?>
       <form action="index.php?name=content&file=news&op=newsdelall&route=<?php echo $route;?>" method="post" enctype="multipart/form-data" id="form" name="form" class="form-inline">
         <table id="example1" class="table table-bordered table-striped responsive" style="width:100%">
@@ -874,21 +874,21 @@ if($op=='catedelall'){
           <tbody>
 		<?php
 		$i=1;
-		while (@$arr['news'] = $db->fetch(@$res['news'])){
-		@$res['cat'] = $db->select_query("SELECT * FROM ".TB_NEWS_CATE." WHERE cate_id='".@$arr['news']['category']."' "); 
-		@$arr['cat'] = $db->fetch(@$res['cat']);
-		$Preview=ThaiTimeConvert(@$arr['news']['post_date']);
+		while ($arr['news'] = $db->fetch($res['news'])){
+		$res['cat'] = $db->select_query("SELECT * FROM ".TB_NEWS_CATE." WHERE cate_id='".$arr['news']['category']."' "); 
+		$arr['cat'] = $db->fetch($res['cat']);
+		$Preview=ThaiTimeConvert($arr['news']['post_date']);
 		?>
             <tr>
-              <td style="text-align: center;"><input type="checkbox" name="selected[]" value="<?php echo @$arr['news']['news_id']; ?>" class="selector flat"/></td>
-              <td style="text-align: left;"><?php echo @$arr['news']['topic']; ?>&nbsp;<a href="<?php echo WEB_URL_IMG_NEWS.@$arr['news']['pic']."";?>" data-toggle="lightbox" data-title="<?php echo @$arr['news']['topic']; ?>"><i class="glyphicon glyphicon-picture img-fluid" ></i></a>&nbsp;<?php echo NewsIcons(TIMESTAMP,@$arr['news']['post_date']);?></td>
-              <td style="text-align: left;"><?php echo @$arr['cat']['category_name']; ?></td>
+              <td style="text-align: center;"><input type="checkbox" name="selected[]" value="<?php echo $arr['news']['news_id']; ?>" class="selector flat"/></td>
+              <td style="text-align: left;"><?php echo $arr['news']['topic']; ?>&nbsp;<a href="<?php echo WEB_URL_IMG_NEWS.$arr['news']['pic']."";?>" data-toggle="lightbox" data-title="<?php echo $arr['news']['topic']; ?>"><i class="glyphicon glyphicon-picture img-fluid" ></i></a>&nbsp;<?php echo NewsIcons(TIMESTAMP,$arr['news']['post_date']);?></td>
+              <td style="text-align: left;"><?php echo $arr['cat']['category_name']; ?></td>
               <td layout="block" style="text-align: center;"><?php echo $Preview; ?></td>
-              <td layout="block" style="text-align: right;"><?php echo @$arr['news']['pageview']; ?></td>
+              <td layout="block" style="text-align: right;"><?php echo $arr['news']['pageview']; ?></td>
               <td style="text-align: center;">
-			 <a href="index.php?name=content&file=news&op=newsdetail&id=<?php echo @$arr['news']['news_id'];?>&route=<?php echo $route;?>" class="btn bg-green btn-flat btn-sm" ><i class="fa fa-search-plus "></i></a>
-				<a href="index.php?name=content&file=news&op=newsedit&news_id=<?php echo @$arr['news']['news_id']; ?>&route=<?php echo $route;?>" class="btn bg-aqua btn-flat btn-sm"><i class="fa fa-edit "></i></a>
-				<a href="index.php?name=content&file=news&op=newsdel&news_id=<?php echo @$arr['news']['news_id'];?>&route=<?php echo $route;?>" class="btn bg-red btn-flat btn-sm" ><i class="fa fa-trash-o "></i></a>
+			 <a href="index.php?name=content&file=news&op=newsdetail&id=<?php echo $arr['news']['news_id'];?>&route=<?php echo $route;?>" class="btn bg-green btn-flat btn-sm" ><i class="fa fa-search-plus "></i></a>
+				<a href="index.php?name=content&file=news&op=newsedit&news_id=<?php echo $arr['news']['news_id']; ?>&route=<?php echo $route;?>" class="btn bg-aqua btn-flat btn-sm"><i class="fa fa-edit "></i></a>
+				<a href="index.php?name=content&file=news&op=newsdel&news_id=<?php echo $arr['news']['news_id'];?>&route=<?php echo $route;?>" class="btn bg-red btn-flat btn-sm" ><i class="fa fa-trash-o "></i></a>
 			  </td>
             </tr>
             <?php } ?>
@@ -928,7 +928,7 @@ $(document).on('click', '[data-toggle="lightbox"]', function(event) {
                  <i class="fa fa-bars"></i>
                  <h3 class="box-title"><?php echo _heading_title_news_cate; ?></h3>
               <div class="box-tools pull-right">
-			  <span class="badge bg-yellow"><?php echo _text_box_table_count." ".@$rows['cate'];?></span>
+			  <span class="badge bg-yellow"><?php echo _text_box_table_count." ".$rows['cate'];?></span>
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -937,7 +937,7 @@ $(document).on('click', '[data-toggle="lightbox"]', function(event) {
             <!-- /.box-header -->
 	<div class="box-body ">
 		<?php
-		if(@$rows['cate']) {
+		if($rows['cate']) {
 		?>
       <form action="index.php?name=content&file=news&op=catedelall&route=<?php echo $route;?>" method="post" enctype="multipart/form-data" id="form1" name="form1" class="form-inline">
         <table id="example2" class="table table-bordered table-striped responsive" style="width:100%">
@@ -953,19 +953,19 @@ $(document).on('click', '[data-toggle="lightbox"]', function(event) {
           <tbody>
 		<?php
 		$i=1;
-		while (@$arr['cate'] = $db->fetch(@$res['cate'])){
-		@$res['Cnews'] = $db->select_query("SELECT * FROM ".TB_NEWS." WHERE category='".@$arr['cate']['cate_id']."' "); 
-		@$arr['Cnews'] = $db->rows(@$res['Cnews']);
+		while ($arr['cate'] = $db->fetch($res['cate'])){
+		$res['Cnews'] = $db->select_query("SELECT * FROM ".TB_NEWS." WHERE category='".$arr['cate']['cate_id']."' "); 
+		$arr['Cnews'] = $db->rows($res['Cnews']);
 		?>
             <tr>
-              <td style="text-align: center;"><input type="checkbox" name="selecteds[]" value="<?php echo @$arr['cate']['cate_id']; ?>" class="selector flat"/></td>
-              <td style="text-align: left;"><?php echo @$arr['cate']['category_name']; ?></td>
-              <td style="text-align: center;"><?php echo @$arr['Cnews']; ?></td>
-              <td layout="block" style="text-align: center;"><?php echo @$arr['cate']['sort'];?></td>
+              <td style="text-align: center;"><input type="checkbox" name="selecteds[]" value="<?php echo $arr['cate']['cate_id']; ?>" class="selector flat"/></td>
+              <td style="text-align: left;"><?php echo $arr['cate']['category_name']; ?></td>
+              <td style="text-align: center;"><?php echo $arr['Cnews']; ?></td>
+              <td layout="block" style="text-align: center;"><?php echo $arr['cate']['sort'];?></td>
               <td style="text-align: center;">
-			 <a href="index.php?name=content&file=news&op=catedetail&cate_id=<?php echo @$arr['cate']['cate_id'];?>&route=<?php echo $route;?>" class="btn bg-green btn-flat btn-sm" ><i class="fa fa-search-plus "></i></a>
-				<a href="index.php?name=content&file=news&op=cateedit&cate_id=<?php echo @$arr['cate']['cate_id']; ?>&route=<?php echo $route;?>" class="btn bg-aqua btn-flat btn-sm"><i class="fa fa-edit "></i></a>
-				<a href="index.php?name=content&file=news&op=catedel&cate_id=<?php echo @$arr['cate']['cate_id'];?>&route=<?php echo $route;?>" class="btn bg-red btn-flat btn-sm" ><i class="fa fa-trash-o "></i></a>
+			 <a href="index.php?name=content&file=news&op=catedetail&cate_id=<?php echo $arr['cate']['cate_id'];?>&route=<?php echo $route;?>" class="btn bg-green btn-flat btn-sm" ><i class="fa fa-search-plus "></i></a>
+				<a href="index.php?name=content&file=news&op=cateedit&cate_id=<?php echo $arr['cate']['cate_id']; ?>&route=<?php echo $route;?>" class="btn bg-aqua btn-flat btn-sm"><i class="fa fa-edit "></i></a>
+				<a href="index.php?name=content&file=news&op=catedel&cate_id=<?php echo $arr['cate']['cate_id'];?>&route=<?php echo $route;?>" class="btn bg-red btn-flat btn-sm" ><i class="fa fa-trash-o "></i></a>
 			  </td>
             </tr>
             <?php } ?>

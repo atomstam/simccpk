@@ -12,7 +12,7 @@ $del='';
 if(!empty($_SESSION['person_login'])){
 if($_POST['OP']=='Add'){
 	if( $_POST['Best_stu'] !='' && $_POST['Stu_best'] !='' && $_POST['Btail_per'] !='' && $_POST['Pu_Dtime'] && $_POST['Btail_name'] !='' ){
-		$Mtime=time();
+		$Mtime=date("H:i:s");
 		list($Y , $m , $d) = explode("-" , $_POST['Pu_Dtime']);
 		$y=$Y+543;
 		$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);

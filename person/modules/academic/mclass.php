@@ -5,7 +5,7 @@ $add='';
 $success='';
 $error_warning='';
 if(!empty($_SESSION['person_login'])){
-$Mtime=time();
+$Mtime=date("H:i:s");
 if($op=='AddTab4'){
 	list($Y , $m , $d) = explode("-" , $_POST['DateID']);
 	$y=$Y+543;

@@ -18,11 +18,11 @@ $add='';
 $edit='';
 if($op=='delcom'){
 		
-		@$res['res'] = $db->select_query("SELECT * FROM ".TB_BIRTH_COM." WHERE mc_id='".$_GET['McID']."'  "); 
-		@$rows['res'] = $db->rows(@$res['res']);
-		if(@$rows['res']){
-		@$arr['res'] = $db->fetch(@$res['res']);
-		$q['up'] = "UPDATE ".TB_BIRTH." SET hbd_comm = hbd_comm-1 WHERE hbd_id = '".@$arr['res']['mc_ms']."' ";
+		$res['res'] = $db->select_query("SELECT * FROM ".TB_BIRTH_COM." WHERE mc_id='".$_GET['McID']."'  "); 
+		$rows['res'] = $db->rows($res['res']);
+		if($rows['res']){
+		$arr['res'] = $db->fetch($res['res']);
+		$q['up'] = "UPDATE ".TB_BIRTH." SET hbd_comm = hbd_comm-1 WHERE hbd_id = '".$arr['res']['mc_ms']."' ";
 		$sql['up'] = mysql_query ( $q['up'] ) or sql_error ( "db-query",mysql_error() );
 		$del =$db->del(TB_BIRTH_COM," mc_id='".$_GET['McID']."'  ");
 
@@ -39,9 +39,9 @@ if($op=='delcom'){
 
 if($op=='del'){
 		
-		@$res['res'] = $db->select_query("SELECT * FROM ".TB_BIRTH." WHERE hbd_id='".$_GET['MsID']."'  "); 
-		@$rows['res'] = $db->rows(@$res['res']);
-		if(@$rows['res']){
+		$res['res'] = $db->select_query("SELECT * FROM ".TB_BIRTH." WHERE hbd_id='".$_GET['MsID']."'  "); 
+		$rows['res'] = $db->rows($res['res']);
+		if($rows['res']){
 		$del =$db->del(TB_BIRTH," hbd_id='".$_GET['MsID']."' ");
 		} else {
 		$error_warning=_text_report_del_null_fail;
@@ -57,9 +57,9 @@ if($op=='del'){
 if($op=='delall'){
 		
 		while(list($key, $value) = each ($_POST['selected'])){
-		@$res['res'] = $db->select_query("SELECT * FROM ".TB_BIRTH." WHERE hbd_id='".$value."'  "); 
-		@$rows['res'] = $db->rows(@$res['res']);
-		if(@$rows['res']){
+		$res['res'] = $db->select_query("SELECT * FROM ".TB_BIRTH." WHERE hbd_id='".$value."'  "); 
+		$rows['res'] = $db->rows($res['res']);
+		if($rows['res']){
 		$del =$db->del(TB_BIRTH," hbd_id='".$value."' ");
 		} else {
 		$error_warning=_text_report_del_null_fail;
@@ -167,9 +167,9 @@ if($op=='add' and $action==''){
 							<option value="all"><?php echo _text_body_select_list_all;?></option>
 							<?php
 							
-							@$res['res'] = $db->select_query("SELECT * FROM ".TB_ADMIN." where username !='".$admin_login."' order by admin_id"); 
-							while (@$arr['res'] = $db->fetch(@$res['res'])){
-							echo 	"<option value=".@$arr['res']['username'].">".@$arr['res']['firstname']." ".@$arr['res']['lastname']."</option>";
+							$res['res'] = $db->select_query("SELECT * FROM ".TB_ADMIN." where username !='".$admin_login."' order by admin_id"); 
+							while ($arr['res'] = $db->fetch($res['res'])){
+							echo 	"<option value=".$arr['res']['username'].">".$arr['res']['firstname']." ".$arr['res']['lastname']."</option>";
 							}
 							?>
 							</select>
@@ -192,8 +192,8 @@ if($op=='add' and $action==''){
 <?php
 } else if($op=='edit' and $action==''){
 
-@$res['ms'] = $db->select_query("SELECT * FROM ".TB_BIRTH." where hbd_id='".$_GET['MsID']."'  ");
-@$arr['ms'] = $db->fetch(@$res['ms']);
+$res['ms'] = $db->select_query("SELECT * FROM ".TB_BIRTH." where hbd_id='".$_GET['MsID']."'  ");
+$arr['ms'] = $db->fetch($res['ms']);
 ?>
 <div class="row">
    <div class="col-xs-12 connectedSortable">
@@ -205,7 +205,7 @@ if($op=='add' and $action==''){
 
 <form action="index.php?name=access&file=birthd&op=edit&action=edit&route=<?php echo $route;?>" method="post" enctype="multipart/form-data" id="form" role="form" class="form-horizontal">
 <div id="myTabContent" class="tab-content">
-<input type="hidden" name="MsID" value="<?php echo @$arr['ms']['hbd_id'];?>">
+<input type="hidden" name="MsID" value="<?php echo $arr['ms']['hbd_id'];?>">
 					    <div class="box box-success" id="loading-example">
                                 <div class="box-header">
                                 <i class="fa fa-folder-open"></i>
@@ -216,14 +216,14 @@ if($op=='add' and $action==''){
 							<div class="form-group">
 							<label class="col-sm-3 control-label" ><?php echo _text_box_body_message_topic; ?></label>
 							<div class="col-sm-4" ><p class="form-control-static">
-							<input type="text" name="hbd_topic" class="form-control" value="<?php echo @$arr['ms']['hbd_topic'];?>">
+							<input type="text" name="hbd_topic" class="form-control" value="<?php echo $arr['ms']['hbd_topic'];?>">
 							</p>
 							</div>
 							</div>
 							<div class="form-group">
 							<label class="col-sm-3 control-label" ><?php echo _text_box_body_message_detail; ?></label>
 							<div class="col-sm-6" ><p class="form-control-static">
-							<textarea class="form-control" id="editor1" rows="5" cols="80" name="hbd_message"><?php echo @$arr['ms']['hbd_message'];?></textarea>
+							<textarea class="form-control" id="editor1" rows="5" cols="80" name="hbd_message"><?php echo $arr['ms']['hbd_message'];?></textarea>
 							</p>
 							</div>
 							</div>
@@ -234,11 +234,11 @@ if($op=='add' and $action==''){
 							<option value="all"><?php echo _text_body_select_list_all;?></option>
 							<?php
 							
-							@$res['res'] = $db->select_query("SELECT * FROM ".TB_ADMIN." where username !='".$admin_login."' order by admin_id"); 
-							while (@$arr['res'] = $db->fetch(@$res['res'])){
-							echo 	"<option value=".@$arr['res']['username']."";
-							if(@$arr['ms']['hbd_posted']==@$arr['res']['username']){ echo " selected";}
-							echo " >".@$arr['res']['firstname']." ".@$arr['res']['lastname']."</option>";
+							$res['res'] = $db->select_query("SELECT * FROM ".TB_ADMIN." where username !='".$admin_login."' order by admin_id"); 
+							while ($arr['res'] = $db->fetch($res['res'])){
+							echo 	"<option value=".$arr['res']['username']."";
+							if($arr['ms']['hbd_posted']==$arr['res']['username']){ echo " selected";}
+							echo " >".$arr['res']['firstname']." ".$arr['res']['lastname']."</option>";
 							}
 							?>
 							</select>
@@ -266,9 +266,9 @@ if(empty($_POST['mc_message'])){
 $q['up'] = "UPDATE ".TB_BIRTH." SET hbd_views = hbd_views+1 WHERE hbd_id = '".$_GET['MsID']."' ";
 $sql['up'] = mysql_query ( $q['up'] ) or sql_error ( "db-query",mysql_error() );
 
-@$res['ck']=$db->select_query("SELECT * FROM ".TB_BIRTH_CHECK." where msc_user='".$admin_login."' and msc_mss='".$_GET['MsID']."' ");
-@$arr['ck'] = $db->rows(@$res['ck']);
-if(!@$arr['ck']){
+$res['ck']=$db->select_query("SELECT * FROM ".TB_BIRTH_CHECK." where msc_user='".$admin_login."' and msc_mss='".$_GET['MsID']."' ");
+$arr['ck'] = $db->rows($res['ck']);
+if(!$arr['ck']){
 		$db->add_db(TB_BIRTH_CHECK,array(
 //			"msc_school"=>"".$user_school."",
 			"msc_user"=>"".$admin_login."",
@@ -296,8 +296,8 @@ $sql['up'] = mysql_query ( $q['up'] ) or sql_error ( "db-query",mysql_error() );
 }
 
 
-@$res['ms'] = $db->select_query("SELECT * FROM ".TB_BIRTH." where hbd_id='".$_GET['MsID']."' ");
-@$arr['ms'] = $db->fetch(@$res['ms']);
+$res['ms'] = $db->select_query("SELECT * FROM ".TB_BIRTH." where hbd_id='".$_GET['MsID']."' ");
+$arr['ms'] = $db->fetch($res['ms']);
 ?>
 <div class="row">
    <div class="col-xs-12 connectedSortable">
@@ -322,49 +322,49 @@ $sql['up'] = mysql_query ( $q['up'] ) or sql_error ( "db-query",mysql_error() );
                             <ul class="timeline">
                                 <!-- timeline time label -->
 							<?php
-							@$res['mss'] = $db->select_query("SELECT * FROM ".TB_BIRTH." where hbd_id='".$_GET['MsID']."' ");
-							@$arr['mss'] = $db->fetch(@$res['mss']);
-							@$res['usere'] = $db->select_query("SELECT * FROM ".TB_ADMIN." where username='".@$arr['mss']['hbd_posted']."' "); 
-							@$arr['usere'] = $db->fetch(@$res['usere']);
+							$res['mss'] = $db->select_query("SELECT * FROM ".TB_BIRTH." where hbd_id='".$_GET['MsID']."' ");
+							$arr['mss'] = $db->fetch($res['mss']);
+							$res['usere'] = $db->select_query("SELECT * FROM ".TB_ADMIN." where username='".$arr['mss']['hbd_posted']."' "); 
+							$arr['usere'] = $db->fetch($res['usere']);
 							?>
                                 <li class="time-label">
                                     <span class="bg-red">
-                                        <?php echo ThaiTimeConvert(@$arr['mss']['hbd_date'],"","");?>
+                                        <?php echo ThaiTimeConvert($arr['mss']['hbd_date'],"","");?>
                                     </span>
                                 </li>
                                 <!-- /.timeline-label -->
 								<li>
                                     <div class="timeline-item">
-                                        <span class="time"><i class="fa fa-clock-o"></i> <?php echo fb_date(@$arr['mss']['hbd_date']);?></span>
-                                        <h3 class="timeline-header"><a href=""><?php echo @$arr['mss']['hbd_posted'];?></a> : <?php echo @$arr['mss']['hbd_topic'];?></h3>
+                                        <span class="time"><i class="fa fa-clock-o"></i> <?php echo fb_date($arr['mss']['hbd_date']);?></span>
+                                        <h3 class="timeline-header"><a href=""><?php echo $arr['mss']['hbd_posted'];?></a> : <?php echo $arr['mss']['hbd_topic'];?></h3>
                                         <div class="timeline-body">
-										 <img src="<?php if(@$arr['usere']['img']){echo WEB_URL_IMG_ADMIN.@$arr['usere']['img'];}else{echo WEB_URL_IMG_ADMIN."no_image.jpg";}?>" width="50" height="50"  class="img-circle" alt="User Image"/>&nbsp;
-										<?php echo @$arr['mss']['hbd_message'];?>
+										 <img src="<?php if($arr['usere']['img']){echo WEB_URL_IMG_ADMIN.$arr['usere']['img'];}else{echo WEB_URL_IMG_ADMIN."no_image.jpg";}?>" width="50" height="50"  class="img-circle" alt="User Image"/>&nbsp;
+										<?php echo $arr['mss']['hbd_message'];?>
                                         </div>
                                         <div class='timeline-footer'>
-										<?php if($admin_login==@$arr['usere']['username']){?>
-                                            <a class="btn btn-danger btn-xs" href="index.php?name=access&file=birthd&op=del&route=<?php echo $route;?>&MsID=<?php echo @$arr['mss']['hbd_id'];?>">Delete</a>
+										<?php if($admin_login==$arr['usere']['username']){?>
+                                            <a class="btn btn-danger btn-xs" href="index.php?name=access&file=birthd&op=del&route=<?php echo $route;?>&MsID=<?php echo $arr['mss']['hbd_id'];?>">Delete</a>
 										<?php } ?>
-                                            <a class="btn bg-orange btn-flat btn-xs">Views : <?php echo @$arr['mss']['hbd_views'];?></a>
-                                            <a class="btn btn-info btn-xs">Commment : <?php echo @$arr['mss']['hbd_comm'];?></a>
+                                            <a class="btn bg-orange btn-flat btn-xs">Views : <?php echo $arr['mss']['hbd_views'];?></a>
+                                            <a class="btn btn-info btn-xs">Commment : <?php echo $arr['mss']['hbd_comm'];?></a>
                                         </div>
                                     </div>
 								</li>
                                 <!-- END timeline item -->
                                 <!-- timeline item -->
 								<?php
-								@$res['mc'] = $db->select_query("SELECT * FROM ".TB_BIRTH_COM." where mc_ms='".@$arr['mss']['hbd_id']."' order by mc_id");
+								$res['mc'] = $db->select_query("SELECT * FROM ".TB_BIRTH_COM." where mc_ms='".$arr['mss']['hbd_id']."' order by mc_id");
 								$i=1;
 								$k=0;
-								@$resultArray = array();
-								while (@$arr['mc'] = $db->fetch(@$res['mc'])){
-								$dateback=(@$arr['mc']['mc_id'])-1;
-								@$res['mcc'] = $db->select_query("SELECT * FROM ".TB_BIRTH_COM." where mc_id='".$dateback."' ");
-								@$arr['mcc'] = $db->fetch(@$res['mcc']);
-								@$res['usert'] = $db->select_query("SELECT * FROM ".TB_ADMIN." where username='".@$arr['mc']['mc_posted']."' "); 
-								@$arr['usert'] = $db->fetch(@$res['usert']);
-								$TimeLaBelbefor=date('Y-m-d', @$arr['mcc']['mc_date']);
-								$TimeLaBelback=date('Y-m-d', @$arr['mc']['mc_date']);
+								$resultArray = array();
+								while ($arr['mc'] = $db->fetch($res['mc'])){
+								$dateback=($arr['mc']['mc_id'])-1;
+								$res['mcc'] = $db->select_query("SELECT * FROM ".TB_BIRTH_COM." where mc_id='".$dateback."' ");
+								$arr['mcc'] = $db->fetch($res['mcc']);
+								$res['usert'] = $db->select_query("SELECT * FROM ".TB_ADMIN." where username='".$arr['mc']['mc_posted']."' "); 
+								$arr['usert'] = $db->fetch($res['usert']);
+								$TimeLaBelbefor=date('Y-m-d', $arr['mcc']['mc_date']);
+								$TimeLaBelback=date('Y-m-d', $arr['mc']['mc_date']);
 								$strdate = explode("-",$TimeLaBelback);
 								$strdateto = explode("-",$TimeLaBelbefor);
 								$d1= mktime(0, 0, 0, $strdateto['1'], $strdateto['2'], $strdateto['0']);
@@ -376,7 +376,7 @@ $sql['up'] = mysql_query ( $q['up'] ) or sql_error ( "db-query",mysql_error() );
 								 <!-- timeline time label -->
                                 <li class="time-label">
                                     <span class="<?php echo $timeLabel[$i];?>">
-                                        <?php echo ThaiTimeConvert(@$arr['mc']['mc_date'],"","");?>
+                                        <?php echo ThaiTimeConvert($arr['mc']['mc_date'],"","");?>
                                     </span>
                                 </li>
                                 <!-- /.timeline-label -->
@@ -386,7 +386,7 @@ $sql['up'] = mysql_query ( $q['up'] ) or sql_error ( "db-query",mysql_error() );
 								 <!-- timeline time label -->
                                 <li class="time-label">
                                     <span class="<?php echo $timeLabel[$i];?>">
-                                        <?php echo ThaiTimeConvert(@$arr['mc']['mc_date'],"","");?>
+                                        <?php echo ThaiTimeConvert($arr['mc']['mc_date'],"","");?>
                                     </span>
                                 </li>
                                 <!-- /.timeline-label -->
@@ -395,15 +395,15 @@ $sql['up'] = mysql_query ( $q['up'] ) or sql_error ( "db-query",mysql_error() );
                                 <li>
                                     <i class="<?php echo $timeIcon[$i];?> <?php echo $timeBg[$i];?>"></i>
                                     <div class="timeline-item">
-                                        <span class="time"><i class="fa fa-clock-o"></i> <?php echo fb_date(@$arr['mc']['mc_date']);?></span>
-                                        <h3 class="timeline-header">Comment : <?php echo $i;?> , Posted by : <a href="#"><?php echo @$arr['mc']['mc_posted'];?></a></h3>
+                                        <span class="time"><i class="fa fa-clock-o"></i> <?php echo fb_date($arr['mc']['mc_date']);?></span>
+                                        <h3 class="timeline-header">Comment : <?php echo $i;?> , Posted by : <a href="#"><?php echo $arr['mc']['mc_posted'];?></a></h3>
                                         <div class="timeline-body">
-   										 <img src="<?php if(@$arr['usert']['img']){echo WEB_URL_IMG_ADMIN.@$arr['usert']['img'];}else{echo WEB_URL_IMG_ADMIN."no_image.jpg";}?>" width="50" height="50"  class="img-circle" alt="User Image"/>&nbsp;
-										<?php echo @$arr['mc']['mc_message'];?>
+   										 <img src="<?php if($arr['usert']['img']){echo WEB_URL_IMG_ADMIN.$arr['usert']['img'];}else{echo WEB_URL_IMG_ADMIN."no_image.jpg";}?>" width="50" height="50"  class="img-circle" alt="User Image"/>&nbsp;
+										<?php echo $arr['mc']['mc_message'];?>
                                         </div>
-										<?php if($admin_login==@$arr['usert']['username']){?>
+										<?php if($admin_login==$arr['usert']['username']){?>
                                         <div class='timeline-footer'>
-                                            <a class="btn btn-danger btn-xs" href="index.php?name=access&file=birthd&op=delcom&route=<?php echo $route;?>&McID=<?php echo @$arr['mc']['mc_id'];?>">Delete</a>
+                                            <a class="btn btn-danger btn-xs" href="index.php?name=access&file=birthd&op=delcom&route=<?php echo $route;?>&McID=<?php echo $arr['mc']['mc_id'];?>">Delete</a>
                                         </div>
 										<?php } ?>
                                     </div>
@@ -452,8 +452,8 @@ $sql['up'] = mysql_query ( $q['up'] ) or sql_error ( "db-query",mysql_error() );
 		$HBD_Y=date("Y");
 		$HBD_m=date("m");
 		$HBD_d=date("d");
-		@$res['stu'] = $db->select_query("SELECT * FROM ".TB_STUDENT."  where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_birth like '%-$HBD_m-%' order by stu_class,stu_id desc"); 
-		@$rows['stu'] = $db->rows(@$res['stu']);	
+		$res['stu'] = $db->select_query("SELECT * FROM ".TB_STUDENT."  where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_birth like '%-$HBD_m-%' order by stu_class,stu_id desc"); 
+		$rows['stu'] = $db->rows($res['stu']);	
 ?>
 <div class="row">
 <div class="col-xs-12 connectedSortable">
@@ -468,7 +468,7 @@ $sql['up'] = mysql_query ( $q['up'] ) or sql_error ( "db-query",mysql_error() );
                  <i class="fa fa-user"></i>
                  <h3 class="box-title"><?php echo _heading_title; ?></h3>
               <div class="box-tools pull-right">
-			  <span class="badge bg-yellow"><?php echo _text_box_table_count." ".@$rows['stu'];?></span>
+			  <span class="badge bg-yellow"><?php echo _text_box_table_count." ".$rows['stu'];?></span>
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -477,7 +477,7 @@ $sql['up'] = mysql_query ( $q['up'] ) or sql_error ( "db-query",mysql_error() );
             <!-- /.box-header -->
       <div class="box-body ">
 	  <?php
-		if(@$rows['stu']) {
+		if($rows['stu']) {
 		?>
       <form action="index.php?name=access&file=birthd&op=delall&route=<?php echo $route;?>" method="post" enctype="multipart/form-data" id="form" class="form-inline">
         <table id="example1" class="table table-bordered table-striped responsive" style="width:100%">
@@ -496,28 +496,28 @@ $sql['up'] = mysql_query ( $q['up'] ) or sql_error ( "db-query",mysql_error() );
           <tbody>
 		<?php
 		$i=1;
-		while (@$arr['stu'] = $db->fetch(@$res['stu'])){
+		while ($arr['stu'] = $db->fetch($res['stu'])){
 
-		@$res['com'] = $db->select_query("SELECT * FROM ".TB_BIRTH."  where hbd_area='".$_SESSION['admin_area']."' and hbd_code='".$_SESSION['admin_code']."' and hbd_stu='".@$arr['stu']['stu_id']."' order by hbd_id desc"); 
-		@$rows['com'] = $db->rows(@$res['com']);
-		@$arr['com'] = $db->fetch(@$res['com']);
-		@$res['cl'] = $db->select_query("SELECT * FROM ".TB_CLASS.",".TB_CLASS_GROUP."  where class_id='".@$arr['stu']['stu_class']."' and class_id=clg_group"); 
-		@$arr['cl'] = $db->fetch(@$res['cl']);
+		$res['com'] = $db->select_query("SELECT * FROM ".TB_BIRTH."  where hbd_area='".$_SESSION['admin_area']."' and hbd_code='".$_SESSION['admin_code']."' and hbd_stu='".$arr['stu']['stu_id']."' order by hbd_id desc"); 
+		$rows['com'] = $db->rows($res['com']);
+		$arr['com'] = $db->fetch($res['com']);
+		$res['cl'] = $db->select_query("SELECT * FROM ".TB_CLASS.",".TB_CLASS_GROUP."  where class_id='".$arr['stu']['stu_class']."' and class_id=clg_group"); 
+		$arr['cl'] = $db->fetch($res['cl']);
 
 		?>
             <tr>
-              <td style="text-align: center;"><input type="checkbox" name="selected[]" value="<?php echo @$arr['stu']['stu_id']; ?>" class="selector flat"/></td>
-              <td style="text-align: left;"><?php echo @$arr['stu']['stu_num']."".@$arr['stu']['stu_name']." ".@$arr['stu']['stu_sur']; ?></td>
-              <td style="text-align: center;"><?php echo @$arr['cl']['class_name']; ?></td>
-              <td class="left"><?php echo @$arr['cl']['clg_name']; ?></td>
-              <td style="text-align: center;"><?=ShortDateThai(@$arr['stu']['stu_birth']);?></td>
-              <td style="text-align: center;"><?php echo @$rows['com'];?></td>
-              <td  style="text-align: center;"><ul class="massages"><li><?php if(@$rows['com']){ echo "<i class=\"fa fa-comment bg-green\"></i>";} else { echo "<i class=\"fa fa-comment-o bg-yellow\"></i>";}?></ul>
+              <td style="text-align: center;"><input type="checkbox" name="selected[]" value="<?php echo $arr['stu']['stu_id']; ?>" class="selector flat"/></td>
+              <td style="text-align: left;"><?php echo $arr['stu']['stu_num']."".$arr['stu']['stu_name']." ".$arr['stu']['stu_sur']; ?></td>
+              <td style="text-align: center;"><?php echo $arr['cl']['class_name']; ?></td>
+              <td class="left"><?php echo $arr['cl']['clg_name']; ?></td>
+              <td style="text-align: center;"><?=ShortDateThai($arr['stu']['stu_birth']);?></td>
+              <td style="text-align: center;"><?php echo $rows['com'];?></td>
+              <td  style="text-align: center;"><ul class="massages"><li><?php if($rows['com']){ echo "<i class=\"fa fa-comment bg-green\"></i>";} else { echo "<i class=\"fa fa-comment-o bg-yellow\"></i>";}?></ul>
 			  </td>
               <td style="text-align: center;">
-				<a href="index.php?name=access&file=birthd&op=detail&MsID=<?php echo @$arr['com']['hbd_id']; ?>&route=<?php echo $route;?>" class="btn bg-green btn-flat btn-sm"><i class="fa fa-search-plus "></i></a>
-				<a href="index.php?name=access&file=birthd&op=edit&MsID=<?php echo @$arr['com']['hbd_id']; ?>&route=<?php echo $route;?>" class="btn bg-aqua btn-flat btn-sm"><i class="fa fa-edit "></i></a>
-				<a href="index.php?name=access&file=birthd&op=del&MsID=<?php echo @$arr['com']['hbd_id']; ?>&route=<?php echo $route;?>" class="btn bg-red btn-flat btn-sm"><i class="fa fa-trash-o "></i></a>
+				<a href="index.php?name=access&file=birthd&op=detail&MsID=<?php echo $arr['com']['hbd_id']; ?>&route=<?php echo $route;?>" class="btn bg-green btn-flat btn-sm"><i class="fa fa-search-plus "></i></a>
+				<a href="index.php?name=access&file=birthd&op=edit&MsID=<?php echo $arr['com']['hbd_id']; ?>&route=<?php echo $route;?>" class="btn bg-aqua btn-flat btn-sm"><i class="fa fa-edit "></i></a>
+				<a href="index.php?name=access&file=birthd&op=del&MsID=<?php echo $arr['com']['hbd_id']; ?>&route=<?php echo $route;?>" class="btn bg-red btn-flat btn-sm"><i class="fa fa-trash-o "></i></a>
 			  </td>
             </tr>
             <?php } ?>

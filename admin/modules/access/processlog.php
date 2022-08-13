@@ -58,7 +58,7 @@ if($_POST['OP']=='Add'){
 			}
 
 			$Per['per']=$db->select_query("SELECT p_id FROM ".TB_PERSONNEL." where p_code='".$_POST['Sh_code']."' order by p_id desc limit 1 ");
-			@$arr['per']= $db->fetch($Per['per']);
+			$arr['per']= $db->fetch($Per['per']);
 
   		for($i=1;$i<=(int)($_POST['LSIDs'.$i]);$i++)
 		{
@@ -68,14 +68,14 @@ if($_POST['OP']=='Add'){
 			"ls_area"=>"".$_SESSION['admin_area']."",
 			"ls_code"=>"".$_POST['Sh_code']."",
 			"g_id"=>"".$_POST['LSIDs'.$i]."",
-			"u_id"=>"".@$arr['per']['p_id']."",
+			"u_id"=>"".$arr['per']['p_id']."",
 			"p_detail"=>"".$_POST['Ls_detail'.$i]."",
 			"p_order"=>"".$_POST['Ls_sort'.$i]."",
 			"ls_posted"=>"".$_SESSION['admin_login']."",
 			"ls_post_date"=>"".$Date.""
 			));
 			} else {
-			$add .=$db->del(TB_PERSONNEL_LS," u_id='".@$arr['per']['p_id']."' and g_id='".$_POST['LSIDs'.$i]."' and ls_code='".$_POST['Sh_code']."' ");
+			$add .=$db->del(TB_PERSONNEL_LS," u_id='".$arr['per']['p_id']."' and g_id='".$_POST['LSIDs'.$i]."' and ls_code='".$_POST['Sh_code']."' ");
 			}
 
 		}
@@ -87,7 +87,7 @@ if($_POST['OP']=='Add'){
 			$add .=$db->add_db(TB_PERSONNEL_EDU,array(
 			"edu_area"=>"".$_SESSION['admin_area']."",
 			"edu_code"=>"".$_POST['Sh_code']."",
-			"edu_uid"=>"".@$arr['per']['p_id']."",
+			"edu_uid"=>"".$arr['per']['p_id']."",
 			"edu_yearfin"=>"".$_POST['Wut_yearfin'.$iw]."",
 			"edu_ake"=>"".$_POST['Wut_ake'.$iw]."",
 			"edu_wut"=>"".$_POST['WUT'.$iw]."",
@@ -98,7 +98,7 @@ if($_POST['OP']=='Add'){
 			"edu_post_date"=>"".$Date.""
 			));
 			} else {
-			$add .=$db->del(TB_PERSONNEL_EDU," edu_code='".$_POST['Sh_code']."' and edu_uid='".@$arr['per']['p_id']."' and edu_wut='".$_POST['WUT'.$iw]."' ");
+			$add .=$db->del(TB_PERSONNEL_EDU," edu_code='".$_POST['Sh_code']."' and edu_uid='".$arr['per']['p_id']."' and edu_wut='".$_POST['WUT'.$iw]."' ");
 			}
 
 		}
@@ -112,7 +112,7 @@ if($_POST['OP']=='Add'){
 			"his_area"=>"".$_SESSION['admin_area']."",
 			"his_code"=>"".$_POST['Sh_code']."",
 			"his_cate"=>"".$_POST['HIS'.$ih]."",
-			"his_uid"=>"".@$arr['per']['p_id']."",
+			"his_uid"=>"".$arr['per']['p_id']."",
 			"his_year"=>"".$_POST['His_year'.$ih]."",
 			"his_position"=>"".$_POST['His_position'.$ih]."",
 			"his_school"=>"".$_POST['His_school'.$ih]."",
@@ -120,7 +120,7 @@ if($_POST['OP']=='Add'){
 			"his_post_date"=>"".$Date.""
 			));
 			} else {
-			$add .=$db->del(TB_PERSONNEL_HIS," his_cate='".$_POST['HIS'.$ih]."' and his_uid='".@$arr['per']['p_id']."' and his_code='".$_POST['Sh_code']."' ");
+			$add .=$db->del(TB_PERSONNEL_HIS," his_cate='".$_POST['HIS'.$ih]."' and his_uid='".$arr['per']['p_id']."' and his_code='".$_POST['Sh_code']."' ");
 			}
 
 		}
@@ -134,7 +134,7 @@ if($_POST['OP']=='Add'){
 			"port_area"=>"".$_SESSION['admin_area']."",
 			"port_code"=>"".$_POST['Sh_code']."",
 			"port_cate"=>"".$_POST['PO'.$ips]."",
-			"port_uid"=>"".@$arr['per']['p_id']."",
+			"port_uid"=>"".$arr['per']['p_id']."",
 			"port_year"=>"".$_POST['Po_year'.$ips]."",
 			"port_name"=>"".$_POST['Po_name'.$ips]."",
 			"port_organ"=>"".$_POST['Po_organ'.$ips]."",
@@ -142,7 +142,7 @@ if($_POST['OP']=='Add'){
 			"port_post_date"=>"".$Date.""
 			));
 			} else {
-			$add .=$db->del(TB_PERSONNEL_PORT," port_cate='".$_POST['PO'.$ips]."' and port_uid='".@$arr['per']['p_id']."' and port_code='".$_POST['Sh_code']."' ");
+			$add .=$db->del(TB_PERSONNEL_PORT," port_cate='".$_POST['PO'.$ips]."' and port_uid='".$arr['per']['p_id']."' and port_code='".$_POST['Sh_code']."' ");
 			}
 
 
@@ -154,15 +154,15 @@ if($_POST['OP']=='Add'){
 
 	if($add){
 		$successx = "Success";
-		@$responseArray = array('type' => 'success', 'message' => $successx);
-		$encoded = json_encode(@$responseArray);
+		$responseArray = array('type' => 'success', 'message' => $successx);
+		$encoded = json_encode($responseArray);
 		header('Content-Type: application/json');
 		echo $encoded;
 	} else {
 		$error_warningx = "Error";
 		//echo $error_warning;
-		@$responseArray = array('type' => 'danger', 'message' => $error_warningx);
-		$encoded = json_encode(@$responseArray);
+		$responseArray = array('type' => 'danger', 'message' => $error_warningx);
+		$encoded = json_encode($responseArray);
 		header('Content-Type: application/json');
 		echo $encoded;
 	}
@@ -174,8 +174,8 @@ if($_POST['OP']=='Edit'){
 		$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
 
 			$Per['per']=$db->select_query("SELECT * FROM ".TB_PERSONNEL." where p_code='".$_POST['SID']."' and p_id='".$_POST['PERID']."' ");
-			@$arr['per']= $db->fetch($Per['per']);
-			if(!empty(@$arr['per']['p_id'])){
+			$arr['per']= $db->fetch($Per['per']);
+			if(!empty($arr['per']['p_id'])){
 			if(!empty($_POST['Icon'])){
 			$edit .=$db->update_db(TB_PERSONNEL,array(
 			"p_area"=>"".$_SESSION['admin_area']."",
@@ -261,11 +261,11 @@ if($_POST['OP']=='Edit'){
 
   		for($i=1;$i<=(int)($_POST['LSIDs'.$i]);$i++)
 		{
-			@$res['Ls']=$db->select_query("SELECT * FROM ".TB_PERSONNEL_LS." where u_id='".$_POST['PERID']."' and g_id='".$_POST['LSIDs'.$i]."' and ls_code='".$_POST['SID']."' ");
-			@$arr['Ls']= $db->fetch(@$res['Ls']);
+			$res['Ls']=$db->select_query("SELECT * FROM ".TB_PERSONNEL_LS." where u_id='".$_POST['PERID']."' and g_id='".$_POST['LSIDs'.$i]."' and ls_code='".$_POST['SID']."' ");
+			$arr['Ls']= $db->fetch($res['Ls']);
 			if($_POST['Ls_detail'.$i] != "")
 			{
-			if(!empty(@$arr['Ls']['ls_id'])){
+			if(!empty($arr['Ls']['ls_id'])){
 			$edit .=$db->update_db(TB_PERSONNEL_LS,array(
 			"g_id"=>"".$_POST['LSIDs'.$i]."",
 			"u_id"=>"".$_POST['PERID']."",
@@ -273,7 +273,7 @@ if($_POST['OP']=='Edit'){
 			"p_order"=>"".$_POST['Ls_sort'.$i]."",
 			"ls_posted"=>"".$_SESSION['admin_login']."",
 			"ls_post_date"=>"".$Date.""
-			)," ls_id=".@$arr['Ls']['ls_id']." ");
+			)," ls_id=".$arr['Ls']['ls_id']." ");
 			} else {
 			$edit .=$db->add_db(TB_PERSONNEL_LS,array(
 			"ls_area"=>"".$_SESSION['admin_area']."",
@@ -294,11 +294,11 @@ if($_POST['OP']=='Edit'){
 
   		for($iw=1;$iw<=(int)($_POST['WID'.$iw]);$iw++)
 		{
-			@$res['Wt']=$db->select_query("SELECT * FROM ".TB_PERSONNEL_EDU." where edu_code='".$_POST['SID']."' and edu_uid='".$_POST['PERID']."' and edu_wut='".$_POST['WUT'.$iw]."'  ");
-			@$arr['Wt']= $db->fetch(@$res['Wt']);
+			$res['Wt']=$db->select_query("SELECT * FROM ".TB_PERSONNEL_EDU." where edu_code='".$_POST['SID']."' and edu_uid='".$_POST['PERID']."' and edu_wut='".$_POST['WUT'.$iw]."'  ");
+			$arr['Wt']= $db->fetch($res['Wt']);
 			if($_POST['Wut_ake'.$iw] != "")
 			{
-			if(!empty(@$arr['Wt']['edu_id'])){
+			if(!empty($arr['Wt']['edu_id'])){
 			$edit .=$db->update_db(TB_PERSONNEL_EDU,array(
 			"edu_uid"=>"".$_POST['PERID']."",
 			"edu_yearfin"=>"".$_POST['Wut_yearfin'.$iw]."",
@@ -309,7 +309,7 @@ if($_POST['OP']=='Edit'){
 			"edu_uni"=>"".$_POST['Wut_uni'.$iw]."",
 			"edu_posted"=>"".$_SESSION['admin_login']."",
 			"edu_post_date"=>"".$Date.""
-			)," edu_id=".@$arr['Wt']['edu_id']." ");
+			)," edu_id=".$arr['Wt']['edu_id']." ");
 			} else {
 			$edit .=$db->add_db(TB_PERSONNEL_EDU,array(
 			"edu_area"=>"".$_SESSION['admin_area']."",
@@ -334,11 +334,11 @@ if($_POST['OP']=='Edit'){
 
   		for($ih=1;$ih<=(int)($_POST['HIS'.$ih]);$ih++)
 		{
-			@$res['his']=$db->select_query("SELECT * FROM ".TB_PERSONNEL_HIS." where his_cate='".$_POST['HIS'.$ih]."' and his_uid='".$_POST['PERID']."' and his_code='".$_POST['SID']."' ");
-			@$arr['his']= $db->fetch(@$res['his']);
+			$res['his']=$db->select_query("SELECT * FROM ".TB_PERSONNEL_HIS." where his_cate='".$_POST['HIS'.$ih]."' and his_uid='".$_POST['PERID']."' and his_code='".$_POST['SID']."' ");
+			$arr['his']= $db->fetch($res['his']);
 			if($_POST['His_year'.$ih] != "")
 			{
-			if(!empty(@$arr['his']['his_id'])){
+			if(!empty($arr['his']['his_id'])){
 			$edit .=$db->update_db(TB_PERSONNEL_HIS,array(
 			"his_cate"=>"".$_POST['HIS'.$ih]."",
 			"his_uid"=>"".$_POST['PERID']."",
@@ -347,7 +347,7 @@ if($_POST['OP']=='Edit'){
 			"his_school"=>"".$_POST['His_school'.$ih]."",
 			"his_posted"=>"".$_SESSION['admin_login']."",
 			"his_post_date"=>"".$Date.""
-			)," his_id=".@$arr['his']['his_id']." ");
+			)," his_id=".$arr['his']['his_id']." ");
 			} else {
 			$edit .=$db->add_db(TB_PERSONNEL_HIS,array(
 			"his_area"=>"".$_SESSION['admin_area']."",
@@ -370,11 +370,11 @@ if($_POST['OP']=='Edit'){
 
  		for($ips=1;$ips<=(int)($_POST['PO'.$ips]);$ips++)
 		{
-			@$res['port']=$db->select_query("SELECT * FROM ".TB_PERSONNEL_PORT." where port_cate='".$_POST['PO'.$ips]."' and port_uid='".$_POST['PERID']."' and port_code='".$_POST['SID']."' ");
-			@$arr['port']= $db->fetch(@$res['port']);
+			$res['port']=$db->select_query("SELECT * FROM ".TB_PERSONNEL_PORT." where port_cate='".$_POST['PO'.$ips]."' and port_uid='".$_POST['PERID']."' and port_code='".$_POST['SID']."' ");
+			$arr['port']= $db->fetch($res['port']);
 			if($_POST['Po_year'.$ips] != "")
 			{
-			if(!empty(@$arr['port']['port_id'])){
+			if(!empty($arr['port']['port_id'])){
 			$edit .=$db->update_db(TB_PERSONNEL_PORT,array(
 			"port_cate"=>"".$_POST['PO'.$ips]."",
 			"port_uid"=>"".$_POST['PERID']."",
@@ -383,7 +383,7 @@ if($_POST['OP']=='Edit'){
 			"port_organ"=>"".$_POST['Po_organ'.$ips]."",
 			"port_posted"=>"".$_SESSION['admin_login']."",
 			"port_post_date"=>"".$Date.""
-			)," port_id=".@$arr['port']['port_id']." ");
+			)," port_id=".$arr['port']['port_id']." ");
 			} else {
 			$edit .=$db->add_db(TB_PERSONNEL_PORT,array(
 			"port_area"=>"".$_SESSION['admin_area']."",
@@ -410,15 +410,15 @@ if($_POST['OP']=='Edit'){
 
 	if($edit){
 		$successx = "Success";
-		@$responseArray = array('type' => 'success', 'message' => $successx);
-		$encoded = json_encode(@$responseArray);
+		$responseArray = array('type' => 'success', 'message' => $successx);
+		$encoded = json_encode($responseArray);
 		header('Content-Type: application/json');
 		echo $encoded;
 	} else {
 		$error_warningx = "Error";
 		//echo $error_warning;
-		@$responseArray = array('type' => 'danger', 'message' => $error_warningx);
-		$encoded = json_encode(@$responseArray);
+		$responseArray = array('type' => 'danger', 'message' => $error_warningx);
+		$encoded = json_encode($responseArray);
 		header('Content-Type: application/json');
 		echo $encoded;
 	}
@@ -441,15 +441,15 @@ if($_POST['OP']=='Del'){
 
 	if($del){
 		$successx = "Success";
-		@$responseArray = array('type' => 'success', 'message' => $successx);
-		$encoded = json_encode(@$responseArray);
+		$responseArray = array('type' => 'success', 'message' => $successx);
+		$encoded = json_encode($responseArray);
 		header('Content-Type: application/json');
 		echo $encoded;
 	} else {
 		$error_warningx = "Error";
 		//echo $error_warning;
-		@$responseArray = array('type' => 'danger', 'message' => $error_warningx);
-		$encoded = json_encode(@$responseArray);
+		$responseArray = array('type' => 'danger', 'message' => $error_warningx);
+		$encoded = json_encode($responseArray);
 		header('Content-Type: application/json');
 		echo $encoded;
 	}
@@ -479,15 +479,15 @@ if($_POST['OP']=='DelAll'){
 
 	if($del){
 		$successx = "Success";
-		@$responseArray = array('type' => 'success', 'message' => $successx);
-		$encoded = json_encode(@$responseArray);
+		$responseArray = array('type' => 'success', 'message' => $successx);
+		$encoded = json_encode($responseArray);
 		header('Content-Type: application/json');
 		echo $encoded;
 	} else {
 		$error_warningx = "Error";
 		//echo $error_warning;
-		@$responseArray = array('type' => 'danger', 'message' => $error_warningx);
-		$encoded = json_encode(@$responseArray);
+		$responseArray = array('type' => 'danger', 'message' => $error_warningx);
+		$encoded = json_encode($responseArray);
 		header('Content-Type: application/json');
 		echo $encoded;
 	}
@@ -511,15 +511,15 @@ if($_POST['OP']=='ShDel'){
 
 	if($del){
 		$successx = "Success";
-		@$responseArray = array('type' => 'success', 'message' => $successx);
-		$encoded = json_encode(@$responseArray);
+		$responseArray = array('type' => 'success', 'message' => $successx);
+		$encoded = json_encode($responseArray);
 		header('Content-Type: application/json');
 		echo $encoded;
 	} else {
 		$error_warningx = "Error";
 		//echo $error_warning;
-		@$responseArray = array('type' => 'danger', 'message' => $error_warningx);
-		$encoded = json_encode(@$responseArray);
+		$responseArray = array('type' => 'danger', 'message' => $error_warningx);
+		$encoded = json_encode($responseArray);
 		header('Content-Type: application/json');
 		echo $encoded;
 	}
@@ -548,15 +548,15 @@ if($_POST['OP']=='ShDelAll'){
 
 	if($del){
 		$successx = "Success";
-		@$responseArray = array('type' => 'success', 'message' => $successx);
-		$encoded = json_encode(@$responseArray);
+		$responseArray = array('type' => 'success', 'message' => $successx);
+		$encoded = json_encode($responseArray);
 		header('Content-Type: application/json');
 		echo $encoded;
 	} else {
 		$error_warningx = "Error";
 		//echo $error_warning;
-		@$responseArray = array('type' => 'danger', 'message' => $error_warningx);
-		$encoded = json_encode(@$responseArray);
+		$responseArray = array('type' => 'danger', 'message' => $error_warningx);
+		$encoded = json_encode($responseArray);
 		header('Content-Type: application/json');
 		echo $encoded;
 	}

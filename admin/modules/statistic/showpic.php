@@ -7,10 +7,10 @@ if(!empty($_SESSION['admin_login'])){
 <div class="col-xs-12">
 <?php
 if($op=='cldetail' and $action=='' ){
-@$res['count'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_class='".$_GET['class_id']."' "); 
-@$rows['count'] = $db->rows(@$res['count']);
-@$res['Cl'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".$_GET['class_id']."' "); 
-@$arr['Cl'] =$db->fetch(@$res['Cl']);
+$res['count'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_class='".$_GET['class_id']."' "); 
+$rows['count'] = $db->rows($res['count']);
+$res['Cl'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".$_GET['class_id']."' "); 
+$arr['Cl'] =$db->fetch($res['Cl']);
 ?>
 <div class="row">
 <div class="col-xs-12 connectedSortable">
@@ -23,9 +23,9 @@ if($op=='cldetail' and $action=='' ){
     <div class="box box-danger">
 		         <div class="box-header with-border">
                  <i class="glyphicon glyphicon-folder-open"></i>
-                 <h3 class="box-title"><?php echo _heading_title;?>&nbsp;<span class="badge bg-green"><?php echo @$arr['Cl']['class_name']; ?></span></h3>
+                 <h3 class="box-title"><?php echo _heading_title;?>&nbsp;<span class="badge bg-green"><?php echo $arr['Cl']['class_name']; ?></span></h3>
               <div class="box-tools pull-right">
-			  <span class="badge bg-yellow"><?php echo _text_box_table_count." ".@$rows['count'];?></span>
+			  <span class="badge bg-yellow"><?php echo _text_box_table_count." ".$rows['count'];?></span>
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -36,13 +36,13 @@ if($op=='cldetail' and $action=='' ){
                   <ul class="users-list clearfix">
 <?php
 		$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
-		@$res['nums'] = $db->select_query("select * from ".TB_STUDENT."  where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and  stu_class='".$_GET['class_id']."' order by stu_id"); 
-		while(@$arr['nums'] = $db->fetch(@$res['nums'])){
+		$res['nums'] = $db->select_query("select * from ".TB_STUDENT."  where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and  stu_class='".$_GET['class_id']."' order by stu_id"); 
+		while($arr['nums'] = $db->fetch($res['nums'])){
 ?>
                     <li>
-                      <img src="<?php if(@$arr['nums']['stu_pic']){echo WEB_URL_IMG_STU.@$arr['nums']['stu_pic'];} else {echo WEB_URL_IMG_STU."no_image.jpg";} ?>" alt="User Image">
-                      <a class="users-list-name" href="index.php?name=config&file=student&op=detail&id=<?php echo @$arr['nums']['stu_id'];?>&route=statistic/score"><?php echo @$arr['nums']['stu_name']; ?></a>
-                      <span class="users-list-date">-<?php echo @$arr['nums']['CO'];?></span>
+                      <img src="<?php if($arr['nums']['stu_pic']){echo WEB_URL_IMG_STU.$arr['nums']['stu_pic'];} else {echo WEB_URL_IMG_STU."no_image.jpg";} ?>" alt="User Image">
+                      <a class="users-list-name" href="index.php?name=config&file=student&op=detail&id=<?php echo $arr['nums']['stu_id'];?>&route=statistic/score"><?php echo $arr['nums']['stu_name']; ?></a>
+                      <span class="users-list-date">-<?php echo $arr['nums']['CO'];?></span>
                     </li>
 <?php
 		}
@@ -61,10 +61,10 @@ if($op=='cldetail' and $action=='' ){
 <?php
 } else if($op =='studetail' ){
 $db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
-@$res['user'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_id='".$_GET['stuid']."' order by stu_class,stu_id"); 
-@$arr['user'] = $db->fetch(@$res['user']);
-@$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".@$arr['user']['stu_class']."' "); 
-@$arr['class'] = $db->fetch(@$res['class']);
+$res['user'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_id='".$_GET['stuid']."' order by stu_class,stu_id"); 
+$arr['user'] = $db->fetch($res['user']);
+$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".$arr['user']['stu_class']."' "); 
+$arr['class'] = $db->fetch($res['class']);
 
 ?>
 
@@ -88,13 +88,13 @@ $db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
                                 <div class="box-body  ">
     <div class="card hovercard">
         <div class="card-background">
-            <img class="card-bkimg" alt="" src="<?php echo WEB_URL_IMG_STU.@$arr['user']['stu_pic'];?>">
+            <img class="card-bkimg" alt="" src="<?php echo WEB_URL_IMG_STU.$arr['user']['stu_pic'];?>">
             <!-- http://lorempixel.com/850/280/people/9/ -->
         </div>
         <div class="useravatar">
-            <img alt="" src="<?php echo WEB_URL_IMG_STU.@$arr['user']['stu_pic'];?>">
+            <img alt="" src="<?php echo WEB_URL_IMG_STU.$arr['user']['stu_pic'];?>">
         </div>
-        <div class="card-info"> <span class="card-title"><?php echo @$arr['user']['stu_num'].@$arr['user']['stu_name']." ".@$arr['user']['stu_sur'];?></span>
+        <div class="card-info"> <span class="card-title"><?php echo $arr['user']['stu_num'].$arr['user']['stu_name']." ".$arr['user']['stu_sur'];?></span>
         </div>
     </div>
 <div class="form-group">
@@ -104,9 +104,9 @@ $db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
 
 
 <?php
-@$res['countB'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_stu='".$_GET['stuid']."' group by c_id"); 
-@$rows['countB'] = $db->rows(@$res['countB']);
-if(@$rows['countB']) {
+$res['countB'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_stu='".$_GET['stuid']."' group by c_id"); 
+$rows['countB'] = $db->rows($res['countB']);
+if($rows['countB']) {
 ?>
 <div class="row">
 <div class="col-xs-12 connectedSortable">
@@ -116,7 +116,7 @@ if(@$rows['countB']) {
                  <i class="glyphicon glyphicon-folder-open"></i>
                  <h3 class="box-title"><?php echo _heading_title_tab_bad; ?></h3>
               <div class="box-tools pull-right">
-			  <span class="badge bg-red"><?php echo _text_box_table_count." : ".@$rows['countB'];?></span>
+			  <span class="badge bg-red"><?php echo _text_box_table_count." : ".$rows['countB'];?></span>
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -126,8 +126,8 @@ if(@$rows['countB']) {
       <div class="box-body ">
 	  <?php
 		$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
-		@$res['bad'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_stu='".$_GET['stuid']."' order by c_id desc"); 
-//		@$rows['num'] = $db->rows(@$res['num']);
+		$res['bad'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_stu='".$_GET['stuid']."' order by c_id desc"); 
+//		$rows['num'] = $db->rows($res['num']);
 		?>
       <form id="form" class="form-inline">
         <table id="example1" class="table table-bordered table-striped responsive" style="width:100%">
@@ -145,18 +145,18 @@ if(@$rows['countB']) {
           <tbody>
 		<?php
 		$i=1;
-		while (@$arr['bad'] = $db->fetch(@$res['bad'])){
-		@$res['ch'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_date='".@$arr['bad']['c_date']."' and c_stu='".$_GET['stuid']."'  order by c_id desc"); 
-		@$arr['ch'] = $db->fetch(@$res['ch']);
+		while ($arr['bad'] = $db->fetch($res['bad'])){
+		$res['ch'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_date='".$arr['bad']['c_date']."' and c_stu='".$_GET['stuid']."'  order by c_id desc"); 
+		$arr['ch'] = $db->fetch($res['ch']);
 		?>
             <tr >
               <td style="text-align: center;"><?php echo $i;?></td>
-              <td layout="block" style="text-align: left;"><?php echo ShortDateThai(@$arr['bad']['c_date']);?></td>
-              <td layout="block" style="text-align: left;"><?php echo @$arr['bad']['c_k'];?></td>
-              <td layout="block" style="text-align: left;"><?php echo @$arr['bad']['c_k2'];?></td>
-              <td layout="block" style="text-align: left;"><?php echo @$arr['bad']['c_k3'];?></td>
-              <td layout="block" style="text-align: left;"><?php echo @$arr['bad']['c_k4'];?></td>
-              <td layout="block" style="text-align: center;"><?php if(@$arr['ch']['c_ch1'] !=''){echo "คาบ1,";}?><?php if(@$arr['ch']['c_ch2'] !=''){echo "คาบ2,";}?><?php if(@$arr['ch']['c_ch3'] !=''){echo "คาบ3,";}?><?php if(@$arr['ch']['c_ch4'] !=''){echo "คาบ4,";}?><?php if(@$arr['ch']['c_ch5'] !=''){echo "คาบ5,";}?><?php if(@$arr['ch']['c_ch6'] !=''){echo "คาบ6,";}?><?php if(@$arr['ch']['c_ch7'] !=''){echo "คาบ7";}?></td>
+              <td layout="block" style="text-align: left;"><?php echo ShortDateThai($arr['bad']['c_date']);?></td>
+              <td layout="block" style="text-align: left;"><?php echo $arr['bad']['c_k'];?></td>
+              <td layout="block" style="text-align: left;"><?php echo $arr['bad']['c_k2'];?></td>
+              <td layout="block" style="text-align: left;"><?php echo $arr['bad']['c_k3'];?></td>
+              <td layout="block" style="text-align: left;"><?php echo $arr['bad']['c_k4'];?></td>
+              <td layout="block" style="text-align: center;"><?php if($arr['ch']['c_ch1'] !=''){echo "คาบ1,";}?><?php if($arr['ch']['c_ch2'] !=''){echo "คาบ2,";}?><?php if($arr['ch']['c_ch3'] !=''){echo "คาบ3,";}?><?php if($arr['ch']['c_ch4'] !=''){echo "คาบ4,";}?><?php if($arr['ch']['c_ch5'] !=''){echo "คาบ5,";}?><?php if($arr['ch']['c_ch6'] !=''){echo "คาบ6,";}?><?php if($arr['ch']['c_ch7'] !=''){echo "คาบ7";}?></td>
             </tr>
 
             <?php $i++;} ?>
@@ -276,8 +276,8 @@ if(@$rows['countB']) {
 <?php
 } else {
 
-@$res['count'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' group by stu_id"); 
-@$rows['count'] = $db->rows(@$res['count']);
+$res['count'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' group by stu_id"); 
+$rows['count'] = $db->rows($res['count']);
 ?>
 <div class="row">
 <div class="col-xs-12 connectedSortable">
@@ -288,7 +288,7 @@ if(@$rows['countB']) {
                  <i class="glyphicon glyphicon-folder-open"></i>
                  <h3 class="box-title"><?php echo _heading_title; ?></h3>
               <div class="box-tools pull-right">
-			  <span class="badge bg-yellow"><?php echo _text_box_table_count." ".@$rows['count'];?></span>
+			  <span class="badge bg-yellow"><?php echo _text_box_table_count." ".$rows['count'];?></span>
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -298,9 +298,9 @@ if(@$rows['countB']) {
       <div class="box-body ">
 	  <?php
 		$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
-		@$res['num'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' group by stu_class order by stu_class "); 
-		@$rows['num'] = $db->rows(@$res['num']);
-		if(@$rows['num']) {
+		$res['num'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' group by stu_class order by stu_class "); 
+		$rows['num'] = $db->rows($res['num']);
+		if($rows['num']) {
 		?>
       <form  method="post" enctype="multipart/form-data" id="form" class="form-inline">
         <table id="example1" class="table table-bordered table-striped responsive" style="width:100%">
@@ -317,24 +317,24 @@ if(@$rows['countB']) {
           <tbody>
 		<?php
 		$i=1;
-		while (@$arr['num'] = $db->fetch(@$res['num'])){
-		@$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".@$arr['num']['stu_class']."' "); 
-		@$arr['class'] =$db->fetch(@$res['class']);
-		@$res['stu'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_class='".@$arr['num']['stu_class']."' "); 
-		@$arr['stu'] =$db->rows(@$res['stu']);
-		@$res['pic'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_class='".@$arr['num']['stu_class']."' and stu_pic !='' "); 
-		@$arr['pic'] =$db->rows(@$res['pic']);
-		@$res['nopic'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_class='".@$arr['num']['stu_class']."' and stu_pic='' "); 
-		@$arr['nopic'] =$db->rows(@$res['nopic']);
+		while ($arr['num'] = $db->fetch($res['num'])){
+		$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".$arr['num']['stu_class']."' "); 
+		$arr['class'] =$db->fetch($res['class']);
+		$res['stu'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_class='".$arr['num']['stu_class']."' "); 
+		$arr['stu'] =$db->rows($res['stu']);
+		$res['pic'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_class='".$arr['num']['stu_class']."' and stu_pic !='' "); 
+		$arr['pic'] =$db->rows($res['pic']);
+		$res['nopic'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_class='".$arr['num']['stu_class']."' and stu_pic='' "); 
+		$arr['nopic'] =$db->rows($res['nopic']);
 		?>
             <tr>
               <td style="text-align: center;"><?php echo $i;?></td>
-              <td layout="block" style="text-align: left;"><?php echo @$arr['class']['class_name'];?></td>
-              <td layout="block" style="text-align: center;"><?php echo @$arr['stu'];?></td>
-              <td layout="block" style="text-align: center;"><?php echo @$arr['pic'];?></td>
-               <td layout="block" style="text-align: center;"><?php echo @$arr['nopic'];?></td>
+              <td layout="block" style="text-align: left;"><?php echo $arr['class']['class_name'];?></td>
+              <td layout="block" style="text-align: center;"><?php echo $arr['stu'];?></td>
+              <td layout="block" style="text-align: center;"><?php echo $arr['pic'];?></td>
+               <td layout="block" style="text-align: center;"><?php echo $arr['nopic'];?></td>
 			  <td style="text-align: center;">
-			 <a href="index.php?name=statistic&file=showpic&op=cldetail&class_id=<?php echo @$arr['num']['stu_class'];?>&route=<?php echo $route;?>" class="btn bg-aqua btn-flat btn-sm" ><i class="fa fa-search-plus "></i></a>
+			 <a href="index.php?name=statistic&file=showpic&op=cldetail&class_id=<?php echo $arr['num']['stu_class'];?>&route=<?php echo $route;?>" class="btn bg-aqua btn-flat btn-sm" ><i class="fa fa-search-plus "></i></a>
 			  </td>
             </tr>
 

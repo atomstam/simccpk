@@ -34,15 +34,15 @@ if($_POST['OP']=='NewsAdd'){
 
 	if($add){
 		$successx = "Success";
-		@$responseArray = array('type' => 'success', 'message' => $successx);
-		$encoded = json_encode(@$responseArray);
+		$responseArray = array('type' => 'success', 'message' => $successx);
+		$encoded = json_encode($responseArray);
 		header('Content-Type: application/json');
 		echo $encoded;
 	} else {
 		$error_warningx = "Error";
 		//echo $error_warning;
-		@$responseArray = array('type' => 'danger', 'message' => $error_warningx);
-		$encoded = json_encode(@$responseArray);
+		$responseArray = array('type' => 'danger', 'message' => $error_warningx);
+		$encoded = json_encode($responseArray);
 		header('Content-Type: application/json');
 		echo $encoded;
 	}
@@ -53,17 +53,17 @@ if($_POST['OP']=='NewsEdit'){
 	if( $_POST['Topic'] !='' && $_POST['CAT'] !='' && $_POST['Headline'] !='' && $_POST['Detail'] !='' ){
 //		$Avatar=$_FILES['avatar-1']['name'];
 		$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
-		@$res['news'] = $db->select_query("SELECT * FROM ".TB_NEWS." WHERE news_id='".$_POST['NEWSID']."'  "); 
-		@$arr['news'] = $db->fetch(@$res['news']);
+		$res['news'] = $db->select_query("SELECT * FROM ".TB_NEWS." WHERE news_id='".$_POST['NEWSID']."'  "); 
+		$arr['news'] = $db->fetch($res['news']);
 		if(!empty($_POST['Icon'])){
 		$Icon=$_POST['Icon'];
 		} else {
-		$Icon=@$arr['news']['pic'];
+		$Icon=$arr['news']['pic'];
 		}
 		if(!empty($_POST['Icon2'])){
 		$Icon2=$_POST['Icon2'];
 		} else {
-		$Icon2=@$arr['news']['ran'];
+		$Icon2=$arr['news']['ran'];
 		}
 
 		$edit .=$db->update_db(TB_NEWS,array(
@@ -82,15 +82,15 @@ if($_POST['OP']=='NewsEdit'){
 
 	if($edit){
 		$successx = "Success";
-		@$responseArray = array('type' => 'success', 'message' => $successx);
-		$encoded = json_encode(@$responseArray);
+		$responseArray = array('type' => 'success', 'message' => $successx);
+		$encoded = json_encode($responseArray);
 		header('Content-Type: application/json');
 		echo $encoded;
 	} else {
 		$error_warningx = "Error";
 		//echo $error_warning;
-		@$responseArray = array('type' => 'danger', 'message' => $error_warningx);
-		$encoded = json_encode(@$responseArray);
+		$responseArray = array('type' => 'danger', 'message' => $error_warningx);
+		$encoded = json_encode($responseArray);
 		header('Content-Type: application/json');
 		echo $encoded;
 	}
@@ -101,9 +101,9 @@ if($_POST['OP']=='CateAdd'){
 	if( $_POST['Topic'] !='' && $_POST['Icon'] !='' ){
 //		$Avatar=$_FILES['avatar-1']['name'];
 		$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
-		@$res['cate'] = $db->select_query("SELECT * FROM ".TB_NEWS_CATE."  "); 
-		@$rows['cate'] = $db->rows(@$res['cate']);
-		$Sort=@$rows['cate']+1;
+		$res['cate'] = $db->select_query("SELECT * FROM ".TB_NEWS_CATE."  "); 
+		$rows['cate'] = $db->rows($res['cate']);
+		$Sort=$rows['cate']+1;
 		$add .=$db->add_db(TB_NEWS_CATE,array(
 			"category_name"=>"".$_POST['Topic']."",
 			"sort"=>"".$Sort."",
@@ -117,15 +117,15 @@ if($_POST['OP']=='CateAdd'){
 
 	if($add){
 		$successx = "Success";
-		@$responseArray = array('type' => 'success', 'message' => $successx);
-		$encoded = json_encode(@$responseArray);
+		$responseArray = array('type' => 'success', 'message' => $successx);
+		$encoded = json_encode($responseArray);
 		header('Content-Type: application/json');
 		echo $encoded;
 	} else {
 		$error_warningx = "Error";
 		//echo $error_warning;
-		@$responseArray = array('type' => 'danger', 'message' => $error_warningx);
-		$encoded = json_encode(@$responseArray);
+		$responseArray = array('type' => 'danger', 'message' => $error_warningx);
+		$encoded = json_encode($responseArray);
 		header('Content-Type: application/json');
 		echo $encoded;
 	}
@@ -137,12 +137,12 @@ if($_POST['OP']=='CateEdit'){
 	if( $_POST['Topic'] !='' ){
 //		$Avatar=$_FILES['avatar-1']['name'];
 		$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
-		@$res['cate'] = $db->select_query("SELECT * FROM ".TB_NEWS_CATE." WHERE cate_id='".$_POST['CATEID']."'  "); 
-		@$arr['cate'] = $db->fetch(@$res['cate']);
+		$res['cate'] = $db->select_query("SELECT * FROM ".TB_NEWS_CATE." WHERE cate_id='".$_POST['CATEID']."'  "); 
+		$arr['cate'] = $db->fetch($res['cate']);
 		if(!empty($_POST['Icon'])){
 		$Icon=$_POST['Icon'];
 		} else {
-		$Icon=@$arr['cate']['icon'];
+		$Icon=$arr['cate']['icon'];
 		}
 
 		$edit .=$db->update_db(TB_NEWS_CATE,array(
@@ -156,15 +156,15 @@ if($_POST['OP']=='CateEdit'){
 
 	if($edit){
 		$successx = "Success";
-		@$responseArray = array('type' => 'success', 'message' => $successx);
-		$encoded = json_encode(@$responseArray);
+		$responseArray = array('type' => 'success', 'message' => $successx);
+		$encoded = json_encode($responseArray);
 		header('Content-Type: application/json');
 		echo $encoded;
 	} else {
 		$error_warningx = "Error";
 		//echo $error_warning;
-		@$responseArray = array('type' => 'danger', 'message' => $error_warningx);
-		$encoded = json_encode(@$responseArray);
+		$responseArray = array('type' => 'danger', 'message' => $error_warningx);
+		$encoded = json_encode($responseArray);
 		header('Content-Type: application/json');
 		echo $encoded;
 	}

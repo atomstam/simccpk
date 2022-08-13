@@ -7,10 +7,10 @@ if(!empty($_SESSION['admin_login'])){
 <div class="col-xs-12">
 <?php
 if($op=='cldetail' and $action=='' ){
-@$res['count'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_class='".$_GET['class_id']."' "); 
-@$rows['count'] = $db->rows(@$res['count']);
-@$res['Cl'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".$_GET['class_id']."' "); 
-@$arr['Cl'] =$db->fetch(@$res['Cl']);
+$res['count'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_class='".$_GET['class_id']."' "); 
+$rows['count'] = $db->rows($res['count']);
+$res['Cl'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".$_GET['class_id']."' "); 
+$arr['Cl'] =$db->fetch($res['Cl']);
 ?>
 <div class="row">
 <div class="col-xs-12 connectedSortable">
@@ -24,9 +24,9 @@ if($op=='cldetail' and $action=='' ){
     <div class="box box-danger">
 		         <div class="box-header with-border">
                  <i class="glyphicon glyphicon-folder-open"></i>
-                 <h3 class="box-title"><?php echo _heading_title;?>&nbsp;<span class="badge bg-green"><?php echo @$arr['Cl']['class_name']; ?></span></h3>
+                 <h3 class="box-title"><?php echo _heading_title;?>&nbsp;<span class="badge bg-green"><?php echo $arr['Cl']['class_name']; ?></span></h3>
               <div class="box-tools pull-right">
-			  <span class="badge bg-yellow"><?php echo _text_box_table_count." ".@$rows['count'];?></span>
+			  <span class="badge bg-yellow"><?php echo _text_box_table_count." ".$rows['count'];?></span>
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -36,9 +36,9 @@ if($op=='cldetail' and $action=='' ){
       <div class="box-body ">
 	  <?php
 		$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
-		@$res['num'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_class='".$_GET['class_id']."'  order by id "); 
-		@$rows['num'] = $db->rows(@$res['num']);
-		if(@$rows['num']) {
+		$res['num'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_class='".$_GET['class_id']."'  order by id "); 
+		$rows['num'] = $db->rows($res['num']);
+		if($rows['num']) {
 		?>
       <form  method="post" enctype="multipart/form-data" id="form" class="form-inline">
         <table id="example1" class="table table-bordered table-striped responsive" style="width:100%">
@@ -62,31 +62,31 @@ if($op=='cldetail' and $action=='' ){
           <tbody>
 		<?php
 		$i=1;
-		while (@$arr['num'] = $db->fetch(@$res['num'])){
-		@$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".@$arr['num']['stu_class']."' "); 
-		@$arr['class'] =$db->fetch(@$res['class']);
-		@$res['prov'] = $db->select_query("SELECT * FROM ".TB_PROVINCE." WHERE id='".@$arr['num']['stu_prov']."' "); 
-		@$arr['prov'] =$db->fetch(@$res['prov']);
-		@$res['amp'] = $db->select_query("SELECT * FROM ".TB_AMPHUR." WHERE id='".@$arr['num']['stu_amp']."' "); 
-		@$arr['amp'] =$db->fetch(@$res['amp']);
-		@$res['tam'] = $db->select_query("SELECT * FROM ".TB_TUMBON." WHERE id='".@$arr['num']['stu_tum']."' "); 
-		@$arr['tam'] =$db->fetch(@$res['tam']);
+		while ($arr['num'] = $db->fetch($res['num'])){
+		$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".$arr['num']['stu_class']."' "); 
+		$arr['class'] =$db->fetch($res['class']);
+		$res['prov'] = $db->select_query("SELECT * FROM ".TB_PROVINCE." WHERE id='".$arr['num']['stu_prov']."' "); 
+		$arr['prov'] =$db->fetch($res['prov']);
+		$res['amp'] = $db->select_query("SELECT * FROM ".TB_AMPHUR." WHERE id='".$arr['num']['stu_amp']."' "); 
+		$arr['amp'] =$db->fetch($res['amp']);
+		$res['tam'] = $db->select_query("SELECT * FROM ".TB_TUMBON." WHERE id='".$arr['num']['stu_tum']."' "); 
+		$arr['tam'] =$db->fetch($res['tam']);
 		?>
             <tr>
               <td style="text-align: center;"><?php echo $i;?></td>
-              <td layout="block" style="text-align: left;"><?php echo @$arr['num']['stu_id']; ?></td>
-              <td layout="block" style="text-align: left;"><?php echo @$arr['num']['stu_pid']; ?></td>
-              <td layout="block" style="text-align: left;"><?php echo @$arr['num']['stu_num'].@$arr['num']['stu_name']." " .@$arr['num']['stu_sur'];?>&nbsp;<?php if(@$arr['num']['stu_pic']){?><a href="#" data-toggle="modal" data-target="#myModal<?php echo $i;?>" data-artid="<?php echo @$arr['num']['stu_id']; ?>" class="btn" id="Mybtn"><i class="glyphicon glyphicon-user"></i></a><?php } ?></td>
-              <td layout="block" style="text-align: left;"><?php echo @$arr['num']['stu_add']; ?></td>
-              <td layout="block" style="text-align: left;"><?php echo @$arr['num']['stu_group']; ?></td>
-              <td layout="block" style="text-align: left;"><?php echo @$arr['num']['stu_ban']; ?></td>
-              <td layout="block" style="text-align: left;"><?php echo @$arr['tam']['name']; ?></td>
-              <td layout="block" style="text-align: left;"><?php echo @$arr['amp']['name']; ?></td>
-              <td layout="block" style="text-align: left;"><?php echo @$arr['prov']['name']; ?></td>
-              <td layout="block" style="text-align: left;"><?php echo @$arr['num']['stu_post']; ?></td>
-              <td layout="block" style="text-align: center;"><?php echo @$arr['num']['stu_sphone']; ?></td>
+              <td layout="block" style="text-align: left;"><?php echo $arr['num']['stu_id']; ?></td>
+              <td layout="block" style="text-align: left;"><?php echo $arr['num']['stu_pid']; ?></td>
+              <td layout="block" style="text-align: left;"><?php echo $arr['num']['stu_num'].$arr['num']['stu_name']." " .$arr['num']['stu_sur'];?>&nbsp;<?php if($arr['num']['stu_pic']){?><a href="#" data-toggle="modal" data-target="#myModal<?php echo $i;?>" data-artid="<?php echo $arr['num']['stu_id']; ?>" class="btn" id="Mybtn"><i class="glyphicon glyphicon-user"></i></a><?php } ?></td>
+              <td layout="block" style="text-align: left;"><?php echo $arr['num']['stu_add']; ?></td>
+              <td layout="block" style="text-align: left;"><?php echo $arr['num']['stu_group']; ?></td>
+              <td layout="block" style="text-align: left;"><?php echo $arr['num']['stu_ban']; ?></td>
+              <td layout="block" style="text-align: left;"><?php echo $arr['tam']['name']; ?></td>
+              <td layout="block" style="text-align: left;"><?php echo $arr['amp']['name']; ?></td>
+              <td layout="block" style="text-align: left;"><?php echo $arr['prov']['name']; ?></td>
+              <td layout="block" style="text-align: left;"><?php echo $arr['num']['stu_post']; ?></td>
+              <td layout="block" style="text-align: center;"><?php echo $arr['num']['stu_sphone']; ?></td>
 			  <td style="text-align: center;">
-			 <a href="index.php?name=statistic&file=mainclass&op=studetail&stuid=<?php echo @$arr['num']['stu_id'];?>&route=<?php echo $route;?>" class="btn bg-aqua btn-flat btn-sm" ><i class="fa fa-search-plus "></i></a>
+			 <a href="index.php?name=statistic&file=mainclass&op=studetail&stuid=<?php echo $arr['num']['stu_id'];?>&route=<?php echo $route;?>" class="btn bg-aqua btn-flat btn-sm" ><i class="fa fa-search-plus "></i></a>
 			  </td>
 
 				<div id="myModal<?php echo $i;?>" class="modal fade" >
@@ -97,7 +97,7 @@ if($op=='cldetail' and $action=='' ){
 								  <h4 class="modal-title"><i class="fa fa-user"></i>&nbsp;<?php echo _heading_title;?></h4>
 							</div>
 							<div class="modal-body" align="center">
-								<img src="<?php if(@$arr['num']['stu_pic']){echo WEB_URL_IMG_STU.@$arr['num']['stu_pic'];}else{echo WEB_URL_IMG_STU."no_image.jpg";}?>"  width="150" class="img-circle" alt="User Image"/>
+								<img src="<?php if($arr['num']['stu_pic']){echo WEB_URL_IMG_STU.$arr['num']['stu_pic'];}else{echo WEB_URL_IMG_STU."no_image.jpg";}?>"  width="150" class="img-circle" alt="User Image"/>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -224,10 +224,10 @@ if($op=='cldetail' and $action=='' ){
 <?php
 } else if($op =='studetail' ){
 $db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
-@$res['user'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_id='".$_GET['stuid']."' order by stu_class,stu_id"); 
-@$arr['user'] = $db->fetch(@$res['user']);
-@$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".@$arr['user']['stu_class']."' "); 
-@$arr['class'] = $db->fetch(@$res['class']);
+$res['user'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_id='".$_GET['stuid']."' order by stu_class,stu_id"); 
+$arr['user'] = $db->fetch($res['user']);
+$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".$arr['user']['stu_class']."' "); 
+$arr['class'] = $db->fetch($res['class']);
 
 ?>
 
@@ -251,13 +251,13 @@ $db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
                                 <div class="box-body  ">
     <div class="card hovercard">
         <div class="card-background">
-            <img class="card-bkimg" alt="" src="<?php echo WEB_URL_IMG_STU.@$arr['user']['stu_pic'];?>">
+            <img class="card-bkimg" alt="" src="<?php echo WEB_URL_IMG_STU.$arr['user']['stu_pic'];?>">
             <!-- http://lorempixel.com/850/280/people/9/ -->
         </div>
         <div class="useravatar">
-            <img alt="" src="<?php echo WEB_URL_IMG_STU.@$arr['user']['stu_pic'];?>">
+            <img alt="" src="<?php echo WEB_URL_IMG_STU.$arr['user']['stu_pic'];?>">
         </div>
-        <div class="card-info"> <span class="card-title"><?php echo @$arr['user']['stu_num'].@$arr['user']['stu_name']." ".@$arr['user']['stu_sur'];?></span>
+        <div class="card-info"> <span class="card-title"><?php echo $arr['user']['stu_num'].$arr['user']['stu_name']." ".$arr['user']['stu_sur'];?></span>
         </div>
     </div>
 <div class="form-group">
@@ -295,11 +295,11 @@ $db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
 							</div>
 							</div>
 <?php
-@$res['countB'] = $db->select_query("SELECT * FROM ".TB_BAD." where bad_stu='".$_GET['stuid']."' group by bad_id"); 
-@$rows['countB'] = $db->rows(@$res['countB']);
-if(@$rows['countB']) {
-@$res['sumB'] = $db->select_query("SELECT *,sum(b.badtail_point) As SUMB FROM ".TB_BAD."  as a, ".TB_BADTAIL." as b where a.bad_stu='".$_GET['stuid']."' and a.bad_tail=b.badtail_id group by a.bad_stu"); 
-@$rows['sumB'] = $db->fetch(@$res['sumB']);
+$res['countB'] = $db->select_query("SELECT * FROM ".TB_BAD." where bad_stu='".$_GET['stuid']."' group by bad_id"); 
+$rows['countB'] = $db->rows($res['countB']);
+if($rows['countB']) {
+$res['sumB'] = $db->select_query("SELECT *,sum(b.badtail_point) As SUMB FROM ".TB_BAD."  as a, ".TB_BADTAIL." as b where a.bad_stu='".$_GET['stuid']."' and a.bad_tail=b.badtail_id group by a.bad_stu"); 
+$rows['sumB'] = $db->fetch($res['sumB']);
 ?>
 <div class="row">
 <div class="col-xs-12 connectedSortable">
@@ -310,7 +310,7 @@ if(@$rows['countB']) {
                  <i class="glyphicon glyphicon-folder-open"></i>
                  <h3 class="box-title"><?php echo _heading_title_tab_bad; ?></h3>
               <div class="box-tools pull-right">
-			  <span class="badge bg-red"><?php echo _text_box_table_count." : ".@$rows['countB'];?>&nbsp;(-<?php echo "".@$rows['sumB']['SUMB'];?>)</span>
+			  <span class="badge bg-red"><?php echo _text_box_table_count." : ".$rows['countB'];?>&nbsp;(-<?php echo "".$rows['sumB']['SUMB'];?>)</span>
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -320,8 +320,8 @@ if(@$rows['countB']) {
       <div class="box-body ">
 	  <?php
 		$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
-		@$res['bad'] = $db->select_query("SELECT * FROM ".TB_BAD." where bad_stu='".$_GET['stuid']."' order by bad_id "); 
-//		@$rows['num'] = $db->rows(@$res['num']);
+		$res['bad'] = $db->select_query("SELECT * FROM ".TB_BAD." where bad_stu='".$_GET['stuid']."' order by bad_id "); 
+//		$rows['num'] = $db->rows($res['num']);
 		?>
       <form id="form" class="form-inline">
         <table id="example1" class="table table-bordered table-striped responsive" style="width:100%">
@@ -340,15 +340,15 @@ if(@$rows['countB']) {
           <tbody>
 		<?php
 		$i=1;
-		while (@$arr['bad'] = $db->fetch(@$res['bad'])){
-		@$res['tail'] = $db->select_query("SELECT * FROM ".TB_BADTAIL." WHERE badtail_id='".@$arr['bad']['bad_tail']."' "); 
-		@$arr['tail'] =$db->fetch(@$res['tail']);
-		@$res['data'] = $db->select_query("SELECT * FROM ".TB_BADDATA." WHERE bdata_id='".@$arr['bad']['bad_t']."' "); 
-		@$arr['data'] =$db->fetch(@$res['data']);
-		@$res['level'] = $db->select_query("SELECT * FROM ".TB_BADLEVEL." WHERE blevel_id='".@$arr['tail']['badtail_level']."' "); 
-		if(@$arr['level']['blevel_id']==1) { //ส่วนของการ สลับสี 
+		while ($arr['bad'] = $db->fetch($res['bad'])){
+		$res['tail'] = $db->select_query("SELECT * FROM ".TB_BADTAIL." WHERE badtail_id='".$arr['bad']['bad_tail']."' "); 
+		$arr['tail'] =$db->fetch($res['tail']);
+		$res['data'] = $db->select_query("SELECT * FROM ".TB_BADDATA." WHERE bdata_id='".$arr['bad']['bad_t']."' "); 
+		$arr['data'] =$db->fetch($res['data']);
+		$res['level'] = $db->select_query("SELECT * FROM ".TB_BADLEVEL." WHERE blevel_id='".$arr['tail']['badtail_level']."' "); 
+		if($arr['level']['blevel_id']==1) { //ส่วนของการ สลับสี 
 			$ColorFill = '#330000';
-		} else if(@$arr['level']['blevel_id']==2) { //ส่วนของการ สลับสี 
+		} else if($arr['level']['blevel_id']==2) { //ส่วนของการ สลับสี 
 			$ColorFill = '#33CC99';
 		} else {
 			$ColorFill = '#FF0000';
@@ -356,14 +356,14 @@ if(@$rows['countB']) {
 		?>
             <tr >
               <td style="text-align: center;"><font color="<?php echo $ColorFill;?>"><?php echo $i;?></td>
-              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo ShortDateThai(@$arr['bad']['b_date']);?></font></td>
-              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo @$arr['tail']['badtail_name'];?></font></td>
-              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo @$arr['level']['blevel_name'];?></font></td>
-              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo @$arr['bad']['bad_name'];?></font></td>
-              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo @$arr['data']['bdata_name'];?></font></td>
-              <td layout="block" style="text-align: center;"><font color="<?php echo $ColorFill;?>">-<?php echo @$arr['tail']['badtail_point'];?></font></td>
+              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo ShortDateThai($arr['bad']['b_date']);?></font></td>
+              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo $arr['tail']['badtail_name'];?></font></td>
+              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo $arr['level']['blevel_name'];?></font></td>
+              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo $arr['bad']['bad_name'];?></font></td>
+              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo $arr['data']['bdata_name'];?></font></td>
+              <td layout="block" style="text-align: center;"><font color="<?php echo $ColorFill;?>">-<?php echo $arr['tail']['badtail_point'];?></font></td>
 			  <td style="text-align: center;">
-			 <a href="index.php?name=statistic&file=mainclass&op=cldetail&class_id=<?php echo @$arr['num']['stu_class'];?>&route=<?php echo $route;?>" class="btn bg-aqua btn-flat btn-sm" ><i class="fa fa-search-plus "></i></a>
+			 <a href="index.php?name=statistic&file=mainclass&op=cldetail&class_id=<?php echo $arr['num']['stu_class'];?>&route=<?php echo $route;?>" class="btn bg-aqua btn-flat btn-sm" ><i class="fa fa-search-plus "></i></a>
 			  </td>
             </tr>
 
@@ -485,11 +485,11 @@ if(@$rows['countB']) {
 							</div>
 							</div>
 <?php
-@$res['countG'] = $db->select_query("SELECT * FROM ".TB_GOOD." where good_stu='".$_GET['stuid']."' group by good_id"); 
-@$rows['countG'] = $db->rows(@$res['countG']);
-if(@$rows['countG']) {
-@$res['sumG'] = $db->select_query("SELECT *,sum(b.goodtail_point) As SUMG FROM ".TB_GOOD."  as a, ".TB_GOODTAIL." as b where a.good_stu='".$_GET['stuid']."' and a.good_tail=b.goodtail_id group by a.good_stu"); 
-@$rows['sumg'] = $db->fetch(@$res['sumG']);
+$res['countG'] = $db->select_query("SELECT * FROM ".TB_GOOD." where good_stu='".$_GET['stuid']."' group by good_id"); 
+$rows['countG'] = $db->rows($res['countG']);
+if($rows['countG']) {
+$res['sumG'] = $db->select_query("SELECT *,sum(b.goodtail_point) As SUMG FROM ".TB_GOOD."  as a, ".TB_GOODTAIL." as b where a.good_stu='".$_GET['stuid']."' and a.good_tail=b.goodtail_id group by a.good_stu"); 
+$rows['sumg'] = $db->fetch($res['sumG']);
 ?>
 <div class="row">
 <div class="col-xs-12 connectedSortable">
@@ -500,7 +500,7 @@ if(@$rows['countG']) {
                  <i class="glyphicon glyphicon-folder-open"></i>
                  <h3 class="box-title"><?php echo _heading_title_tab_good; ?></h3>
               <div class="box-tools pull-right">
-			  <span class="badge bg-yellow"><?php echo _text_box_table_count." : ".@$rows['countG'];?>&nbsp;(-<?php echo "".@$rows['sumG']['SUMG'];?>)</span>
+			  <span class="badge bg-yellow"><?php echo _text_box_table_count." : ".$rows['countG'];?>&nbsp;(-<?php echo "".$rows['sumG']['SUMG'];?>)</span>
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -510,8 +510,8 @@ if(@$rows['countG']) {
       <div class="box-body ">
 	  <?php
 		$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
-		@$res['good'] = $db->select_query("SELECT * FROM ".TB_GOOD." where good_stu='".$_GET['stuid']."' order by good_id "); 
-//		@$rows['num'] = $db->rows(@$res['num']);
+		$res['good'] = $db->select_query("SELECT * FROM ".TB_GOOD." where good_stu='".$_GET['stuid']."' order by good_id "); 
+//		$rows['num'] = $db->rows($res['num']);
 		?>
       <form id="form" class="form-inline">
         <table id="example2" class="table table-bordered table-striped responsive" style="width:100%">
@@ -530,16 +530,16 @@ if(@$rows['countG']) {
           <tbody>
 		<?php
 		$i=1;
-		while (@$arr['good'] = $db->fetch(@$res['good'])){
-		@$res['tail'] = $db->select_query("SELECT * FROM ".TB_GOODTAIL." WHERE goodtail_id='".@$arr['good']['good_tail']."' "); 
-		@$arr['tail'] =$db->fetch(@$res['tail']);
-		@$res['data'] = $db->select_query("SELECT * FROM ".TB_GOODDATA." WHERE bdata_id='".@$arr['good']['good_t']."' "); 
-		@$arr['data'] =$db->fetch(@$res['data']);
-		@$res['level'] = $db->select_query("SELECT * FROM ".TB_GOODLEVEL." WHERE blevel_id='".@$arr['tail']['goodtail_level']."' "); 
-		@$arr['level'] =$db->fetch(@$res['level']);
-		if(@$arr['level']['blevel_id']==1) { //ส่วนของการ สลับสี 
+		while ($arr['good'] = $db->fetch($res['good'])){
+		$res['tail'] = $db->select_query("SELECT * FROM ".TB_GOODTAIL." WHERE goodtail_id='".$arr['good']['good_tail']."' "); 
+		$arr['tail'] =$db->fetch($res['tail']);
+		$res['data'] = $db->select_query("SELECT * FROM ".TB_GOODDATA." WHERE bdata_id='".$arr['good']['good_t']."' "); 
+		$arr['data'] =$db->fetch($res['data']);
+		$res['level'] = $db->select_query("SELECT * FROM ".TB_GOODLEVEL." WHERE blevel_id='".$arr['tail']['goodtail_level']."' "); 
+		$arr['level'] =$db->fetch($res['level']);
+		if($arr['level']['blevel_id']==1) { //ส่วนของการ สลับสี 
 			$ColorFill = '#009933';
-		} else if(@$arr['level']['blevel_id']==2) { //ส่วนของการ สลับสี 
+		} else if($arr['level']['blevel_id']==2) { //ส่วนของการ สลับสี 
 			$ColorFill = '#FF9900';
 		} else {
 			$ColorFill = '#CC0000';
@@ -547,14 +547,14 @@ if(@$rows['countG']) {
 		?>
             <tr >
               <td style="text-align: center;"><?php echo $i;?></td>
-              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo ShortDateThai(@$arr['good']['b_date']);?></font></td>
-              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo @$arr['tail']['goodtail_name'];?></font></td>
-              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo @$arr['level']['blevel_name'];?></font></td>
-              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo @$arr['good']['good_name'];?></font></td>
-              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo @$arr['data']['bdata_name'];?></font></td>
-              <td layout="block" style="text-align: center;"><font color="<?php echo $ColorFill;?>">-<?php echo @$arr['tail']['goodtail_point'];?></font></td>
+              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo ShortDateThai($arr['good']['b_date']);?></font></td>
+              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo $arr['tail']['goodtail_name'];?></font></td>
+              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo $arr['level']['blevel_name'];?></font></td>
+              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo $arr['good']['good_name'];?></font></td>
+              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo $arr['data']['bdata_name'];?></font></td>
+              <td layout="block" style="text-align: center;"><font color="<?php echo $ColorFill;?>">-<?php echo $arr['tail']['goodtail_point'];?></font></td>
 			  <td style="text-align: center;">
-			 <a href="index.php?name=statistic&file=mainclass&op=cldetail&class_id=<?php echo @$arr['num']['stu_class'];?>&route=<?php echo $route;?>" class="btn bg-aqua btn-flat btn-sm" ><i class="fa fa-search-plus "></i></a>
+			 <a href="index.php?name=statistic&file=mainclass&op=cldetail&class_id=<?php echo $arr['num']['stu_class'];?>&route=<?php echo $route;?>" class="btn bg-aqua btn-flat btn-sm" ><i class="fa fa-search-plus "></i></a>
 			  </td>
             </tr>
 
@@ -705,8 +705,8 @@ $(document).ready(function(){
 	  <div id="Graphclass" ><center><img src="../img/ajax-loader1.gif" border="0"></center></div>
 	  </div>
 <?php
-@$res['count'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' group by stu_id"); 
-@$rows['count'] = $db->rows(@$res['count']);
+$res['count'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' group by stu_id"); 
+$rows['count'] = $db->rows($res['count']);
 ?>
 <div class="row">
 <div class="col-xs-12 connectedSortable">
@@ -717,7 +717,7 @@ $(document).ready(function(){
                  <i class="glyphicon glyphicon-folder-open"></i>
                  <h3 class="box-title"><?php echo _heading_title; ?></h3>
               <div class="box-tools pull-right">
-			  <span class="badge bg-yellow"><?php echo _text_box_table_count." ".@$rows['count'];?></span>
+			  <span class="badge bg-yellow"><?php echo _text_box_table_count." ".$rows['count'];?></span>
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -727,9 +727,9 @@ $(document).ready(function(){
       <div class="box-body ">
 	  <?php
 		$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
-		@$res['num'] = $db->select_query("SELECT *,count(stu_id) as CO FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' group by stu_class order by stu_class "); 
-		@$rows['num'] = $db->rows(@$res['num']);
-		if(@$rows['num']) {
+		$res['num'] = $db->select_query("SELECT *,count(stu_id) as CO FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' group by stu_class order by stu_class "); 
+		$rows['num'] = $db->rows($res['num']);
+		if($rows['num']) {
 		?>
       <form  method="post" enctype="multipart/form-data" id="form" class="form-inline">
         <table id="example1" class="table table-bordered table-striped responsive" style="width:100%">
@@ -747,24 +747,24 @@ $(document).ready(function(){
           <tbody>
 		<?php
 		$i=1;
-		while (@$arr['num'] = $db->fetch(@$res['num'])){
-		@$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".@$arr['num']['stu_class']."' "); 
-		@$arr['class'] =$db->fetch(@$res['class']);
-		@$res['boy'] = $db->select_query("select *,count(stu_num) as Boy from ".TB_STUDENT."  where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_sex='1' and stu_class='".@$arr['num']['stu_class']."' group by stu_class "); 
-		@$arr['boy'] =$db->fetch(@$res['boy']);
-		@$res['girl'] = $db->select_query("select *,count(stu_num) as Girl from ".TB_STUDENT."  where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_sex='2' and stu_class='".@$arr['num']['stu_class']."' group by stu_class"); 
-		@$arr['girl'] =$db->fetch(@$res['girl']);
-		@$PerC=(100*(@$arr['num']['CO']))/(@$rows['count']);
+		while ($arr['num'] = $db->fetch($res['num'])){
+		$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".$arr['num']['stu_class']."' "); 
+		$arr['class'] =$db->fetch($res['class']);
+		$res['boy'] = $db->select_query("select *,count(stu_num) as Boy from ".TB_STUDENT."  where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_sex='1' and stu_class='".$arr['num']['stu_class']."' group by stu_class "); 
+		$arr['boy'] =$db->fetch($res['boy']);
+		$res['girl'] = $db->select_query("select *,count(stu_num) as Girl from ".TB_STUDENT."  where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_sex='2' and stu_class='".$arr['num']['stu_class']."' group by stu_class"); 
+		$arr['girl'] =$db->fetch($res['girl']);
+		$PerC=(100*($arr['num']['CO']))/($rows['count']);
 		?>
             <tr>
               <td style="text-align: center;"><?php echo $i;?></td>
-              <td layout="block" style="text-align: left;"><?php echo @$arr['class']['class_name'];?></td>
-              <td layout="block" style="text-align: center;"><?php echo @$arr['boy']['Boy'];?></td>
-              <td layout="block" style="text-align: center;"><?php echo @$arr['girl']['Girl'];?></td>
-               <td layout="block" style="text-align: center;"><?php echo @$arr['num']['CO'];?></td>
-              <td layout="block" style="text-align: center;"><?php echo number_format((@$PerC),2);?></td>
+              <td layout="block" style="text-align: left;"><?php echo $arr['class']['class_name'];?></td>
+              <td layout="block" style="text-align: center;"><?php echo $arr['boy']['Boy'];?></td>
+              <td layout="block" style="text-align: center;"><?php echo $arr['girl']['Girl'];?></td>
+               <td layout="block" style="text-align: center;"><?php echo $arr['num']['CO'];?></td>
+              <td layout="block" style="text-align: center;"><?php echo number_format(($PerC),2);?></td>
 			  <td style="text-align: center;">
-			 <a href="index.php?name=statistic&file=mainclass&op=cldetail&class_id=<?php echo @$arr['num']['stu_class'];?>&route=<?php echo $route;?>" class="btn bg-aqua btn-flat btn-sm" ><i class="fa fa-search-plus "></i></a>
+			 <a href="index.php?name=statistic&file=mainclass&op=cldetail&class_id=<?php echo $arr['num']['stu_class'];?>&route=<?php echo $route;?>" class="btn bg-aqua btn-flat btn-sm" ><i class="fa fa-search-plus "></i></a>
 			  </td>
             </tr>
 

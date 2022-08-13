@@ -158,7 +158,7 @@ $gClient->addScope("https://www.googleapis.com/auth/plus.login https://www.googl
 $loginURL = $gClient->createAuthUrl();
 
 if($_POST){
-if($op=='Reg'){
+if($op=='Reg' && empty($_POST['role'])){
 	$error_warning =_error_warning;
 	$status  = 'error';
 	$message = _login_status_no;

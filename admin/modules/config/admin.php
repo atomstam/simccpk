@@ -1004,10 +1004,8 @@ $sqls = $db->select_query("select * from ".TB_ADMIN_ONLINE." where u_user='".$ro
 			  </td>
               <td style="text-align: center;">
 				<a href="index.php?name=config&file=admin&op=detail&admin_id=<?php echo @$arr['num']['admin_id']; ?>&route=<?php echo $route;?>" class="btn bg-green btn-flat btn-sm"><i class="fa fa-search-plus "></i></a>
-				<?php //if($arr['num']['username']==$_SESSION['admin_login'] or $_SESSION['admin_role'] ==1){?>
 				<a href="index.php?name=config&file=admin&op=edit&admin_id=<?php echo @$arr['num']['admin_id']; ?>&route=<?php echo $route;?>" class="btn bg-aqua btn-flat btn-sm"><i class="fa fa-edit "></i></a>
-				<a href="index.php?name=config&file=admin&op=del&admin_id=<?php echo @$arr['num']['admin_id'];?>&route=<?php echo $route;?>" class="btn bg-red btn-flat btn-sm" data-confirm="<?php echo _text_box_con_delete_text;?>" ><i class="fa fa-trash-o "></i></a>
-				<?php //} ?>
+				<a href="index.php?name=config&file=admin&op=del&admin_id=<?php echo @$arr['num']['admin_id'];?>&route=<?php echo $route;?>" class="btn bg-red btn-flat btn-sm" data-confirm="<?php echo _text_box_con_delete_text;?>"><i class="fa fa-trash-o "></i></a>
 			  </td>
             </tr>
             <?php } ?>

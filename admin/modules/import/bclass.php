@@ -8,7 +8,7 @@ $error_warning='';
 
 <?php
 if(!empty($_SESSION['admin_login'])){
-$Mtime=time();
+$Mtime=date("H:i:s");
 if($op=='AddTab1'){
 	list($Y , $m , $d) = explode("-" , $_POST['DateID']);
 	$y=$Y+543;

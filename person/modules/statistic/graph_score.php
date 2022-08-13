@@ -48,7 +48,7 @@ $db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
                   <ul class="users-list clearfix">
 <?php
 		$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
-		@$res['nums'] = $db->select_query("select stu_id,stu_pic,stu_pid,stu_num,stu_name,stu_sur,class_name,stu_class,sum(badtail_point) as CO  from ".TB_BAD." ,".TB_STUDENT.",".TB_BADTAIL.",".TB_CLASS." where stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."' and stu_id=bad_stu and bad_tail=badtail_id and class_id=stu_class and stu_suspend ='0' group by stu_id order by CO desc limit 8 "); 
+		@$res['nums'] = $db->select_query("select stu_id,stu_pic,stu_pid,stu_num,stu_name,stu_sur,class_name,stu_class,sum(badtail_point) as CO  from ".TB_BAD." ,".TB_STUDENT.",".TB_BADTAIL.",".TB_CLASS." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_id=bad_stu and bad_tail=badtail_id and class_id=stu_class and stu_suspend ='0' group by stu_id order by CO desc limit 8 "); 
 		while(@$arr['nums'] = $db->fetch(@$res['nums'])){
 ?>
                     <li>

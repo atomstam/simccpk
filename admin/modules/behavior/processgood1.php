@@ -109,7 +109,7 @@ if($_GET['OP']=='Add'){
 
 if($_GET['OP']=='Edit'){
 	if( $_GET['Good_name'] !='' && $_GET['Good_stu'] !='' && $_GET['Good_tail'] !='' && $_GET['Good_YMD'] !='' && $_GET['Good_dam'] !='' && $_GET['Good_data'] !=''){
-	$Mtime=time();
+	$Mtime=date("H:i:s");
 	$date_array = explode("-",$_GET['Good_YMD']); // split the array
 	$var_year = $date_array[0]; //day seqment
 	$var_month = $date_array[1]; //month segment

@@ -37,8 +37,8 @@ if(!empty($_SESSION['admin_login'])){
 
 <?php if( $op=='shdetail'){
 
-@$res['num'] = $db->select_query("SELECT * FROM ".TB_ACTIVEUSER." where ct_user='".$_GET['id']."' order by ct_no desc "); 
-@$rows['num'] = $db->rows(@$res['num']);
+$res['num'] = $db->select_query("SELECT * FROM ".TB_ACTIVEUSER." where ct_user='".$_GET['id']."' order by ct_no desc "); 
+$rows['num'] = $db->rows($res['num']);
 ?>
 <div class="row">
 <div class="col-xs-12 connectedSortable">
@@ -54,7 +54,7 @@ if(!empty($_SESSION['admin_login'])){
                                 <i class="fa fa-user"></i>
                                     <h3 class="box-title"><?php echo _text_box_header_gen; ?> : <?php echo $_GET['id']; ?></h3>
 								<div class="box-tools pull-right">
-								<span class="badge bg-yellow"><?php echo _text_box_table_count." ".@$rows['num'];?></span>
+								<span class="badge bg-yellow"><?php echo _text_box_table_count." ".$rows['num'];?></span>
 								<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
 								</button>
 								<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -64,7 +64,7 @@ if(!empty($_SESSION['admin_login'])){
                                 <div class="box-body  ">
 
 	  <?php
-		if(@$rows['num']) {
+		if($rows['num']) {
 		?>
       <form action="index.php?name=access&file=userlogin&op=shdelall&route=<?php echo $route;?>" method="post" enctype="multipart/form-data" id="form" class="form-inline">
         <table id="example2" class="table table-bordered table-striped responsive" style="width:100%">
@@ -80,19 +80,19 @@ if(!empty($_SESSION['admin_login'])){
           <tbody>
 		<?php
 		$i=1;
-		while (@$arr['num'] = $db->fetch(@$res['num'])){
+		while ($arr['num'] = $db->fetch($res['num'])){
 		if($_GET['sh']){
-		@$res['sh'] = $db->select_query("SELECT * FROM ".TB_SCHOOL." WHERE sh_code='".@$arr['num']['ct_school']."' "); 
-		@$arr['sh']=$db->fetch(@$res['sh']);
+		$res['sh'] = $db->select_query("SELECT * FROM ".TB_SCHOOL." WHERE sh_code='".$arr['num']['ct_school']."' "); 
+		$arr['sh']=$db->fetch($res['sh']);
 		}
-		$Diff=(int)(@$arr['num']['ct_timeout'])-(int)(@$arr['num']['ct_time']);
+		$Diff=(int)($arr['num']['ct_timeout'])-(int)($arr['num']['ct_time']);
 		?>
             <tr>
               <td style="text-align: center;"><?php echo $i;?></td>
-			  <td layout="block" style="text-align: left;"><?php echo ThaiTimeConvert(@$arr['num']['ct_time'],"","2");?></td>
-			  <td layout="block" style="text-align: left;"><?php echo ThaiTimeConvert(@$arr['num']['ct_timeout'],"","2");?></td>
+			  <td layout="block" style="text-align: left;"><?php echo ThaiTimeConvert($arr['num']['ct_time'],"","2");?></td>
+			  <td layout="block" style="text-align: left;"><?php echo ThaiTimeConvert($arr['num']['ct_timeout'],"","2");?></td>
 			  <td layout="block" style="text-align: left;"><?php echo sECONDS_TO_HMS($Diff);?></td>
-			  <td layout="block" style="text-align: left;"><?php echo @$arr['num']['ct_ip'];?></td>
+			  <td layout="block" style="text-align: left;"><?php echo $arr['num']['ct_ip'];?></td>
             </tr>
 
             <?php $i++;} ?>
@@ -238,9 +238,9 @@ $(document).on('click', '[data-toggle="lightbox"]', function(event) {
       <div class="box-body ">
 	  <?php
 		
-		@$res['num'] = $db->select_query("SELECT *,count(ct_no) as NO FROM ".TB_ACTIVEUSER." group by ct_user order by ct_no desc"); 
-		@$rows['num'] = $db->rows(@$res['num']);
-		if(@$rows['num']) {
+		$res['num'] = $db->select_query("SELECT *,count(ct_no) as NO FROM ".TB_ACTIVEUSER." group by ct_user order by ct_no desc"); 
+		$rows['num'] = $db->rows($res['num']);
+		if($rows['num']) {
 		?>
       <form action="index.php?name=access&file=userlogin&op=delall&route=<?php echo $route;?>" method="post" enctype="multipart/form-data" id="form" class="form-inline">
         <table id="example1" class="table table-bordered table-striped responsive" style="width:100%">
@@ -258,37 +258,37 @@ $(document).on('click', '[data-toggle="lightbox"]', function(event) {
           <tbody>
 		<?php
 		$i=1;
-		while (@$arr['num'] = $db->fetch(@$res['num'])){
-		if(@$arr['num']['ct_school']){
-		@$res['user'] = $db->select_query("SELECT * FROM ".TB_USER." WHERE username='".@$arr['num']['ct_user']."' "); 
-		@$arr['user']=$db->fetch(@$res['user']);
-		@$res['sh'] = $db->select_query("SELECT * FROM ".TB_SCHOOL." WHERE sh_code='".@$arr['num']['ct_school']."' "); 
-		@$arr['sh']=$db->fetch(@$res['sh']);
+		while ($arr['num'] = $db->fetch($res['num'])){
+		if($arr['num']['ct_school']){
+		$res['user'] = $db->select_query("SELECT * FROM ".TB_USER." WHERE username='".$arr['num']['ct_user']."' "); 
+		$arr['user']=$db->fetch($res['user']);
+		$res['sh'] = $db->select_query("SELECT * FROM ".TB_SCHOOL." WHERE sh_code='".$arr['num']['ct_school']."' "); 
+		$arr['sh']=$db->fetch($res['sh']);
 		} else {
-		@$res['user'] = $db->select_query("SELECT * FROM ".TB_ADMIN." WHERE username='".@$arr['num']['ct_user']."' "); 
-		@$arr['user']=$db->fetch(@$res['user']);
+		$res['user'] = $db->select_query("SELECT * FROM ".TB_ADMIN." WHERE username='".$arr['num']['ct_user']."' "); 
+		$arr['user']=$db->fetch($res['user']);
 		}
-		@$res['count'] = $db->select_query("SELECT * FROM ".TB_ACTIVEUSER." where ct_user='".@$arr['num']['ct_user']."' "); 
-		@$rows['count'] = $db->rows(@$res['count']);
-		@$res['nums'] = $db->select_query("SELECT * FROM ".TB_ACTIVEUSER." where ct_user='".@$arr['num']['ct_user']."'  order by ct_no desc limit 1"); 
-		@$arr['nums'] = $db->fetch(@$res['nums']);
+		$res['count'] = $db->select_query("SELECT * FROM ".TB_ACTIVEUSER." where ct_user='".$arr['num']['ct_user']."' "); 
+		$rows['count'] = $db->rows($res['count']);
+		$res['nums'] = $db->select_query("SELECT * FROM ".TB_ACTIVEUSER." where ct_user='".$arr['num']['ct_user']."'  order by ct_no desc limit 1"); 
+		$arr['nums'] = $db->fetch($res['nums']);
 		?>
             <tr>
               <td style="text-align: center;"><?php echo $i; ?></td>
-			  <td layout="block" style="text-align: left;"><?php echo @$arr['user']['firstname'];?> <?php echo @$arr['user']['lastname'];?></td>
-			  <td layout="block" style="text-align: left;"><?php echo @$arr['num']['ct_user'];?></td>
-			  <td layout="block" style="text-align: left;"><?php if(@$arr['sh']['sh_id']){echo @$arr['sh']['sh_name'];} else {echo "Admin";}?></td>
-			  <td layout="block" style="text-align: left;"><?php echo @$rows['count'];?></td>
-		       <td layout="block" style="text-align: center;"><?php echo ThaiTimeConvert(@$arr['nums']['ct_time'],"","2");?></td>
+			  <td layout="block" style="text-align: left;"><?php echo $arr['user']['firstname'];?> <?php echo $arr['user']['lastname'];?></td>
+			  <td layout="block" style="text-align: left;"><?php echo $arr['num']['ct_user'];?></td>
+			  <td layout="block" style="text-align: left;"><?php if($arr['sh']['sh_id']){echo $arr['sh']['sh_name'];} else {echo "Admin";}?></td>
+			  <td layout="block" style="text-align: left;"><?php echo $rows['count'];?></td>
+		       <td layout="block" style="text-align: center;"><?php echo ThaiTimeConvert($arr['nums']['ct_time'],"","2");?></td>
 			  <td style="text-align: center;">
 <?php
 /*
 				
-			 <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-success" id="<?php echo @$arr['num']['id']; ?>"><i class="fa fa-search-plus "></i></a>
-			 			 <a href="index.php?name=access&file=userlogin&op=edit&sh_id=<?php echo @$arr['num']['sh_id'];?>&route=<?php echo $route;?>" class="btn btn-info " ><i class="fa fa-edit "></i></a>
+			 <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-success" id="<?php echo $arr['num']['id']; ?>"><i class="fa fa-search-plus "></i></a>
+			 			 <a href="index.php?name=access&file=userlogin&op=edit&sh_id=<?php echo $arr['num']['sh_id'];?>&route=<?php echo $route;?>" class="btn btn-info " ><i class="fa fa-edit "></i></a>
 */
 ?>
-			 <a href="index.php?name=access&file=userlogin&op=shdetail&id=<?php echo @$arr['num']['ct_user'];?>&sh=<?php echo @$arr['num']['ct_school'];?>&route=<?php echo $route;?>" class="btn btn-success" ><i class="fa fa-search-plus "></i></a>
+			 <a href="index.php?name=access&file=userlogin&op=shdetail&id=<?php echo $arr['num']['ct_user'];?>&sh=<?php echo $arr['num']['ct_school'];?>&route=<?php echo $route;?>" class="btn btn-success" ><i class="fa fa-search-plus "></i></a>
 			  </td>
             </tr>
 
