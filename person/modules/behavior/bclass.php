@@ -205,14 +205,14 @@ if($op=='AddTab1'){
 
 
 if($op=='AddTab2'){
-	list($Y , $m , $d) = explode("-" , $_POST['DateID']);
+	list($Y , $m , $d) = explode("-" , $_POST['DateID2']);
 	$y=$Y+543;
 	
 	@$RANK=count($rank)+1;					
 
 	for ($i=0; $i < $RANK; $i++) {
 		if(isset($_POST['StuID'][$i])){
-		$sq4=$db->select_query("SELECT * FROM ".TB_BAD." WHERE bad_area='".$_SESSION['person_area']."' and bad_code='".$_SESSION['person_school']."' and bad_stu='".$_POST['StuID'][$i]."' and b_date='".$_POST['DateID']."' ");
+		$sq4=$db->select_query("SELECT * FROM ".TB_BAD." WHERE bad_area='".$_SESSION['person_area']."' and bad_code='".$_SESSION['person_school']."' and bad_stu='".$_POST['StuID'][$i]."' and b_date='".$_POST['DateID2']."' ");
 		@$result4=$db->fetch($sq4);
 		if(@$result4['bad_name'] !='ไม่มาโรงเรียน' && @$result4['bad_name'] !='ลาโรงเรียน' ){
 		if(@$_POST['Bad_Status'][$i]=='1'){
@@ -231,13 +231,13 @@ if($op=='AddTab2'){
 				"bad_year"=>"".$y."",
 				"bad_dam"=>$_SESSION['person_login'],
 				"bad_t"=>"1",
-				"b_date"=>"".$_POST['DateID']."",
+				"b_date"=>"".$_POST['DateID2']."",
 				"b_Mtime"=>"".$Mtime."",
 				"bad_sess"=>$_SESSION['person_login'],
 				"role"=>"2"
 			));
 			$add .=$db->update_db(TB_BAD,array(
-				"b_date"=>"".$_POST['DateID'].""
+				"b_date"=>"".$_POST['DateID2'].""
 			)," b_date='0000-00-00" );
 				@$res['stu'] = $db->select_query("SELECT * FROM ".TB_STUDENT." WHERE stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."'  and stu_id='".$_POST['StuID'][$i]."' "); 
 				@$arr['stu'] = $db->fetch(@$res['stu']);
@@ -250,7 +250,7 @@ if($op=='AddTab2'){
 				//@$resx = Line_To_Class(@$arr['cl']['clg_group'],@$arr['cl']['clg_name'],$message,$Token);
 				//print_r(@$resx);
 
-		@$res['chclass'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." WHERE c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_stu='".$_POST['StuID'][$i]."' and c_date='".$_POST['DateID']."' "); 
+		@$res['chclass'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." WHERE c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_stu='".$_POST['StuID'][$i]."' and c_date='".$_POST['DateID2']."' "); 
 		@$arr['chclass'] = $db->fetch(@$res['chclass']);
 		if(@$arr['chclass']['c_id']){
 			$CID=@$arr['chclass']['c_id'];
@@ -261,7 +261,7 @@ if($op=='AddTab2'){
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
 				"c_k2"=>"".$Bad_tail."",
-				"c_date"=>"".$_POST['DateID']."",
+				"c_date"=>"".$_POST['DateID2']."",
 				"c_note"=>$_SESSION['person_login']
 			)," c_id=".$CID." ");
 			}
@@ -272,7 +272,7 @@ if($op=='AddTab2'){
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
 				"c_k2"=>"".$Bad_tail."",
-				"c_date"=>"".$_POST['DateID']."",
+				"c_date"=>"".$_POST['DateID2']."",
 				"c_note"=>$_SESSION['person_login']
 			));
 		}
@@ -292,13 +292,13 @@ if($op=='AddTab2'){
 				"bad_year"=>"".$y."",
 				"bad_dam"=>"".$_SESSION['person_login']."",
 				"bad_t"=>"1",
-				"b_date"=>"".$_POST['DateID']."",
+				"b_date"=>"".$_POST['DateID2']."",
 				"b_Mtime"=>"".$Mtime."",
 				"bad_sess"=>$_SESSION['person_login'],
 				"role"=>"2"
 			));
 			$add .=$db->update_db(TB_BAD,array(
-				"b_date"=>"".$_POST['DateID'].""
+				"b_date"=>"".$_POST['DateID2'].""
 			)," b_date='0000-00-00" );
 				@$res['stu'] = $db->select_query("SELECT * FROM ".TB_STUDENT." WHERE stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."'  and stu_id='".$_POST['StuID'][$i]."' "); 
 				@$arr['stu'] = $db->fetch(@$res['stu']);
@@ -310,7 +310,7 @@ if($op=='AddTab2'){
 				$Token=@$arr['cl']['clg_LineId'];
 				//@$resx = Line_To_Class(@$arr['cl']['clg_group'],@$arr['cl']['clg_name'],$message,$Token);
 				//print_r(@$resx);
-		@$res['chclass'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." WHERE c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_stu='".$_POST['StuID'][$i]."' and c_date='".$_POST['DateID']."' "); 
+		@$res['chclass'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." WHERE c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_stu='".$_POST['StuID'][$i]."' and c_date='".$_POST['DateID2']."' "); 
 		@$arr['chclass'] = $db->fetch(@$res['chclass']);
 		if(@$arr['chclass']['c_id']){
 			$CID=@$arr['chclass']['c_id'];
@@ -321,7 +321,7 @@ if($op=='AddTab2'){
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
 				"c_k2"=>"".$Bad_tail."",
-				"c_date"=>"".$_POST['DateID']."",
+				"c_date"=>"".$_POST['DateID2']."",
 				"c_note"=>$_SESSION['person_login']
 			)," c_id=".$CID." ");
 			}
@@ -332,13 +332,13 @@ if($op=='AddTab2'){
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
 				"c_k2"=>"".$Bad_tail."",
-				"c_date"=>"".$_POST['DateID']."",
+				"c_date"=>"".$_POST['DateID2']."",
 				"c_note"=>$_SESSION['person_login']
 			));
 		}
 		} else if(@$_POST['Bad_Status'][$i] =='2'){
 			$Bad_tail=_text_add_tab2_badtail_name_la;
-		@$res['chclass'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." WHERE c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_stu='".$_POST['StuID'][$i]."' and c_date='".$_POST['DateID']."' "); 
+		@$res['chclass'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." WHERE c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_stu='".$_POST['StuID'][$i]."' and c_date='".$_POST['DateID2']."' "); 
 		@$arr['chclass'] = $db->fetch(@$res['chclass']);
 		if(@$arr['chclass']['c_id']){
 			$CID=@$arr['chclass']['c_id'];
@@ -349,7 +349,7 @@ if($op=='AddTab2'){
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
 				"c_k2"=>"".$Bad_tail."",
-				"c_date"=>"".$_POST['DateID']."",
+				"c_date"=>"".$_POST['DateID2']."",
 				"c_note"=>$_SESSION['person_login']
 			)," c_id=".$CID." ");
 			}
@@ -360,7 +360,7 @@ if($op=='AddTab2'){
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
 				"c_k2"=>"".$Bad_tail."",
-				"c_date"=>"".$_POST['DateID']."",
+				"c_date"=>"".$_POST['DateID2']."",
 				"c_note"=>$_SESSION['person_login']
 			));
 		}
@@ -385,14 +385,14 @@ if($op=='AddTab2'){
 
 
 if($op=='AddTab3'){
-	list($Y , $m , $d) = explode("-" , $_POST['DateID']);
+	list($Y , $m , $d) = explode("-" , $_POST['DateID3']);
 	$y=$Y+543;
 	
 	@$RANK=count($rank)+1;					
 
 	for ($i=0; $i < $RANK; $i++) {
 		if(isset($_POST['StuID'][$i])){
-		$sq4=$db->select_query("SELECT * FROM ".TB_BAD." WHERE bad_area='".$_SESSION['person_area']."' and bad_code='".$_SESSION['person_school']."' and bad_stu='".$_POST['StuID'][$i]."' and b_date='".$_POST['DateID']."' ");
+		$sq4=$db->select_query("SELECT * FROM ".TB_BAD." WHERE bad_area='".$_SESSION['person_area']."' and bad_code='".$_SESSION['person_school']."' and bad_stu='".$_POST['StuID'][$i]."' and b_date='".$_POST['DateID3']."' ");
 		@$result4=$db->fetch($sq4);
 		if(@$result4['bad_name'] !='ไม่มาโรงเรียน' && @$result4['bad_name'] !='ลาโรงเรียน' ){
 		if(@$_POST['Bad_Status'][$i]=='1'){
@@ -411,13 +411,13 @@ if($op=='AddTab3'){
 				"bad_year"=>"".$y."",
 				"bad_dam"=>$_SESSION['person_login'],
 				"bad_t"=>"1",
-				"b_date"=>"".$_POST['DateID']."",
+				"b_date"=>"".$_POST['DateID3']."",
 				"b_Mtime"=>"".$Mtime."",
 				"bad_sess"=>$_SESSION['person_login'],
 				"role"=>"2"
 			));
 			$add .=$db->update_db(TB_BAD,array(
-				"b_date"=>"".$_POST['DateID'].""
+				"b_date"=>"".$_POST['DateID3'].""
 			)," b_date='0000-00-00" );
 				@$res['stu'] = $db->select_query("SELECT * FROM ".TB_STUDENT." WHERE stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."'  and stu_id='".$_POST['StuID'][$i]."' "); 
 				@$arr['stu'] = $db->fetch(@$res['stu']);
@@ -429,7 +429,7 @@ if($op=='AddTab3'){
 				$Token=@$arr['cl']['clg_LineId'];
 				//@$resx = Line_To_Class(@$arr['cl']['clg_group'],@$arr['cl']['clg_name'],$message,$Token);
 				//print_r(@$resx);
-		@$res['chclass'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." WHERE c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_stu='".$_POST['StuID'][$i]."' and c_date='".$_POST['DateID']."' "); 
+		@$res['chclass'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." WHERE c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_stu='".$_POST['StuID'][$i]."' and c_date='".$_POST['DateID3']."' "); 
 		@$arr['chclass'] = $db->fetch(@$res['chclass']);
 		if(@$arr['chclass']['c_id']){
 			$CID=@$arr['chclass']['c_id'];
@@ -440,7 +440,7 @@ if($op=='AddTab3'){
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
 				"c_k3"=>"".$Bad_tail."",
-				"c_date"=>"".$_POST['DateID']."",
+				"c_date"=>"".$_POST['DateID3']."",
 				"c_note"=>$_SESSION['person_login']
 			)," c_id=".$CID." ");
 			}
@@ -451,7 +451,7 @@ if($op=='AddTab3'){
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
 				"c_k3"=>"".$Bad_tail."",
-				"c_date"=>"".$_POST['DateID']."",
+				"c_date"=>"".$_POST['DateID3']."",
 				"c_note"=>$_SESSION['person_login']
 			));
 		}
@@ -471,13 +471,13 @@ if($op=='AddTab3'){
 				"bad_year"=>"".$y."",
 				"bad_dam"=>$_SESSION['person_login'],
 				"bad_t"=>"1",
-				"b_date"=>"".$_POST['DateID']."",
+				"b_date"=>"".$_POST['DateID3']."",
 				"b_Mtime"=>"".$Mtime."",
 				"bad_sess"=>$_SESSION['person_login'],
 				"role"=>"2"
 			));
 			$add .=$db->update_db(TB_BAD,array(
-				"b_date"=>"".$_POST['DateID'].""
+				"b_date"=>"".$_POST['DateID3'].""
 			)," b_date='0000-00-00" );
 				@$res['stu'] = $db->select_query("SELECT * FROM ".TB_STUDENT." WHERE stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."'  and stu_id='".$_POST['StuID'][$i]."' "); 
 				@$arr['stu'] = $db->fetch(@$res['stu']);
@@ -490,7 +490,7 @@ if($op=='AddTab3'){
 				$Token=@$arr['cl']['clg_LineId'];
 				//@$resx = Line_To_Class(@$arr['cl']['clg_group'],@$arr['cl']['clg_name'],$message,$Token);
 				//print_r(@$resx);
-		@$res['chclass'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." WHERE c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_stu='".$_POST['StuID'][$i]."' and c_date='".$_POST['DateID']."' "); 
+		@$res['chclass'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." WHERE c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_stu='".$_POST['StuID'][$i]."' and c_date='".$_POST['DateID3']."' "); 
 		@$arr['chclass'] = $db->fetch(@$res['chclass']);
 		if(@$arr['chclass']['c_id']){
 			$CID=@$arr['chclass']['c_id'];
@@ -501,7 +501,7 @@ if($op=='AddTab3'){
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
 				"c_k3"=>"".$Bad_tail."",
-				"c_date"=>"".$_POST['DateID']."",
+				"c_date"=>"".$_POST['DateID3']."",
 				"c_note"=>$_SESSION['person_login']
 			)," c_id=".$CID." ");
 			}
@@ -512,13 +512,13 @@ if($op=='AddTab3'){
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
 				"c_k3"=>"".$Bad_tail."",
-				"c_date"=>"".$_POST['DateID']."",
+				"c_date"=>"".$_POST['DateID3']."",
 				"c_note"=>$_SESSION['person_login']
 			));
 		}
 		} else if(@$_POST['Bad_Status'][$i] =='2'){
 			$Bad_tail=_text_add_tab3_badtail_name_la;
-		@$res['chclass'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." WHERE c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_stu='".$_POST['StuID'][$i]."' and c_date='".$_POST['DateID']."' "); 
+		@$res['chclass'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." WHERE c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_stu='".$_POST['StuID'][$i]."' and c_date='".$_POST['DateID3']."' "); 
 		@$arr['chclass'] = $db->fetch(@$res['chclass']);
 		if(@$arr['chclass']['c_id']){
 			$CID=@$arr['chclass']['c_id'];
@@ -529,7 +529,7 @@ if($op=='AddTab3'){
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
 				"c_k3"=>"".$Bad_tail."",
-				"c_date"=>"".$_POST['DateID']."",
+				"c_date"=>"".$_POST['DateID3']."",
 				"c_note"=>$_SESSION['person_login']
 			)," c_id=".$CID." ");
 			}
@@ -540,7 +540,7 @@ if($op=='AddTab3'){
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
 				"c_k3"=>"".$Bad_tail."",
-				"c_date"=>"".$_POST['DateID']."",
+				"c_date"=>"".$_POST['DateID3']."",
 				"c_note"=>$_SESSION['person_login']
 			));
 		}
@@ -728,7 +728,7 @@ if($op=='AddTab3'){
 							<div class="col-sm-3" >
 							<?php $DateTimeStart=date('Y-m-d');?>
 							<div class="input-group date" id="dp2" data-date="<?php echo $DateTimeStart;?>" data-date-format="yyyy-mm-dd">
-							<input type='text' class="form-control" id="DateID" name="DateID" class="form-control css-require" value="<?php echo $DateTimeStart;?>">
+							<input type='text' class="form-control" id="DateID2" name="DateID2" class="form-control css-require" value="<?php echo $DateTimeStart;?>">
 							<span class="input-group-addon"><span class="add-on"><i class="glyphicon glyphicon-calendar"></i></span></span>
 							</div>
 							</div>
@@ -815,7 +815,7 @@ if($op=='AddTab3'){
 							<div class="col-sm-3" >
 							<?php $DateTimeStart=date('Y-m-d');?>
 							<div class="input-group date" id="dp3" data-date="<?php echo $DateTimeStart;?>" data-date-format="yyyy-mm-dd">
-							<input type='text' class="form-control" id="DateID" name="DateID" class="form-control css-require" value="<?php echo $DateTimeStart;?>">
+							<input type='text' class="form-control" id="DateID3" name="DateID3" class="form-control css-require" value="<?php echo $DateTimeStart;?>">
 							<span class="input-group-addon"><span class="add-on"><i class="glyphicon glyphicon-calendar"></i></span></span>
 							</div>
 							</div>
