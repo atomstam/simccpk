@@ -214,7 +214,13 @@ if($op=='AddTab2'){
 		if($_POST['Bad_Status'][$i]=='1'){
 			$sql=$db->select_query("SELECT * FROM ".TB_BADTAIL." WHERE badtail_area='".$_SESSION['admin_area']."' and badtail_code='".$_SESSION['admin_school']."'  and badtail_name like '%ไม่ร่วมกิจกรรมโรงเรียน%' ");
 			@$result=$db->fetch($sql);
-			$Bad_tail=_text_add_tab2_badtail_name_kad;
+			if($_SESSION['person_school'] =='44012028'){ 
+				$Bad_tail="ไม่ร่วมกิจกรรม MindSet";
+				//เพิ่มกิจกรรม Rivision
+			} else {
+				$Bad_tail=_text_add_tab2_badtail_name_kad;
+			}
+			//$Bad_tail=_text_add_tab2_badtail_name_kad;
 			$btailid=@$result['badtail_id'];
 			$add .=$db->add_db(TB_BAD,array(
 				"bad_area"=>"".$_SESSION['admin_area']."",
@@ -272,13 +278,19 @@ if($op=='AddTab2'){
 			));
 		}
 		} else if($_POST['Bad_Status'][$i]=='3'){
-			$Bad_tail=_text_add_tab2_badtail_name_sai;
+			//$Bad_tail=_text_add_tab2_badtail_name_sai;
+			if($_SESSION['person_school'] =='44012028'){ 
+				$Bad_tail="มาร่วมกิจกรรม MindSet สาย";
+				//เพิ่มกิจกรรม Rivision
+			} else {
+				$Bad_tail=_text_add_tab2_badtail_name_sai;
+			}
 			$sql=$db->select_query("SELECT * FROM ".TB_BADTAIL." WHERE badtail_area='".$_SESSION['admin_area']."' and badtail_code='".$_SESSION['admin_school']."'  and badtail_name like '%มาสาย%' ");
 			@$result=$db->fetch($sql);
 			$btailid=@$result['badtail_id'];
 			$add .=$db->add_db(TB_BAD,array(
-						"bad_area"=>"".$_SESSION['admin_area']."",
-						"bad_code"=>"".$_SESSION['admin_school']."",
+				"bad_area"=>"".$_SESSION['admin_area']."",
+				"bad_code"=>"".$_SESSION['admin_school']."",
 				"bad_stu"=>"".$_POST['StuID'][$i]."",
 				"bad_tail"=>"".$btailid."",
 				"bad_name"=>"".$Bad_tail."",
@@ -392,11 +404,17 @@ if($op=='AddTab3'){
 		if($_POST['Bad_Status'][$i]=='1'){
 			$sql=$db->select_query("SELECT * FROM ".TB_BADTAIL." WHERE badtail_area='".$_SESSION['admin_area']."' and badtail_code='".$_SESSION['admin_school']."'  and badtail_name like '%ไม่ร่วมกิจกรรมโรงเรียน%' ");
 			@$result=$db->fetch($sql);
-			$Bad_tail=_text_add_tab3_badtail_name_kad;
+			if($_SESSION['person_school'] =='44012028'){ 
+				$Bad_tail="ไม่ร่วมกิจกรรม Rivision";
+				//เพิ่มกิจกรรม Rivision
+			} else {
+				$Bad_tail=_text_add_tab3_badtail_name_kad;
+			}
+			//$Bad_tail=_text_add_tab3_badtail_name_kad;
 			$btailid=@$result['badtail_id'];
 			$add .=$db->add_db(TB_BAD,array(
-						"bad_area"=>"".$_SESSION['admin_area']."",
-						"bad_code"=>"".$_SESSION['admin_school']."",
+				"bad_area"=>"".$_SESSION['admin_area']."",
+				"bad_code"=>"".$_SESSION['admin_school']."",
 				"bad_stu"=>"".$_POST['StuID'][$i]."",
 				"bad_tail"=>"".$btailid."",
 				"bad_name"=>"".$Bad_tail."",
@@ -449,13 +467,19 @@ if($op=='AddTab3'){
 			));
 		}
 		} else if($_POST['Bad_Status'][$i]=='3'){
-			$Bad_tail=_text_add_tab3_badtail_name_sai;
+			//$Bad_tail=_text_add_tab3_badtail_name_sai;
+			if($_SESSION['person_school'] =='44012028'){ 
+				$Bad_tail="มาร่วมกิจกรรม Rivision สาย";
+				//เพิ่มกิจกรรม Rivision
+			} else {
+				$Bad_tail=_text_add_tab3_badtail_name_sai;
+			}
 			$sql=$db->select_query("SELECT * FROM ".TB_BADTAIL." WHERE badtail_area='".$_SESSION['admin_area']."' and badtail_code='".$_SESSION['admin_school']."'  and badtail_name like '%มาสาย%' ");
 			@$result=$db->fetch($sql);
 			$btailid=@$result['badtail_id'];
 			$add .=$db->add_db(TB_BAD,array(
-						"bad_area"=>"".$_SESSION['admin_area']."",
-						"bad_code"=>"".$_SESSION['admin_school']."",
+				"bad_area"=>"".$_SESSION['admin_area']."",
+				"bad_code"=>"".$_SESSION['admin_school']."",
 				"bad_stu"=>"".$_POST['StuID'][$i]."",
 				"bad_tail"=>"".$btailid."",
 				"bad_name"=>"".$Bad_tail."",
