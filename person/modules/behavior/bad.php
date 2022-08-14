@@ -157,7 +157,7 @@ if($op=='add' and $action=='' ){
 							<select class="form-control select2" multiple="multiple" name="Bad_stu[]" >
 							<?php
 							
-							@$res['stu'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."' and stu_class='".$_SESSION['person_class']."' and stu_cn='".$_SESSION['person_cn']."' and stu_suspend='0' ORDER BY stu_class,stu_cn,stu_id");
+							@$res['stu'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."' and stu_suspend='0' ORDER BY stu_class,stu_cn,stu_id");
 							while (@$arr['stu'] = $db->fetch(@$res['stu'])){
 							echo "<option value=\"".@$arr['stu']['stu_id']."\"";
 							echo ">".@$arr['stu']['stu_num'].@$arr['stu']['stu_name']." ".@$arr['stu']['stu_sur']."</option>";
@@ -461,7 +461,7 @@ $Name=@$arr['stu']['stu_num'].@$arr['stu']['stu_name']." ".@$arr['stu']['stu_sur
                                 <div class="box-body  ">
 	  <?php
 		
-		@$res['num'] = $db->select_query("SELECT * FROM ".TB_BAD." as a, ".TB_STUDENT." as b where bad_tail='".$_GET['bad_id']."' and bad_stu=stu_id and bad_stu='".$_GET['stu_id']."' and bad_area='".$_SESSION['person_area']."' and bad_code='".$_SESSION['person_school']."' and stu_class='".$_SESSION['person_class']."' and stu_cn='".$_SESSION['person_cn']."' order by bad_id desc "); 
+		@$res['num'] = $db->select_query("SELECT * FROM ".TB_BAD." as a, ".TB_STUDENT." as b where bad_tail='".$_GET['bad_id']."' and bad_stu=stu_id and bad_stu='".$_GET['stu_id']."' and bad_area='".$_SESSION['person_area']."' and bad_code='".$_SESSION['person_school']."' order by bad_id desc "); 
 		@$rows['num'] = $db->rows(@$res['num']);
 		if(@$rows['num']) {
 		?>
@@ -649,7 +649,7 @@ $(document).ready(function() {
                                 <div class="box-body  ">
 	  <?php
 		
-		@$res['num'] = $db->select_query("SELECT *,count(bad_stu) as CO FROM ".TB_BAD." as a, ".TB_STUDENT." as b where bad_tail='".$_GET['bad_id']."'  and bad_stu=stu_id  and bad_area='".$_SESSION['person_area']."' and bad_code='".$_SESSION['person_school']."' and stu_class='".$_SESSION['person_class']."' and stu_cn='".$_SESSION['person_cn']."' group by bad_stu order by CO desc,stu_class,stu_id "); 
+		@$res['num'] = $db->select_query("SELECT *,count(bad_stu) as CO FROM ".TB_BAD." as a, ".TB_STUDENT." as b where bad_tail='".$_GET['bad_id']."'  and bad_stu=stu_id  and bad_area='".$_SESSION['person_area']."' and stu_cn='".$_SESSION['person_cn']."' group by bad_stu order by CO desc,stu_class,stu_id "); 
 		@$rows['num'] = $db->rows(@$res['num']);
 		if(@$rows['num']) {
 		?>
@@ -841,126 +841,19 @@ $(document).ready(function() {
 
 <?php
 } else {
-@$res['count'] = $db->select_query("SELECT * FROM ".TB_BAD.", ".TB_STUDENT."  where bad_stu=stu_id and bad_area='".$_SESSION['person_area']."' and bad_code='".$_SESSION['person_school']."' and stu_class='".$_SESSION['person_class']."' and stu_cn='".$_SESSION['person_cn']."' group by bad_id"); 
-@$rows['count'] = $db->rows(@$res['count']);
-?>
-<div class="row">
-<div class="col-xs-12 connectedSortable">
-    <div class="tab-pane fade active in" >
-    <div align="right" >
-    <br>
-      <div class="buttons"><a href="index.php?name=behavior&file=bad&op=add&route=<?php echo $route;?>" class="btn bg-aqua btn-flat"><i class="fa fa-edit"></i>&nbsp;<?php echo _button_add; ?></a>&nbsp;<a onclick="$('form').submit();" class="btn bg-red btn-flat"><i class="fa fa-trash-o"></i>&nbsp;<?php echo _button_del; ?></a></div>
-      <br>
-      </div>
-    <div class="box box-danger">
-		         <div class="box-header with-border">
-                 <i class="glyphicon glyphicon-folder-open"></i>
-                 <h3 class="box-title"><?php echo _heading_title; ?></h3>
-              <div class="box-tools pull-right">
-			  <span class="badge bg-yellow"><?php echo _text_box_table_count." ".@$rows['count'];?></span>
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-              </div>
-            </div>
-            <!-- /.box-header -->
-      <div class="box-body ">
-	  <?php
-		
-		@$res['nums'] = $db->select_query("SELECT *,count(bad_id) as CO FROM ".TB_BAD.",".TB_STUDENT." where bad_area='".$_SESSION['person_area']."' and bad_code='".$_SESSION['person_school']."' and stu_class='".$_SESSION['person_class']."' and stu_cn='".$_SESSION['person_cn']."' and stu_id=bad_stu and stu_suspend='0' group by bad_tail order by CO desc"); 
-		@$rows['nums'] = $db->rows(@$res['nums']);
-		if(@$rows['nums']) {
-		?>
-      <form action="index.php?name=behavior&file=bad&op=delall&route=<?php echo $route;?>" method="post" enctype="multipart/form-data" id="form" class="form-inline">
-        <table id="example1" class="table table-bordered table-striped responsive" style="width:100%">
-          <thead>
-            <tr >
-              <th width="1" style="text-align: center;"><input type="checkbox" id="check" class="selector flat all"></th>
-              <th layout="block" style="text-align:center;" ><?php echo _text_box_table_bad_name; ?></th>
-              <th layout="block" style="text-align:center;"><?php echo _text_box_table_bad_level; ?></th>
-			  <th layout="block" style="text-align:center;"><?php echo _text_box_table_bad_count_stu;?></th>
-              <th layout="block" style="text-align:center;">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-		<?php
-		$i=1;
-		while (@$arr['nums'] = $db->fetch(@$res['nums'])){
-		//echo @$arr['nums']['bad_tail'];
-		@$res['tail'] = $db->select_query("SELECT * FROM ".TB_BADTAIL." WHERE badtail_area='".$_SESSION['person_area']."' and badtail_code='".$_SESSION['person_school']."' and badtail_id='".@$arr['nums']['bad_tail']."' "); 
-		@$arr['tail'] =$db->fetch(@$res['tail']);
-		@$res['level'] = $db->select_query("SELECT * FROM ".TB_BADLEVEL." WHERE blevel_id='".@$arr['tail']['badtail_level']."' "); 
-		@$arr['level'] =$db->fetch(@$res['level']);
-		@$PerC=(100*(@$arr['num']['CO']))/(@$rows['count']);
-		?>
-            <tr>
-              <td style="text-align: center;"><input type="checkbox" name="selected[]" value="<?php echo @$arr['tail']['badtail_id']; ?>" class="selector flat"/></td>
-              <td layout="block" style="text-align: left;"><?php echo @$arr['tail']['badtail_name'];?></td>
-              <td layout="block" style="text-align: left;"><?php echo @$arr['level']['blevel_name'];?></td>
-              <td layout="block" style="text-align: center;"><?php echo @$arr['nums']['CO']." ( ".number_format((@$PerC),2)." % )";?></td>
-			  <td style="text-align: center;">
-			 <a href="index.php?name=behavior&file=bad&op=cldetail&bad_id=<?php echo @$arr['tail']['badtail_id'];?>&route=<?php echo $route;?>" class="btn bg-green btn-flat btn-sm" ><i class="fa fa-search-plus "></i></a>
 
-				<a href="index.php?name=behavior&file=bad&op=del&bad_id=<?php echo @$arr['tail']['badtail_id'];?>&route=<?php echo $route;?>" class="btn bg-red btn-flat btn-sm" data-confirm="<?php echo _text_box_con_delete_text;?>"><i class="fa fa-trash-o "></i></a>
-
-			  </td>
-            </tr>
-
-            <?php $i++;} ?>
-          </tbody>
-		  </table>
-	      </form>
-
-            <?php } else { ?>
-			<table>
-            <tr>
-              <td class="center" colspan="7"><?php echo _text_no_results; ?></td>
-            </tr>
-			</table>
-            <?php } ?>
-
-    </div>
-    </div>
-    </div>
-
-	</div>
-	<!-- /.col -->
-</div>
-<!-- /.row -->
-
-<script>
-//jQuery Library Comes First
-//Bootstrap Library
-$(document).ready(function() { 
-	$('a[data-confirm]').click(function(ev) {
-		var href = $(this).attr('href');
-		if (!$('#dataConfirmModal').length) {
-			$('body').append('<div id="dataConfirmModal" class="modal" role="dialog" aria-labelledby="dataConfirmLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button><h4 id="dataConfirmLabel"><?=_text_box_con_delete_head;?></h4></div><div class="modal-body"></div><div class="modal-footer"><button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button><a class="btn bg-aqua btn-flat" id="dataConfirmOK">OK</a></div></div></div></div>');
-		} 
-		$('#dataConfirmModal').find('.modal-body').text($(this).attr('data-confirm'));
-		$('#dataConfirmOK').attr('href', href);
-		$('#dataConfirmModal').modal({show:true});
-		return false;
-	});
-
-});
-</script>
-
-<?php
-		
-		@$res['num'] = $db->select_query("select stu_id,stu_pic,stu_pid,stu_num,stu_name,stu_sur,class_name,stu_class,sum(badtail_point) as CO  from ".TB_BAD." ,".TB_STUDENT.",".TB_BADTAIL.",".TB_CLASS." where bad_area='".$_SESSION['person_area']."' and bad_code='".$_SESSION['person_school']."' and stu_class='".$_SESSION['person_class']."' and stu_cn='".$_SESSION['person_cn']."' and stu_id=bad_stu and bad_tail=badtail_id and class_id=stu_class and stu_suspend='0' group by stu_id order by CO desc"); 
+		@$res['num'] = $db->select_query("select stu_id,stu_pic,stu_pid,stu_num,stu_name,stu_sur,class_name,stu_class,sum(badtail_point) as CO  from ".TB_BAD." ,".TB_STUDENT.",".TB_BADTAIL.",".TB_CLASS." where bad_area='".$_SESSION['person_area']."' and bad_code='".$_SESSION['person_school']."' and good_sess='".$_SESSION['person_login']."' and stu_id=bad_stu and bad_tail=badtail_id and class_id=stu_class and stu_suspend='0' group by stu_id order by CO desc"); 
 		@$rows['num'] = $db->rows(@$res['num']);
-		if(@$rows['num']) {
+
 
 ?>
       <div class="row">
         <div class="col-xs-12 connectedSortable">
 
-		<div align="right" >
-		<div class="form-group">&nbsp;
-		</div>
-		</div>
-
+    <div align="right" >
+      <div class="buttons"><a href="index.php?name=behavior&file=bad&op=add&route=<?php echo $route;?>" class="btn bg-aqua btn-flat"><i class="fa fa-edit"></i>&nbsp;<?php echo _button_add; ?></a></div>
+      </div>
+	<br>
     <div class="box box-info">
       
 	         <div class="box-header with-border">
@@ -1018,14 +911,6 @@ $(document).ready(function() {
 <!-- /.row -->
 <!-- /.row -->
 </div>
-
-            <?php } else { ?>
-			<table>
-            <tr>
-              <td class="center" colspan="7"><?php echo _text_no_results; ?></td>
-            </tr>
-			</table>
-            <?php } ?>
 
 
 <script>

@@ -206,7 +206,7 @@ if(!isset($home)){ $home="index.php";}
                                       <?php } ?>
                                     <p>
                                         <?php echo @$arr['user']['per_ids']; ?>
-                                        <small><?php echo @$arr['user']['firstname']; ?>&nbsp;&nbsp;<?php echo @$arr['user']['lastname']; ?></small>
+                                        <small><?php echo @$arr['user']['per_name']; ?></small>
                                     </p>
                                 </li>
                                 <!-- Menu Body -->
