@@ -10,7 +10,7 @@ if($op=='AddTab4'){
 	list($Y , $m , $d) = explode("-" , $_POST['DateID']);
 	$y=$Y+543;
 	
-	$RANK=$rank+1;					
+	@$RANK=count($rank)+1;					
 
 	for ($i=0; $i < $RANK; $i++) {
 		if(isset($_POST['StuID'][$i])){
