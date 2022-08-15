@@ -462,7 +462,7 @@ if($op=='add' and $action=='' ){
 <?php
 }else if($op=='cldetail' ){
 
-@$res['bad'] = $db->select_query("SELECT *,count(pt_stu) as STU FROM ".TB_PUTTAIL." where pt_area='".$_SESSION['person_area']."' and pt_code='".$_SESSION['person_school']."' and  pt_pu='".$_GET['pt_id']."' "); 
+@$res['bad'] = $db->select_query("SELECT *,count(pt_stu) as STU FROM ".TB_PUTTAIL." where pt_area='".$_SESSION['person_area']."' and pt_code='".$_SESSION['person_school']."' and  pt_pt='".$_GET['pt_id']."' "); 
  @$arr['bad']= $db->fetch(@$res['bad']);
 @$res['tail'] = $db->select_query("SELECT * FROM ".TB_PUT." where pu_area='".$_SESSION['person_area']."' and pu_code='".$_SESSION['person_school']."'  and  pu_id='".$_GET['pt_id']."' "); 
 @$arr['tail'] =$db->fetch(@$res['tail']);
@@ -496,7 +496,7 @@ if($op=='add' and $action=='' ){
                                 <div class="box-body  ">
 	  <?php
 		
-		@$res['num'] = $db->select_query("SELECT *,count(pt_stu) as CO FROM ".TB_PUTTAIL." as a, ".TB_STUDENT." as b where pt_pu='".$_GET['pt_id']."'  and pt_stu=stu_id group by pt_stu order by CO desc,stu_class,stu_id "); 
+		@$res['num'] = $db->select_query("SELECT *,count(pt_stu) as CO FROM ".TB_PUTTAIL." as a, ".TB_STUDENT." as b where pt_pt='".$_GET['pt_id']."'  and pt_stu=stu_id group by pt_stu order by CO desc,stu_class,stu_id "); 
 		@$rows['num'] = $db->rows(@$res['num']);
 		if(@$rows['num']) {
 		?>
