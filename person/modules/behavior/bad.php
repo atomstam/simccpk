@@ -841,7 +841,7 @@ $(document).ready(function() {
 
 <?php
 } else {
-@$res['count'] = $db->select_query("SELECT * FROM ".TB_BAD." as a,".TB_STUDENT." as b where a.bad_area='".$_SESSION['person_area']."' and a.bad_code='".$_SESSION['person_school']."' and b.stu_class='".$_SESSION['person_class']."' and b.stu_cn='".$_SESSION['person_cn']."'  and b.stu_id=a.bad_stu and b.stu_suspend='0' group by a.bad_id"); 
+@$res['count'] = $db->select_query("SELECT * FROM ".TB_BAD.",".TB_STUDENT." where bad_area='".$_SESSION['person_area']."' and bad_code='".$_SESSION['person_school']."' and stu_id=bad_stu and stu_class='".$_SESSION['person_class']."' and stu_cn='".$_SESSION['person_cn']."'  and stu_suspend='0' group by bad_id"); 
 @$rows['count'] = $db->rows(@$res['count']);
 ?>
 <div class="row">
