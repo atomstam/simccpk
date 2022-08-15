@@ -741,8 +741,8 @@ $(document).ready(function() {
               <td layout="block" style="text-align: left;"><?php echo @$arr['tail']['pu_name'];?></td>
               <td layout="block" style="text-align: center;"><?php echo @$arr['num']['CO']." ( ".number_format((@$PerC),2)." % )";?></td>
 			  <td style="text-align: center;">
-			 <a href="index.php?name=behavior&file=put&op=cldetail&pt_id=<?php echo @$arr['num']['pt_pu'];?>&route=<?php echo $route;?>" class="btn bg-green btn-flat btn-sm" ><i class="fa fa-search-plus "></i></a>
-				<a href="index.php?name=behavior&file=put&op=del&pt_id=<?php echo @$arr['num']['pt_pu'];?>&route=<?php echo $route;?>" class="btn bg-red btn-flat btn-sm" data-confirm="<?php echo _text_box_con_delete_text;?>"><i class="fa fa-trash-o "></i></a>
+			 <a href="index.php?name=behavior&file=put&op=cldetail&pt_id=<?php echo @$arr['num']['pt_id'];?>&route=<?php echo $route;?>" class="btn bg-green btn-flat btn-sm" ><i class="fa fa-search-plus "></i></a>
+				<a href="index.php?name=behavior&file=put&op=del&pt_id=<?php echo @$arr['num']['pt_id'];?>&route=<?php echo $route;?>" class="btn bg-red btn-flat btn-sm" data-confirm="<?php echo _text_box_con_delete_text;?>"><i class="fa fa-trash-o "></i></a>
 			  </td>
             </tr>
 
