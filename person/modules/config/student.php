@@ -377,7 +377,7 @@ $(function(){
 								
 								@$res['amp'] = $db->select_query("SELECT * FROM ".TB_AMPHUR." where provinceID='".@$arr['user']['stu_prov']."' order by id"); 
 								while (@$arr['amp'] = $db->fetch(@$res['amp'])){?>
-								<option value="<?php echo @$arr['amp']['id'];?>" <?php if(@$arr['amp']['id']==@$arr['user']['stu_amp']){ echo "selected ";}?>><?php echo @$arr['amp']['name'];?></option>
+								<option value="<?php echo @$arr['amp']['amphur_code'];?>" <?php if(@$arr['amp']['id']==@$arr['user']['stu_amp']){ echo "selected ";}?>><?php echo @$arr['amp']['name'];?></option>
 								<?php } ?>
 							</select>
 							</div>
@@ -391,7 +391,7 @@ $(function(){
 								
 								@$res['tam'] = $db->select_query("SELECT * FROM ".TB_TUMBON." where amphurID='".@$arr['user']['stu_amp']."' order by id"); 
 								while (@$arr['tam'] = $db->fetch(@$res['tam'])){?>
-								<option value="<?php echo @$arr['tam']['id'];?>" <?php if(@$arr['tam']['id']==@$arr['user']['stu_tum']){ echo "selected ";}?>><?php echo @$arr['tam']['name'];?></option>
+								<option value="<?php echo @$arr['tam']['tumbon_code'];?>" <?php if(@$arr['tam']['id']==@$arr['user']['stu_tum']){ echo "selected ";}?>><?php echo @$arr['tam']['name'];?></option>
 								<?php } ?>
 							</select>
 							</div>
