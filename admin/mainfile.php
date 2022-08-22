@@ -50,8 +50,8 @@ $route=$name."/".$file;
 }
 
 if($name){
-require_once("modules/".$name."/lang/".$file.".php");
+	require_once("modules/".$name."/lang/".$file.".php");
 } else {
-require_once("../lang/index.php");
+	require_once("../lang/index.php");
 }
 ?>

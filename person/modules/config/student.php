@@ -67,7 +67,7 @@ if(!empty($_SESSION['person_login'])){
  $("button#submitForm").click(function(){
 			$.ajax({
 			type: "POST",
-			url: "../admin/modules/config/processstudent.php",
+			url: "../person/modules/config/processstudent.php",
 			data: $('#formEdit').serialize(),
 			success: function(msg){
 				var messageText =msg.message;
@@ -99,7 +99,7 @@ if(!empty($_SESSION['person_login'])){
 $(function(){
  $("select#province").change(function(){
   var datalist2 = $.ajax({ // รับค่าจาก ajax เก็บไว้ที่ตัวแปร datalist2
-     url: "../admin/modules/config/amphur.php", // ไฟล์สำหรับการกำหนดเงื่อนไข
+     url: "modules/config/amphur.php", // ไฟล์สำหรับการกำหนดเงื่อนไข
      data:"province_id="+$(this).val(), // ส่งตัวแปร GET ชื่อ province ให้มีค่าเท่ากับ ค่าของ province
      async: false
   }).responseText;  
@@ -110,7 +110,7 @@ $(function(){
 $(function(){
  $("select#amphur").change(function(){
   var datalist3 = $.ajax({ // รับค่าจาก ajax เก็บไว้ที่ตัวแปร datalist3
-     url: "../admin/modules/config/tambol.php", // ไฟล์สำหรับการกำหนดเงื่อนไข
+     url: "modules/config/tambol.php", // ไฟล์สำหรับการกำหนดเงื่อนไข
      data:"amphur_id="+$(this).val(), // ส่งตัวแปร GET ชื่อ amphur ให้มีค่าเท่ากับ ค่าของ amphur
      async: false
   }).responseText;  
@@ -153,11 +153,6 @@ $(function(){
         <div class="btn-group" role="group">
             <button type="button" id="following" class="btn btn-default" href="#tab3" data-toggle="tab"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                 <div class="hidden-xs"><?php echo _text_box_tab_head_tab3;?></div>
-            </button>
-        </div>
-        <div class="btn-group" role="group">
-            <button type="button" id="following" class="btn btn-default" href="#tab4" data-toggle="tab"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                <div class="hidden-xs"><?php echo _text_box_tab_head_tab4;?></div>
             </button>
         </div>
     </div>
@@ -212,7 +207,7 @@ $(function(){
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_sphone; ?></label>
-							<div class="col-sm-2"><input type="text" name="Stu_sphone"  class="form-control"  maxlength="9" data-minlength="9"  pattern="^[0-9]{1,}$" placeholder="0899345556" value="<?php echo @$arr['user']['stu_sphone']; ?>"><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>						
+							<div class="col-sm-2"><input type="text" name="Stu_sphone"  class="form-control"  maxlength="10" data-minlength="10"  pattern="^[0-9]{1,}$" placeholder="0899345556" value="<?php echo @$arr['user']['stu_sphone']; ?>"><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>						
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_email; ?></label>
@@ -408,7 +403,7 @@ $(function(){
 
 							<div class="form-group has-feedback" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_distance; ?></label>
-							<div class="col-sm-2"><input type="text" name="Stu_distance" id="Stu_distance"   class="form-control"  placeholder="distance" value="<?php echo @$arr['user']['stu_distance']; ?>" required><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>						
+							<div class="col-sm-2"><input type="text" name="Stu_distn" id="Stu_distn"   class="form-control"  placeholder="distance" value="<?php echo @$arr['user']['stu_distance']; ?>" required><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>						
 							</div>
 							<div class="form-group has-feedback" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_time; ?></label>
@@ -467,7 +462,7 @@ $(function(){
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_fphone; ?></label>
-							<div class="col-sm-2"><input type="text" name="Stu_fphone"  value="<?php echo @$arr['user']['stu_fphone']; ?>" class="form-control css-require" placeholder="0899346667" maxlength="9" data-minlength="9"  pattern="^[0-9]{1,}$"><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>
+							<div class="col-sm-2"><input type="text" name="Stu_fphone"  value="<?php echo @$arr['user']['stu_fphone']; ?>" class="form-control css-require" placeholder="0899346667" maxlength="10" data-minlength="10"  pattern="^[0-9]{1,}$"><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_femail; ?></label>
@@ -490,7 +485,7 @@ $(function(){
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_mphone; ?></label>
-							<div class="col-sm-2"><input type="text" name="Stu_mphone"  value="<?php echo @$arr['user']['stu_mphone']; ?>" class="form-control css-require" placeholder="0899346667" maxlength="9" data-minlength="9"  pattern="^[0-9]{1,}$" ><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>
+							<div class="col-sm-2"><input type="text" name="Stu_mphone"  value="<?php echo @$arr['user']['stu_mphone']; ?>" class="form-control css-require" placeholder="0899346667" maxlength="10" data-minlength="10"  pattern="^[0-9]{1,}$" ><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_memail; ?></label>
@@ -523,7 +518,7 @@ $(function(){
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_ophone; ?></label>
-							<div class="col-sm-2"><input type="text" name="Stu_ophone"  value="<?php echo @$arr['user']['stu_ophone']; ?>" class="form-control css-require" placeholder="0899346667" maxlength="9" data-minlength="9"  pattern="^[0-9]{1,}$"><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>
+							<div class="col-sm-2"><input type="text" name="Stu_ophone"  value="<?php echo @$arr['user']['stu_ophone']; ?>" class="form-control css-require" placeholder="0899346667" maxlength="10" data-minlength="10"  pattern="^[0-9]{1,}$"><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_oemail; ?></label>
@@ -552,59 +547,7 @@ $(function(){
 
 
         </div>
-        <div class="tab-pane fade in" id="tab4">
-		<?php
-		@$res['best'] = $db->select_query("SELECT * FROM ".TB_BESTTAIL." WHERE btail_stu='".@$arr['user']['stu_id']."'"); 
-		@$arr['best']= $db->fetch(@$res['best']);
-		?>
-							<div class="form-group">
-							<div class="col-sm-12" >
-							<br>
-							</div>
-							</div>
-							<div class="form-group has-feedback" >
-							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_best; ?></label>
-							<div class="col-sm-3">
-							<select  class="form-control css-require" name="Stu_best" required="required">
-							<option value="" selected disabled><?php echo _text_box_table_stu_best_select;?></option>
-							<?php
-							
-							@$res['bt'] = $db->select_query("SELECT * FROM ".TB_BEST." ORDER BY bt_id ");
-							while (@$arr['bt'] = $db->fetch(@$res['bt'])){
-							echo "<option value=\"".@$arr['bt']['bt_id']."\" ";
-							if(@$arr['user']['stu_best']==@$arr['bt']['bt_id']){echo " selected ";}
-							echo ">".@$arr['bt']['bt_name']."</option>";
-							}
-							?>
-							</select>
-							</div>
-							</div>
-							<div class="form-group" >
-							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_best_detail; ?></label>
-							<div class="col-sm-6">
-							<textarea class="form-control" id="editor1" rows="5" cols="80" name="Btail_name"><?php echo @$arr['best']['btail_name']; ?></textarea>
-							</div>
-							</div>
-							<div class="form-group has-feedback" >
-							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_best_interv; ?></label>
-							<div class="col-sm-3">
-							<select  class="form-control css-require" name="Btail_per" required="required">
-							<option value="" selected disabled><?php echo _text_box_table_stu_best_interv_select;?></option>
-							<?php
-							
-							@$res['per'] = $db->select_query("SELECT * FROM ".TB_PERSON." where per_area='".$_SESSION['person_area']."' and per_code='".$_SESSION['person_school']."' ORDER BY per_id ");
-							while (@$arr['per'] = $db->fetch(@$res['per'])){
-							echo "<option value=\"".@$arr['per']['per_ids']."\" ";
-							if(@$arr['best']['btail_per']==@$arr['per']['per_ids']){echo " selected ";}
-							echo ">".@$arr['per']['per_name']."</option>";
-							}
-							?>
-							</select>
-							</div>
-							</div>
 
-
-        </div>
 							<div class="form-group">
 							<div class="col-sm-4" ><input type="hidden" name="OP"  value="Edit"><input name="SID" type="hidden" value="<?php echo @$arr['user']['stu_id'];?>">
 							<br>
@@ -952,11 +895,11 @@ initialize();
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" >ระยะทางจากบ้านถึงโรงเรียน(ก.ม.)</label>
-							<div class="col-sm-2"><input type="text" name="Stu_distance" id="Stu_distance"   class="form-control"  placeholder="distance" value="<?php echo number_format($arr['user']['stu_distance']/1000,2); ?>" readonly><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>						
+							<div class="col-sm-2"><input type="text" name="Stu_distn" id="Stu_distn"   class="form-control"  placeholder="distance" value="<?php echo number_format((int)$arr['user']['stu_distance']/1000,2); ?>" readonly><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>						
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_time; ?></label>
-							<div class="col-sm-2"><input type="text" name="Stu_time"  id="Stu_time"  class="form-control"  placeholder="time" value="<?php echo number_format($arr['user']['stu_time']/60,2); ?>" readonly><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>						
+							<div class="col-sm-2"><input type="text" name="Stu_time"  id="Stu_time"  class="form-control"  placeholder="time" value="<?php echo number_format((int)$arr['user']['stu_time']/60,2); ?>" readonly><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>						
 							</div>
 						     <div class="form-group">
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_travel; ?></label>
@@ -1079,10 +1022,10 @@ initialize();
 		<!-- ความดี -->
 
 		<?php
-		@$res['count'] = $db->select_query("SELECT * FROM ".TB_GOOD." WHERE good_stu='".@$arr['user']['stu_id']."' "); 
+		@$res['count'] = $db->select_query("SELECT * FROM ".TB_GOOD." WHERE good_area='".$_SESSION['person_area']."' and good_code='".$_SESSION['person_school']."' and good_stu='".@$arr['user']['stu_id']."' "); 
 		@$rows['count'] = $db->rows(@$res['count']);
 		if(@$rows['count']){
-		@$res['score'] = $db->select_query("SELECT *,sum(b.goodtail_point) as SCO FROM ".TB_GOOD." as a, ".TB_GOODTAIL." as b WHERE a.good_stu='".@$arr['user']['stu_id']."' and a.good_tail=b.goodtail_id "); 
+		@$res['score'] = $db->select_query("SELECT *,sum(b.goodtail_point) as SCO FROM ".TB_GOOD." as a, ".TB_GOODTAIL." as b WHERE a.good_stu='".@$arr['user']['stu_id']."' and good_area='".$_SESSION['person_area']."' and good_code='".$_SESSION['person_school']."' and and a.good_tail=b.goodtail_id "); 
 		@$arr['score'] = $db->fetch(@$res['score']);
 		?>
 							<div class="form-group">
@@ -1114,7 +1057,7 @@ initialize();
       <div class="box-body ">
 	  <?php
 		
-		@$res['num'] = $db->select_query("SELECT * FROM ".TB_GOOD." WHERE good_stu='".@$arr['user']['stu_id']."' order by good_id desc"); 
+		@$res['num'] = $db->select_query("SELECT * FROM ".TB_GOOD." WHERE good_area='".$_SESSION['person_area']."' and good_code='".$_SESSION['person_school']."' and good_stu='".@$arr['user']['stu_id']."' order by good_id desc"); 
 		@$rows['num'] = $db->rows(@$res['num']);
 		?>
 
@@ -1137,7 +1080,7 @@ initialize();
 		while (@$arr['num'] = $db->fetch(@$res['num'])){
 			@$res['tail'] = $db->select_query("SELECT * FROM ".TB_GOODTAIL." WHERE goodtail_id='".@$arr['num']['good_tail']."' "); 
 			@$arr['tail'] =$db->fetch(@$res['tail']);
-			@$res['stu'] = $db->select_query("SELECT * FROM ".TB_STUDENT." WHERE stu_id='".@$arr['user']['stu_id']."' "); 
+			@$res['stu'] = $db->select_query("SELECT * FROM ".TB_STUDENT." WHERE stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."' and stu_id='".@$arr['user']['stu_id']."' "); 
 			@$arr['stu'] =$db->fetch(@$res['stu']);
 //		@$PerC=(100*(@$arr['num']['CO']))/(@$rows['count']);
 			@$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".@$arr['stu']['stu_class']."' "); 
@@ -1292,7 +1235,7 @@ initialize();
 
 		<!-- คณะกรรมการนักเรียน -->
 		<?php
-		@$res['count2'] = $db->select_query("SELECT * FROM ".TB_COUNTAIL." WHERE cot_stu='".@$arr['user']['stu_id']."' "); 
+		@$res['count2'] = $db->select_query("SELECT * FROM ".TB_COUNTAIL." WHERE cot_area='".$_SESSION['person_area']."' and cot_code='".$_SESSION['person_school']."' and cot_stu='".@$arr['user']['stu_id']."' "); 
 		@$rows['count2'] = $db->rows(@$res['count2']);		
 		if(@$rows['count2']){
 		?>
@@ -1320,7 +1263,7 @@ initialize();
       <div class="box-body ">
 	  <?php
 		
-		@$res['num2'] = $db->select_query("SELECT * FROM ".TB_COUNTAIL." WHERE cot_stu='".@$arr['user']['stu_id']."' order by cot_id desc"); 
+		@$res['num2'] = $db->select_query("SELECT * FROM ".TB_COUNTAIL." WHERE cot_area='".$_SESSION['person_area']."' and cot_code='".$_SESSION['person_school']."' and cot_stu='".@$arr['user']['stu_id']."' order by cot_id desc"); 
 //		@$rows['num1'] = $db->rows(@$res['num1']);
 		?>
 
@@ -1480,7 +1423,7 @@ initialize();
 
 		<!-- คณะกรรมการห้องเรียนสีขาว -->
 		<?php
-		@$res['count3'] = $db->select_query("SELECT * FROM ".TB_WHITECLTAIL." WHERE whcl_stu='".@$arr['user']['stu_id']."' "); 
+		@$res['count3'] = $db->select_query("SELECT * FROM ".TB_WHITECLTAIL." WHERE whcl_area='".$_SESSION['person_area']."' and whcl_code='".$_SESSION['person_school']."' and whcl_stu='".@$arr['user']['stu_id']."' "); 
 		@$rows['count3'] = $db->rows(@$res['count3']);		
 		if(@$rows['count3']){
 		?>
@@ -1508,7 +1451,7 @@ initialize();
       <div class="box-body ">
 	  <?php
 		
-		@$res['num3'] = $db->select_query("SELECT * FROM ".TB_WHITECLTAIL." WHERE whcl_stu='".@$arr['user']['stu_id']."' order by whcl_id desc"); 
+		@$res['num3'] = $db->select_query("SELECT * FROM ".TB_WHITECLTAIL." WHERE whcl_area='".$_SESSION['person_area']."' and whcl_code='".$_SESSION['person_school']."' and whcl_stu='".@$arr['user']['stu_id']."' order by whcl_id desc"); 
 //		@$rows['num1'] = $db->rows(@$res['num1']);
 		?>
 
@@ -1668,7 +1611,7 @@ initialize();
 
 		<!-- หน้าที่พิเศษ -->
 		<?php
-		@$res['count1'] = $db->select_query("SELECT * FROM ".TB_PUTTAIL." WHERE pt_stu='".@$arr['user']['stu_id']."' "); 
+		@$res['count1'] = $db->select_query("SELECT * FROM ".TB_PUTTAIL." WHERE pt_area='".$_SESSION['person_area']."' and pt_code='".$_SESSION['person_school']."'  and pt_stu='".@$arr['user']['stu_id']."' "); 
 		@$rows['count1'] = $db->rows(@$res['count1']);		
 		if(@$rows['count1']){
 		?>
@@ -1696,7 +1639,7 @@ initialize();
       <div class="box-body ">
 	  <?php
 		
-		@$res['num'] = $db->select_query("SELECT * FROM ".TB_PUTTAIL." WHERE pt_stu='".@$arr['user']['stu_id']."' order by pt_id desc"); 
+		@$res['num'] = $db->select_query("SELECT * FROM ".TB_PUTTAIL." WHERE pt_area='".$_SESSION['person_area']."' and pt_code='".$_SESSION['person_school']."' and pt_stu='".@$arr['user']['stu_id']."' order by pt_id desc"); 
 //		@$rows['num1'] = $db->rows(@$res['num1']);
 		?>
 
@@ -1856,7 +1799,7 @@ initialize();
 
 		<!-- กิจกรรมนักเรียน -->
 		<?php
-		@$res['count4'] = $db->select_query("SELECT * FROM ".TB_AFFTAIL." WHERE afft_stu='".@$arr['user']['stu_id']."' "); 
+		@$res['count4'] = $db->select_query("SELECT * FROM ".TB_AFFTAIL." WHERE afft_area='".$_SESSION['person_area']."' and afft_code='".$_SESSION['person_school']."' and afft_stu='".@$arr['user']['stu_id']."' "); 
 		@$rows['count4'] = $db->rows(@$res['count4']);		
 		if(@$rows['count4']){
 		?>
@@ -1884,7 +1827,7 @@ initialize();
       <div class="box-body ">
 	  <?php
 		
-		@$res['num4'] = $db->select_query("SELECT * FROM ".TB_AFFTAIL." WHERE afft_stu='".@$arr['user']['stu_id']."' order by afft_id desc"); 
+		@$res['num4'] = $db->select_query("SELECT * FROM ".TB_AFFTAIL." WHERE afft_area='".$_SESSION['person_area']."' and afft_code='".$_SESSION['person_school']."' and afft_stu='".@$arr['user']['stu_id']."' order by afft_id desc"); 
 //		@$rows['num1'] = $db->rows(@$res['num1']);
 		?>
 
@@ -2040,9 +1983,6 @@ initialize();
 	
 	</div>
             <?php } ?>
-
-
-
 
         </div>
 

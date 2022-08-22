@@ -130,6 +130,8 @@ define('TB_BHOMETAIL','web_bhometail');
 define('TB_BLOCK','web_block');
 define('TB_CARD_STUDENT','web_card_student');
 define('TB_CHCLASS','web_chclass');
+define('TB_CHK_CHCLASS','web_chk_chclass');
+define('TB_CHK_CHMCLASS','web_chk_mclass');
 define('TB_CLASS','web_class');
 define('TB_CLASS_GROUP','web_class_group');
 define('TB_CLASS_PERSON','web_class_person');

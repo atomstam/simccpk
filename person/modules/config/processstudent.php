@@ -16,11 +16,11 @@ if(!empty($_SESSION['person_login'])){
 if($_POST['OP']=='Add'){
 	if( $_POST['Stu_id'] !='' && $_POST['Stu_pid'] !='' && $_POST['Stu_class'] !='' && $_POST['Stu_name'] !='' && $_POST['Stu_sur'] !=''){
 //		$Avatar=$_FILES['avatar-1']['name'];
-if($_POST['Stu_num'] = ''._text_box_table_stu_num_chai.''){
+if($_POST['Stu_num'] == ''._text_box_table_stu_num_chai.''){
 	$Sex=1;
-} else if($_POST['Stu_num'] = ''._text_box_table_stu_num_nai.''){
+} else if($_POST['Stu_num'] == ''._text_box_table_stu_num_nai.''){
 	$Sex=1;
-} else if($_POST['Stu_num'] = ''._text_box_table_stu_num_ying.''){
+} else if($_POST['Stu_num'] == ''._text_box_table_stu_num_ying.''){
 	$Sex=2;
 } else {
 	$Sex=2;
@@ -68,8 +68,8 @@ if($_POST['Stu_num'] = ''._text_box_table_stu_num_chai.''){
 			"stu_fpid"=>"".$_POST['Stu_fpid']."",
 			"stu_mpid"=>"".$_POST['Stu_mpid']."",
 			"stu_opid"=>"".$_POST['Stu_opid']."",
-			"stu_weight"=>"".$_POST['Stu_wth']."",
-			"stu_hight"=>"".$_POST['Stu_hht']."",
+			"stu_weight"=>"".$_POST['Stu_weight']."",
+			"stu_hight"=>"".$_POST['Stu_hight']."",
 			"stu_distance"=>"".$_POST['Stu_distn']."",
 			"stu_time"=>"".$_POST['Stu_time']."",
 			"stu_travel"=>"".$_POST['Stu_travel']."",
@@ -120,8 +120,8 @@ if($_POST['Stu_num'] = ''._text_box_table_stu_num_chai.''){
 			"stu_fpid"=>"".$_POST['Stu_fpid']."",
 			"stu_mpid"=>"".$_POST['Stu_mpid']."",
 			"stu_opid"=>"".$_POST['Stu_opid']."",
-			"stu_weight"=>"".$_POST['Stu_wth']."",
-			"stu_hight"=>"".$_POST['Stu_hht']."",
+			"stu_weight"=>"".$_POST['Stu_weight']."",
+			"stu_hight"=>"".$_POST['Stu_hight']."",
 			"stu_distance"=>"".$_POST['Stu_distn']."",
 			"stu_time"=>"".$_POST['Stu_time']."",
 			"stu_travel"=>"".$_POST['Stu_travel']."",
@@ -130,14 +130,14 @@ if($_POST['Stu_num'] = ''._text_box_table_stu_num_chai.''){
 			"stu_suspend"=>"".$_POST['Stu_suspend'].""
 		));
 		}
-		$add .=$db->add_db(TB_BESTTAIL,array(
+		/*$add .=$db->add_db(TB_BESTTAIL,array(
 			"btail_id"=>"".$_POST['Stu_best']."",
 			"btail_area"=>"".$_SESSION['person_area']."",
 			"btail_code"=>"".$_SESSION['person_school']."",
 			"btail_stu"=>"".$_POST['Stu_id']."",
 			"btail_name"=>"".$_POST['Btail_name']."",
 			"btail_per"=>"".$_POST['Btail_per'].""
-			));
+			));*/
 	} else {
 		$add ='';
 	}
@@ -162,11 +162,11 @@ if($_POST['Stu_num'] = ''._text_box_table_stu_num_chai.''){
 if($_POST['OP']=='Edit'){
 	if( $_POST['Stu_class'] !='' && $_POST['Stu_name'] !='' && $_POST['Stu_sur'] !='' && $_POST['SID'] !=''){
 //		$Avatar=$_FILES['avatar-1']['name'];
-if($_POST['Stu_num'] = ''._text_box_table_stu_num_chai.''){
+if($_POST['Stu_num'] == ''._text_box_table_stu_num_chai.''){
 	$Sex=1;
-} else if($_POST['Stu_num'] = ''._text_box_table_stu_num_nai.''){
+} else if($_POST['Stu_num'] == ''._text_box_table_stu_num_nai.''){
 	$Sex=1;
-} else if($_POST['Stu_num'] = ''._text_box_table_stu_num_ying.''){
+} else if($_POST['Stu_num'] == ''._text_box_table_stu_num_ying.''){
 	$Sex=2;
 } else {
 	$Sex=2;
@@ -210,8 +210,8 @@ if($_POST['Stu_num'] = ''._text_box_table_stu_num_chai.''){
 			"stu_fpid"=>"".$_POST['Stu_fpid']."",
 			"stu_mpid"=>"".$_POST['Stu_mpid']."",
 			"stu_opid"=>"".$_POST['Stu_opid']."",
-			"stu_weight"=>"".$_POST['Stu_wth']."",
-			"stu_hight"=>"".$_POST['Stu_hht']."",
+			"stu_weight"=>"".$_POST['Stu_weight']."",
+			"stu_hight"=>"".$_POST['Stu_hight']."",
 			"stu_distance"=>"".$_POST['Stu_distn']."",
 			"stu_time"=>"".$_POST['Stu_time']."",
 			"stu_travel"=>"".$_POST['Stu_travel']."",
@@ -258,8 +258,8 @@ if($_POST['Stu_num'] = ''._text_box_table_stu_num_chai.''){
 			"stu_fpid"=>"".$_POST['Stu_fpid']."",
 			"stu_mpid"=>"".$_POST['Stu_mpid']."",
 			"stu_opid"=>"".$_POST['Stu_opid']."",
-			"stu_weight"=>"".$_POST['Stu_wth']."",
-			"stu_hight"=>"".$_POST['Stu_hht']."",
+			"stu_weight"=>"".$_POST['Stu_weight']."",
+			"stu_hight"=>"".$_POST['Stu_hight']."",
 			"stu_distance"=>"".$_POST['Stu_distn']."",
 			"stu_time"=>"".$_POST['Stu_time']."",
 			"stu_travel"=>"".$_POST['Stu_travel']."",
@@ -268,7 +268,7 @@ if($_POST['Stu_num'] = ''._text_box_table_stu_num_chai.''){
 			"stu_suspend"=>"".$_POST['Stu_suspend'].""
 		)," stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."'  and stu_id=".$_POST['SID']." ");
 		}
-	@$res['bestt'] = $db->select_query("SELECT * FROM ".TB_BESTTAIL." WHERE btail_area='".$_SESSION['person_area']."' and btail_code='".$_SESSION['person_school']."'  and btail_stu='".$_POST['SID']."'  "); 
+	/*@$res['bestt'] = $db->select_query("SELECT * FROM ".TB_BESTTAIL." WHERE btail_area='".$_SESSION['person_area']."' and btail_code='".$_SESSION['person_school']."'  and btail_stu='".$_POST['SID']."'  "); 
 	@$arr['bestt'] = $db->rows(@$res['bestt']);
 	if(@$arr['bestt']){
 		$edit .=$db->update_db(TB_BESTTAIL,array(
@@ -285,7 +285,7 @@ if($_POST['Stu_num'] = ''._text_box_table_stu_num_chai.''){
 			"btail_name"=>"".$_POST['Btail_name']."",
 			"btail_per"=>"".$_POST['Btail_per'].""
 			));
-	}
+	}*/
 	} else {
 		$edit .='';
 	}

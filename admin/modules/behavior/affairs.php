@@ -319,7 +319,7 @@ $(function(){
 							@$res['bt'] = $db->select_query("SELECT * FROM ".TB_AFFAIRS." where aff_area='".$_SESSION['admin_area']."' and aff_code='".$_SESSION['admin_school']."' ORDER BY aff_id ");
 							while (@$arr['bt'] = $db->fetch(@$res['bt'])){
 							echo "<option value=\"".@$arr['bt']['aff_id']."\" ";
-							if(@$arr['best']['afft_id']==@$arr['bt']['aff_id']){echo " selected ";}
+							if(@$arr['best']['afft_aff']==@$arr['bt']['aff_id']){echo " selected ";}
 							echo ">".@$arr['bt']['aff_name']."</option>";
 							}
 							?>
@@ -364,7 +364,13 @@ $(function(){
 							</select>
 							</div>
 							</div>-->
-
+							<div class="form-group" >
+							<label class="col-sm-3 control-label" >สถานะ</label>
+							<div class="col-sm-6 ">
+							<input type="radio" name="Best_status" class="minimal" value="1" <?php if($arr['best']['afft_status']==1){ echo "checked";}?>>&nbsp;ร่วมกิจกรรม&nbsp;&nbsp;
+							<input type="radio" name="Best_status" class="minimal" value="0" <?php if($arr['best']['afft_status']==0){ echo "checked";}?>>&nbsp;ไม่ร่วมกิจกรรม
+							</div>
+							</div>
 						</div>
 						</div>
 				</form>

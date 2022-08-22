@@ -7,12 +7,28 @@ $error_warning='';
 if(!empty($_SESSION['person_login'])){
 $Mtime=date("H:i:s");
 if($op=='AddTab4'){
+
+	@$res['chkmclass'] = $db->select_query("SELECT * FROM ".TB_CHK_CHMCLASS." WHERE chkm_area='".$_SESSION['person_area']."' and chkm_code='".$_SESSION['person_school']."'  and chkm_class='".$_POST['ClassID']."' and chkm_cn='".$_POST['Stu_cn']."' and chkm_date='".$_POST['DateID']."' "); 
+	@$arr['chkmclass'] = $db->fetch(@$res['chkmclass']);
+
+	if(!$arr['chkmclass']['chkm_id']){
+		$add .=$db->add_db(TB_CHK_CHMCLASS,array(
+			"chkm_area"=>"".$_SESSION['person_area']."",
+			"chkm_code"=>"".$_SESSION['person_school']."",
+			"chkm_class"=>"".$_POST['ClassID']."",
+			"chkm_cn"=>"".$_POST['Stu_cn']."",
+			"chkm_date"=>"".$_POST['DateID']."",
+			"chkm_datetime"=>"".date("Y-m-d H:i:s")."",
+			"chkm_note"=>$_SESSION['person_login']
+		));
+		} 
+
 	list($Y , $m , $d) = explode("-" , $_POST['DateID']);
 	$y=$Y+543;
 	
 	@$RANK=count($rank)+1;					
 
-	for ($i=0; $i < $RANK; $i++) {
+	for ($i=1; $i <= $rank; $i++) {
 		if(isset($_POST['StuID'][$i])){
 		if(empty($_POST['Ck1'][$i])){
 		if(isset($_POST['Ch1'][$i])){
@@ -59,6 +75,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['person_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch1"=>"".$_POST['Ch1'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['person_login']
@@ -69,6 +86,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['person_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch1"=>"".$_POST['Ch1'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['person_login']
@@ -119,6 +137,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['person_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch2"=>"".$_POST['Ch2'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['person_login']
@@ -129,6 +148,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['person_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch2"=>"".$_POST['Ch2'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['person_login']
@@ -181,6 +201,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['person_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch3"=>"".$_POST['Ch3'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['person_login']
@@ -193,6 +214,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['person_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch3"=>"".$_POST['Ch3'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['person_login']
@@ -243,6 +265,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['person_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch4"=>"".$_POST['Ch4'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['person_login']
@@ -253,6 +276,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['person_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch4"=>"".$_POST['Ch4'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['person_login']
@@ -303,6 +327,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['person_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch5"=>"".$_POST['Ch5'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['person_login']
@@ -313,6 +338,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['person_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch5"=>"".$_POST['Ch5'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['person_login']
@@ -363,6 +389,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['person_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch6"=>"".$_POST['Ch6'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['person_login']
@@ -373,6 +400,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['person_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch6"=>"".$_POST['Ch6'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['person_login']
@@ -423,6 +451,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['person_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch7"=>"".$_POST['Ch7'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['person_login']
@@ -433,6 +462,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['person_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch7"=>"".$_POST['Ch7'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['person_login']
@@ -478,6 +508,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['person_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_k"=>"",
 				"c_k2"=>"",
 				"c_k3"=>"",
@@ -498,6 +529,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['person_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_k4"=>""._text_box_table_tab4_value_kad."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['person_login']
@@ -516,6 +548,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['person_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_k"=>"",
 				"c_k2"=>"",
 				"c_k3"=>"",
@@ -536,6 +569,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['person_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_k4"=>""._text_box_table_tab4_value_la."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['person_login']
@@ -555,12 +589,17 @@ if($op=='AddTab4'){
 //		$add .=$_POST['DateID']."<br>";
 //		$add .=$_POST['StuID']."<br>";
 //echo $add;
+
     	if($add){
 		$success =_text_report_add_ok;
 		} else {
 		$error_warning=_text_report_add_fail;
 		}
+
 } 
+
+
+
 ?>
 
 <div class="col-xs-12">
@@ -623,13 +662,10 @@ if($op=='AddTab4'){
 							</div>
 							</div>
 							</div>
-
-
 						  <?php
 							$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
 							@$res['num'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."' and stu_class='".$_SESSION['person_class']."' and stu_cn='".$_SESSION['person_cn']."' and stu_suspend='0' order by id,stu_id"); 
-							@$rows['num'] = $db->rows(@$res['num']);
-							if(@$rows['num']) {
+							//@$rows['num'] = $db->rows(@$res['num']);
 							?>
 							<table id="example4" class="table table-bordered table-striped responsive" style="width:100%">
 							  <thead>
@@ -669,28 +705,15 @@ if($op=='AddTab4'){
 								  <td layout="block" style="text-align: center;"><input type="checkbox" name="Ch6[<?php echo $i;?>]" class="minimal" value="6"  id="checkbox"></td>
 								  <td layout="block" style="text-align: center;"><input type="checkbox" name="Ch7[<?php echo $i;?>]" class="minimal" value="7"  id="checkbox"></td>
 								  <input type="hidden" name="StuID[<?php echo $i;?>]"  value="<?php echo @$arr['num']['stu_id'];?>">
-								  <input type="hidden" name="rank"  value="<?php echo $i;?>">
 								</tr>
 
 								<?php $i++;} ?>
 							  </tbody>
 							  </table>
-												<div class="form-group">
-												<div class="col-sm-4" ><input type="hidden" name="OP"  value="Add"><input type="hidden" name="DateID"  value="<?php echo $_GET['date_id'];?>"><input type="hidden" name="ClassID"  value="<?php echo $_GET['class_id'];?>">
-												<br>
-												</div>
-												</div>
 
-
-								<?php } else { ?>
-								<table>
-								<tr>
-								  <td class="center" colspan="12"><?php echo _text_no_results; ?></td>
-								</tr>
-								</table>
-								<?php } ?>
-
+							<?php //echo $ix;?>
 							<input type="hidden" name="OP"  value="Add">
+							<input type="hidden" name="rank"  value="<?php echo $i;?>">
 							<input type="hidden" name="ClassID"  value="<?=$_SESSION['person_class'];?>">
 							<input type="hidden" name="Stu_cn"  value="<?=$_SESSION['person_cn'];?>">
 

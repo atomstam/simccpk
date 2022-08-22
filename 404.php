@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<?php echo ISO; ?>">
+<html lang="utf-8">
 <head>
 <meta charset="UTF-8" />
 <title>404 : Error</title>

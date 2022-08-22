@@ -176,7 +176,7 @@ if($op=='add' and $action=='' ){
 							@$res['bad'] = $db->select_query("SELECT * FROM ".TB_BADTAIL." where badtail_area='".$_SESSION['person_area']."' and badtail_code='".$_SESSION['person_school']."' ORDER BY badtail_id ");
 							while (@$arr['bad'] = $db->fetch(@$res['bad'])){
 							echo "<option value=\"".@$arr['bad']['badtail_id']."\"";
-							echo ">".@$arr['bad']['badtail_name']."</option>";
+							echo ">".@$arr['bad']['badtail_name']." (-".$arr['bad']['badtail_point'].")</option>";
 							}
 							?>
 							</select>
@@ -343,7 +343,7 @@ $Name=@$arr['stu']['stu_num'].@$arr['stu']['stu_name']." ".@$arr['stu']['stu_sur
 							while (@$arr['bad'] = $db->fetch(@$res['bad'])){
 							echo "<option value=\"".@$arr['bad']['badtail_id']."\" ";
 							if(@$arr['tail']['badtail_id']==@$arr['bad']['badtail_id']){ echo "selected";}
-							echo " >".@$arr['bad']['badtail_name']."</option>";
+							echo " >".@$arr['bad']['badtail_name']." (-".$arr['bad']['badtail_point'].")</option>";
 							}
 							?>
 							</select>

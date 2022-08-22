@@ -89,7 +89,7 @@ require_once ("modules/index/header.php");
 
             <div class="info-box-content">
               <span class="info-box-text"><?php echo _index_total_login;?></span>
-              <span class="info-box-number"><?php echo getTotalPerson('onlineuser','',$admin_login);?></span>
+              <span class="info-box-number"><?php echo getTotalPerson('onlineuser','',$person_login);?></span>
                                 <a href="<?php echo $TotalonlineLink;?>" class="small-box-footer">
                                     <?php echo _Total_login_link;?> <i class="fa fa-arrow-circle-right"></i>
                                 </a>
@@ -98,7 +98,7 @@ require_once ("modules/index/header.php");
           </div>
           <!-- /.info-box -->
         </div>
-
+        <!-- /.col -->
 
 
 <div class="col-xs-12">
@@ -230,7 +230,7 @@ require_once ("modules/index/header.php");
                 <div class="col-sm-12 col-xs-12 bg-success color-palette" style="text-align:center;font-size:15pt;">อัตราต่อเดือนของพฤติกรรมทางบวก</div>
 			  </div>
               <div class="row">
-				<?php echo index_good();?>
+				<?php echo index_good_person();?>
               </div>
               <!-- /.row -->
 
@@ -238,7 +238,7 @@ require_once ("modules/index/header.php");
                 <div class="col-sm-12 col-xs-12 bg-danger color-palette" style="text-align:center;font-size:15pt;">อัตราต่อเดือนของพฤติกรรมทางลบ</div>
 			  </div>
               <div class="row">
-				<?php echo index_bad();?>
+				<?php echo index_bad_person();?>
               </div>
               <!-- /.row -->
 

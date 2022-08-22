@@ -1,6 +1,7 @@
 <?php
 ob_start();
 if (session_id() =='') { @session_start(); }
+ini_set('display_errors', "0");
 require_once("../../../includes/config.php");
 require_once("../../../lang/thai.php");
 require_once("../../../lang/dateThai.php");
@@ -24,78 +25,72 @@ if($_POST['OP']=='Add'){
 	$var_day = $date_array[2]; //year segment
 	$YY=$var_year+543;
 	$Mtime=date('H:i:s');
-	
-	for($x=0;$x<count($_POST['Good_stu']);$x++){
-		@$res['stu'] = $db->select_query("SELECT * FROM ".TB_STUDENT." WHERE stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."'  and stu_id='".$_POST['Good_stu'][$x]."' "); 
-		@$arr['stu'] = $db->fetch(@$res['stu']);
-		$Stu_name[]=($x+1).".".@$arr['stu']['stu_name']." ".@$arr['stu']['stu_sur'];
 
-		@$res['cl'] = $db->select_query("SELECT * FROM ".TB_CLASS_GROUP." WHERE clg_area='".$_SESSION['person_area']."' and clg_school='".$_SESSION['person_school']."'  and clg_group='".@$arr['stu']['stu_class']."' and clg_name='".@$arr['stu']['stu_cn']."' "); 
-		@$arr['cl'] = $db->fetch(@$res['cl']);
-		$Stu_class[]=@$arr['cl']['clg_group'];
-		$Stu_classgr[]=@$arr['cl']['clg_name'];
-		$Stu_Token[]=@$arr['cl']['clg_LineId'];
-	}
-//	$G_stuname=implode("\r\n",$Stu_name);
-
-	for($y=0;$y<count($_POST['Good_tail']);$y++){
+	$Arr_Good_tail=is_array($_POST['Good_tail']);
+	if($Arr_Good_tail){
+	@$Good_tail=count($_POST['Good_tail']);
+	for($y=0;$y<$Good_tail;$y++){
 		@$res['G'] = $db->select_query("SELECT * FROM ".TB_GOODTAIL." WHERE goodtail_area='".$_SESSION['person_area']."' and goodtail_code='".$_SESSION['person_school']."'   and goodtail_id='".$_POST['Good_tail'][$y]."' "); 
 		@$arr['G'] = $db->fetch(@$res['G']);
 		//$Good_name[]=($y+1).".".@$arr['G']['goodtail_name']."(+".@$arr['G']['goodtail_point'].")";
 		$Good_name[]=($y+1).".".$_POST['Good_name']."(+".@$arr['G']['goodtail_point'].")";
 		//$Good_point[]=@$arr['G']['goodtail_point'];
 	}
-	$G_tail=implode("\r\n",$Good_name);
+	@$G_tail=implode("\r\n",$Good_name);
 	//$G_point=implode(",+",$Good_point);
-
-	//$message= $G_stuname." ".$G_tail."(+".$G_point.")";
-	@$res['user'] = $db->select_query("SELECT * FROM ".TB_ADMIN." WHERE username='".$_SESSION['person_login']."' "); 
+	//$successx .=$G_tail;
+	} 
+	//$successx .= $G_tail;
+	@$res['user'] = $db->select_query("SELECT * FROM ".TB_PERSON." WHERE per_ids='".$_SESSION['person_login']."' "); 
 	@$arr['user'] = $db->fetch(@$res['user']);
-	$Tech=@$arr['user']['firstname']." ".@$arr['user']['lastname']." "._text_report_line_message9."".@$arr['user']['phone'];
+	$Tech=@$arr['user']['per_name']." "._text_report_line_message9."".@$arr['user']['per_tel'];
 	//$message1 = $G_stuname."\r\n";
 	$message2 = $G_tail."\r\n";
 	$message3 = $Tech."\r\n";
 
-	$a= array_unique ($Stu_classgr);
-	$b= array_unique ($Stu_class);
-	$c= array_unique ($Stu_Token);
-	$cc=0;
-	foreach ($b as $index => $value){
-	//for($z=0;$z<count($b);$z++){
-		@$res['cls'] = $db->select_query("SELECT * FROM ".TB_CLASS.",".TB_CLASS_GROUP." WHERE clg_group=class_id and class_id='".$value."'  "); 
-		@$arr['cls'] = $db->fetch(@$res['cls']);
+//	$a= array_unique ($Stu_classgr);
+//	$b= array_unique ($Stu_class);
+//	$c= array_unique ($Stu_Token);
 
-		$Clname[]=@$arr['cls']['class_short'];
-		$Stu_classx[]=@$arr['cls']['clg_group'];
-		$Token[]=@$arr['cls']['clg_LineId'];
-		$Class[]=$value;
-		$Gr[]=@$arr['cls']['clg_name'];
-	$ii=1;
-	for($xi=0;$xi<count($_POST['Good_stu']);$xi++){
-		@$res['stus'] = $db->select_query("SELECT * FROM ".TB_STUDENT." WHERE stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."'  and stu_id='".$_POST['Good_stu'][$xi]."' and stu_class='".$value."' "); 
-		@$arr['stus'] = $db->fetch(@$res['stus']);
-			$Stu_Id=@$arr['stus']['stu_id'];
-			$Stu_CLass=@$arr['stus']['stu_class'];
-			//if($Stu_CLass[$xi] != $Stu_CLass[$xi-1]){ $xi=0;}
-			if(!empty($Stu_Id)){
-				$Stu_names[$cc][]=($xi+1).".".@$arr['stus']['stu_name']." ".@$arr['stus']['stu_sur'];
+	//$successx .=$_POST['Good_stu'];
+	$Good_stu=count($_POST['Good_stu']);
+	for($x=0;$x<$Good_stu;$x++){
+		@$res['stu'] = $db->select_query("SELECT * FROM ".TB_STUDENT." left join ".TB_CLASS_GROUP." on clg_group=stu_class and clg_name=stu_cn left join ".TB_CLASS." on class_id=stu_class  WHERE stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."'  and stu_id='".$_POST['Good_stu'][$x]."' group by stu_id"); 
+		@$arr['stu'] = $db->fetch(@$res['stu']);
+
+		$Stu_name[]=($x+1).".".$arr['stu']['stu_name']." ".$arr['stu']['stu_sur'];
+		$Stu_class[]=@$arr['stu']['stu_class'];
+		$Stu_classgr[]=@$arr['stu']['stu_cn'];
+		$Clname[]=@$arr['stu']['class_short'];
+		$Stu_Token[]=@$arr['stu']['clg_LineId'];
+		//echo $arr['stu']['stu_class']."/".$arr['stu']['stu_cn'];
+
+//		$Stu_names[]=($x+1).".".@$arr['stu']['stu_name']." ".@$arr['stu']['stu_sur'];
+		//echo ($x+1).".".@$arr['stu']['stu_name']." ".@$arr['stu']['stu_sur']."|";
+	}
+		@$Stu_classx=count($Stu_class);
+		//$G_stunames=implode("\r\n",$Stu_name);
+		//$message1 = $G_stunames."\r\n";
+		$message1 = $Stu_name;
+		for($i=0;$i<@$Stu_classx;$i++){
+			$Mess[$i][] =$G_tail;
+			//$successx .=$message1[$i];
+			$vMess[$i] = implode(",", $Mess[$i]);
+			//$successx .=$vMess[$i];
+			//$div[$i] = explode("|",$message1);
+			for($ix=0;$ix<count($message1[$i]);$ix++){
+					$STU_Name[$i] .=$message1[$i]."\r\n";
 			}
-//			}
-		$ii++;
-	}
-
-		$G_stunames[$cc]=implode("\r\n",$Stu_names[$cc]);
-		$message1[$cc] = $G_stunames[$cc]."\r\n";
-		$cc++;
-	}
-
-		for($zi=0;$zi<count($Class);$zi++){
-		@$resx = Line_To_Class_BG($Class[$zi],$Clname[$zi],$Gr[$zi],$message1[$zi],$message2,$message3,$Token[$zi]);
-		print_r(@$resx);
+			//echo $vMess[$i];
+			//$successx .="value : $Stu_class[$i],$Clname[$i],$Stu_classgr[$i],$STU_Name[$i],$vMess[$i],$message3,$Stu_Token[$i]";
+			//$add="1";
+			//print_r($successx);
+			@$resx = Line_To_Class_BG($Stu_class[$i],$Clname[$i],$Stu_classgr[$i],$STU_Name[$i],$vMess[$i],$message3,$Stu_Token[$i]);
+			print_r(@$resx);
 		}
 
-		for($i=0;$i<count($_POST['Good_stu']);$i++){
-				for($a=0;$a<count($_POST['Good_tail']);$a++){
+		for($i=0;$i<$Good_stu;$i++){
+				for($a=0;$a<$Good_tail;$a++){
 						$add .=$db->add_db(TB_GOOD,array(
 						"good_area"=>"".$_SESSION['person_area']."",
 						"good_code"=>"".$_SESSION['person_school']."",
@@ -114,6 +109,7 @@ if($_POST['OP']=='Add'){
 						));
 				}
 		}
+
 
 	} else {
 		$add .='';

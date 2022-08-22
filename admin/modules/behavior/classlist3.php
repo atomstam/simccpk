@@ -66,14 +66,18 @@ if(!empty($_SESSION['admin_login'])){
               <td layout="block" style="text-align: center;"><input type="radio" name="Bad_Status[<?php echo $i;?>]" class="minimal" value="2" ></td>
               <td layout="block" style="text-align: center;"><input type="radio" name="Bad_Status[<?php echo $i;?>]" class="minimal" value="3" ></td>
 			  <input type="hidden" name="StuID[<?php echo $i;?>]"  value="<?php echo @$arr['num']['stu_id'];?>">
-			  <input type="hidden" name="rank"  value="<?php echo $i;?>">
+
             </tr>
 
             <?php $i++;} ?>
           </tbody>
 		  </table>
 		  					<div class="form-group">
-							<div class="col-sm-4" ><input type="hidden" name="OP"  value="Add"><input type="hidden" name="DateID"  value="<?php echo $_GET['date_id'];?>"><input type="hidden" name="ClassID"  value="<?php echo $_GET['class_id'];?>">
+							<div class="col-sm-4" >
+							<input type="hidden" name="OP"  value="Add">
+							<input type="hidden" name="rank"  value="<?php echo $i;?>">
+							<input type="hidden" name="DateID"  value="<?php echo $_GET['date_id'];?>">
+							<input type="hidden" name="ClassID"  value="<?php echo $_GET['class_id'];?>">
 							<br>
 							</div>
 							</div>

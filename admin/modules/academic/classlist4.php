@@ -78,14 +78,18 @@ if(!empty($_SESSION['admin_login'])){
               <td layout="block" style="text-align: center;"><input type="checkbox" name="Ch6[<?php echo $i;?>]" class="minimal" value="6"  id="checkbox"></td>
               <td layout="block" style="text-align: center;"><input type="checkbox" name="Ch7[<?php echo $i;?>]" class="minimal" value="7"  id="checkbox"></td>
 			  <input type="hidden" name="StuID[<?php echo $i;?>]"  value="<?php echo @$arr['num']['stu_id'];?>">
-			  <input type="hidden" name="rank"  value="<?php echo $i;?>">
+			  
             </tr>
 
             <?php $i++;} ?>
           </tbody>
 		  </table>
 		  					<div class="form-group">
-							<div class="col-sm-4" ><input type="hidden" name="OP"  value="Add"><input type="hidden" name="DateID"  value="<?php echo $_GET['date_id'];?>"><input type="hidden" name="ClassID"  value="<?php echo $_GET['class_id'];?>">
+							<div class="col-sm-4" >
+							<input type="hidden" name="OP"  value="Add">
+							<input type="hidden" name="rank"  value="<?php echo $i;?>">
+							<input type="hidden" name="DateID"  value="<?php echo $_GET['date_id'];?>">
+							<input type="hidden" name="ClassID"  value="<?php echo $_GET['class_id'];?>">
 							<br>
 							</div>
 							</div>

@@ -22,76 +22,66 @@ if($_POST['OP']=='Add'){
 	$YY=$var_year+543;
 	$Mtime=date('H:i:s');
 
-	
-	for($x=0;$x<count($_POST['Bad_stu']);$x++){
-		@$res['stu'] = $db->select_query("SELECT * FROM ".TB_STUDENT." WHERE stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."'  and stu_id='".$_POST['Bad_stu'][$x]."' "); 
-		@$arr['stu'] = $db->fetch(@$res['stu']);
-		$Stu_name[]=($x+1).".".@$arr['stu']['stu_name']." ".@$arr['stu']['stu_sur'];
-
-		@$res['cl'] = $db->select_query("SELECT * FROM ".TB_CLASS_GROUP." WHERE clg_area='".$_SESSION['admin_area']."' and clg_school='".$_SESSION['admin_school']."'  and clg_group='".@$arr['stu']['stu_class']."' and clg_name='".@$arr['stu']['stu_cn']."' "); 
-		@$arr['cl'] = $db->fetch(@$res['cl']);
-		$Stu_class[]=@$arr['cl']['clg_group'];
-		$Stu_classgr[]=@$arr['cl']['clg_name'];
-		$Stu_Token[]=@$arr['cl']['clg_LineId'];
+	$Arr_Bad_tail=is_array($_POST['Bad_tail']);
+	if($Arr_Bad_tail){
+	@$Bad_tail=count($_POST['Bad_tail']);
+	for($y=0;$y<$Bad_tail;$y++){
+		@$res['G'] = $db->select_query("SELECT * FROM ".TB_BADTAIL." WHERE badtail_area='".$_SESSION['admin_area']."' and badtail_code='".$_SESSION['admin_school']."'   and badtail_id='".$_POST['Bad_tail'][$y]."' "); 
+		@$arr['G'] = $db->fetch(@$res['G']);
+		//$Bad_name[]=($y+1).".".@$arr['G']['badtail_name']."(+".@$arr['G']['badtail_point'].")";
+		$Bad_name[]=($y+1).".".$_POST['Bad_name']."(+".@$arr['G']['badtail_point'].")";
+		//$Bad_point[]=@$arr['G']['badtail_point'];
 	}
-	$B_stuname=implode("\r\n",$Stu_name);
-
-	for($y=0;$y<count($_POST['Bad_tail']);$y++){
-		@$res['B'] = $db->select_query("SELECT * FROM ".TB_BADTAIL." WHERE badtail_area='".$_SESSION['admin_area']."' and badtail_code='".$_SESSION['admin_school']."'   and badtail_id='".$_POST['Bad_tail'][$y]."' "); 
-		@$arr['B'] = $db->fetch(@$res['B']);
-		$Bad_name[]=($y+1).".".@$arr['B']['badtail_name']."(+".@$arr['B']['badtail_point'].")";
-	}
-	$B_tail=implode("\r\n",$Bad_name);
-
+	@$G_tail=implode("\r\n",$Bad_name);
+	//$G_point=implode(",+",$Bad_point);
+	} 
+	//$message= $G_stuname." ".$G_tail."(+".$G_point.")";
 	@$res['user'] = $db->select_query("SELECT * FROM ".TB_ADMIN." WHERE username='".$_SESSION['admin_login']."' "); 
 	@$arr['user'] = $db->fetch(@$res['user']);
 	$Tech=@$arr['user']['firstname']." ".@$arr['user']['lastname']." "._text_report_line_message9."".@$arr['user']['phone'];
-	//$message1 = $B_stuname."\r\n";
-	$message2 = $B_tail."\r\n";
+	//$message1 = $G_stuname."\r\n";
+	$message2 = $G_tail."\r\n";
 	$message3 = $Tech."\r\n";
-	//$our_array=explode("",$Stu_class);
 
+//	$a= array_unique ($Stu_classgr);
+//	$b= array_unique ($Stu_class);
+//	$c= array_unique ($Stu_Token);
+	$Arr_Bad_stu=is_array($_POST['Bad_stu']);
+	if($Arr_Bad_stu){
+	$Bad_stu=count($_POST['Bad_stu']);
+	for($x=0;$x<$Bad_stu;$x++){
+		@$res['stu'] = $db->select_query("SELECT * FROM ".TB_STUDENT." left join ".TB_CLASS_GROUP." on clg_group=stu_class and clg_name=stu_cn left join ".TB_CLASS." on class_id=stu_class  WHERE stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."'  and stu_id='".$_POST['Bad_stu'][$x]."' group by stu_id"); 
+		@$arr['stu'] = $db->fetch(@$res['stu']);
 
-	$a= array_unique ($Stu_classgr);
-	$b= array_unique ($Stu_class);
-	$c= array_unique ($Stu_Token);
-	$cc=0;
-	foreach ($b as $index => $value){
-	//for($z=0;$z<count($b);$z++){
-		@$res['cls'] = $db->select_query("SELECT * FROM ".TB_CLASS.",".TB_CLASS_GROUP." WHERE clg_group=class_id and class_id='".$value."'  "); 
-		@$arr['cls'] = $db->fetch(@$res['cls']);
+		$Stu_name[]=($x+1).".".@$arr['stu']['stu_name']." ".@$arr['stu']['stu_sur'];
+		$Stu_class[]=@$arr['stu']['stu_class'];
+		$Stu_classgr[]=@$arr['stu']['stu_cn'];
+		$Clname[]=@$arr['stu']['class_short'];
+		$Stu_Token[]=@$arr['stu']['clg_LineId'];
+		//echo $arr['stu']['stu_class']."/".$arr['stu']['stu_cn'];
 
-		$Clname[]=@$arr['cls']['class_short'];
-		$Stu_classx[]=@$arr['cls']['clg_group'];
-		$Token[]=@$arr['cls']['clg_LineId'];
-		$Class[]=$value;
-		$Gr[]=@$arr['cls']['clg_name'];
-	$ii=1;
-	for($xi=0;$xi<count($_POST['Bad_stu']);$xi++){
-		@$res['stus'] = $db->select_query("SELECT * FROM ".TB_STUDENT." WHERE stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."'  and stu_id='".$_POST['Bad_stu'][$xi]."' and stu_class='".$value."' "); 
-		@$arr['stus'] = $db->fetch(@$res['stus']);
-			$Stu_Id=@$arr['stus']['stu_id'];
-			$Stu_CLass=@$arr['stus']['stu_class'];
-			//if($Stu_CLass[$xi] != $Stu_CLass[$xi-1]){ $xi=0;}
-			if(!empty($Stu_Id)){
-				$Stu_names[$cc][]=($xi+1).".".@$arr['stus']['stu_name']." ".@$arr['stus']['stu_sur'];
+//		$Stu_names[]=($x+1).".".@$arr['stu']['stu_name']." ".@$arr['stu']['stu_sur'];
+		//echo ($x+1).".".@$arr['stu']['stu_name']." ".@$arr['stu']['stu_sur']."|";
+	}
+		@$Stu_classx=count($Stu_class);
+		//$G_stunames=implode("\r\n",$Stu_name);
+		//$message1 = $G_stunames."\r\n";
+		$message1 = $Stu_name;
+		for($i=0;$i<$Stu_classx;$i++){
+			$Mess[$i][] =$G_tail;
+			$vMess[$i] = implode(",", $Mess[$i]);
+			for($ix=0;$ix<count($message1[$i]);$ix++){
+					$STU_Name[$i] .=$message1[$i]."\r\n";
 			}
-//			}
-		$ii++;
-	}
+			//echo $vMess[$i];
+			//$successx="value : $Stu_class[$i],$Clname[$i],$Stu_classgr[$i],$STU_Name[$i],$vMess[$i],$message3,$Stu_Token[$i]";
+			//print_r($successx);
+			//@$resx = Line_To_Class_BG($Stu_class[$i],$Clname[$i],$Stu_classgr[$i],$STU_Name[$i],$vMess[$i],$message3,$Stu_Token[$i]);
+			//print_r(@$resx);
+		}
 
-		$G_stunames[$cc]=implode("\r\n",$Stu_names[$cc]);
-		$message1[$cc] = $G_stunames[$cc]."\r\n";
-		$cc++;
-	}
-
-		//for($zi=0;$zi<count($Class);$zi++){
-		//@$resx = Line_To_Class_BG($Class[$zi],$Clname[$zi],$Gr[$zi],$message1[$zi],$message2,$message3,$Token[$zi]);
-		//print_r(@$resx);
-		//}
-
-		for($i=0;$i<count($_POST['Bad_stu']);$i++){
-				for($a=0;$a<count($_POST['Bad_tail']);$a++){
+		for($i=0;$i<$Bad_stu;$i++){
+				for($a=0;$a<$Bad_tail;$a++){
 						$add .=$db->add_db(TB_BAD,array(
 						"bad_area"=>"".$_SESSION['admin_area']."",
 						"bad_code"=>"".$_SESSION['admin_school']."",

@@ -10,13 +10,18 @@ $error_warning='';
 if(!empty($_SESSION['admin_login'])){
 $Mtime=date("H:i:s");
 if($op=='AddTab1'){
+
+@$res['chkclass'] = $db->select_query("SELECT * FROM ".TB_CHK_CHCLASS." WHERE chk_area='".$_SESSION['admin_area']."' and chk_code='".$_SESSION['admin_school']."'  and chk_class='".$_POST['ClassID']."' and chk_cn='".$_POST['Stu_cn']."' and chk_gr='1' and chk_date='".$_POST['Date_id']."' "); 
+@$arr['chkclass'] = $db->rows(@$res['chkclass']);
+if($arr['chkclass']==0){
+
 	list($Y , $m , $d) = explode("-" , $_POST['Date_id']);
 	$y=$Y+543;
 	
-	@$RANK=count($rank)+1;					
-	
+	@$RANK=count($_POST['rank'])+1;					
 
-	for ($i=0; $i < $RANK; $i++) {
+	for ($i=1; $i < $_POST['rank']; $i++) {
+
 		if(isset($_POST['StuID'][$i])){
 			
 		$sq4=$db->select_query("SELECT * FROM ".TB_BAD." WHERE bad_area='".$_SESSION['admin_area']."' and bad_code='".$_SESSION['admin_school']."' and bad_stu='".$_POST['StuID'][$i]."' and b_date='".$_POST['Date_id']."' ");
@@ -70,6 +75,7 @@ if($op=='AddTab1'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_k"=>"".$Bad_tail."",
 				"c_date"=>"".$_POST['Date_id']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -81,6 +87,7 @@ if($op=='AddTab1'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_k"=>"".$Bad_tail."",
 				"c_date"=>"".$_POST['Date_id']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -134,6 +141,7 @@ if($op=='AddTab1'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_k"=>"".$Bad_tail."",
 				"c_date"=>"".$_POST['Date_id']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -145,6 +153,7 @@ if($op=='AddTab1'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_k"=>"".$Bad_tail."",
 				"c_date"=>"".$_POST['Date_id']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -164,6 +173,7 @@ if($op=='AddTab1'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_k"=>"".$Bad_tail."",
 				"c_date"=>"".$_POST['Date_id']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -175,17 +185,33 @@ if($op=='AddTab1'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_k"=>"".$Bad_tail."",
 				"c_date"=>"".$_POST['Date_id']."",
 				"c_note"=>$_SESSION['admin_login']
 			));
 		}
-		} else {
-			$add="x";
 		}// $_POST['Bad_Status'][$i]
 		} //@$result4['bad_name'] ไม่มา
 		} // stu id
    } // Rank
+
+		@$res['chkclass'] = $db->select_query("SELECT * FROM ".TB_CHK_CHCLASS." WHERE chk_area='".$_SESSION['admin_area']."' and chk_code='".$_SESSION['admin_school']."'  and chk_class='".$_POST['ClassID']."' and chk_cn='".$_POST['Stu_cn']."' and chk_gr='1' and chk_date='".$_POST['Date_id']."' "); 
+		@$arr['chkclass'] = $db->fetch(@$res['chkclass']);
+		if(!$arr['chkclass']['chk_id']){
+			$add .=$db->add_db(TB_CHK_CHCLASS,array(
+				"chk_area"=>"".$_SESSION['admin_area']."",
+				"chk_code"=>"".$_SESSION['admin_school']."",
+				"chk_gr"=>"1",
+				"chk_class"=>"".$_POST['ClassID']."",
+				"chk_cn"=>"".$_POST['Stu_cn']."",
+				"chk_date"=>"".$_POST['Date_id']."",
+				"chk_datetime"=>"".date("Y-m-d H:i:s")."",
+				"chk_note"=>$_SESSION['admin_login']
+			));
+		} else {
+			$add="x";
+		}
 
 //		$add.=$db->del(TB_CLASS," class_id='".$_GET['class_id']."' ");
 //		$add .=$_POST['ClassID']."<br>";
@@ -197,16 +223,28 @@ if($op=='AddTab1'){
 		} else {
 		$error_warning=_text_report_add_fail;
 		}
+
+} else {
+
+		$error_warning= "คุณได้ทำการบันทึกรายการนี้แล้ว";
+}
+
+
 } 
 
 
 if($op=='AddTab2'){
+
+@$res['chkclass'] = $db->select_query("SELECT * FROM ".TB_CHK_CHCLASS." WHERE chk_area='".$_SESSION['admin_area']."' and chk_code='".$_SESSION['admin_school']."'  and chk_class='".$_POST['ClassID']."' and chk_cn='".$_POST['Stu_cn']."' and chk_gr='2' and chk_date='".$_POST['Date_id2']."' "); 
+@$arr['chkclass'] = $db->rows(@$res['chkclass']);
+if($arr['chkclass']==0){
+
 	list($Y , $m , $d) = explode("-" , $_POST['Date_id2']);
 	$y=$Y+543;
 	
-	@$RANK=count($rank)+1;					
+	@$RANK=count($_POST['rank'])+1;					
 
-	for ($i=0; $i < $RANK; $i++) {
+	for ($i=1; $i < $_POST['rank']; $i++) {
 		if(isset($_POST['StuID'][$i])){
 		$sq4=$db->select_query("SELECT * FROM ".TB_BAD." WHERE bad_area='".$_SESSION['admin_area']."' and bad_code='".$_SESSION['admin_school']."' and bad_stu='".$_POST['StuID'][$i]."' and b_date='".$_POST['Date_id2']."' ");
 		@$result4=$db->fetch($sq4);
@@ -261,6 +299,7 @@ if($op=='AddTab2'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_k2"=>"".$Bad_tail."",
 				"c_date"=>"".$_POST['Date_id2']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -272,6 +311,7 @@ if($op=='AddTab2'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_k2"=>"".$Bad_tail."",
 				"c_date"=>"".$_POST['Date_id2']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -326,6 +366,7 @@ if($op=='AddTab2'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_k2"=>"".$Bad_tail."",
 				"c_date"=>"".$_POST['Date_id2']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -337,13 +378,21 @@ if($op=='AddTab2'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_k2"=>"".$Bad_tail."",
 				"c_date"=>"".$_POST['Date_id2']."",
 				"c_note"=>$_SESSION['admin_login']
 			));
 		}
 		} else if($_POST['Bad_Status'][$i]=='2'){
-			$Bad_tail=_text_add_tab2_badtail_name_la;
+
+			if($_SESSION['person_school'] =='44012028'){ 
+				$Bad_tail="ลากิจกรรม Midset";
+				//เพิ่มกิจกรรม Midset
+			} else {
+				$Bad_tail=_text_add_tab2_badtail_name_la;
+			}
+
 		@$res['chclass'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." WHERE c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_stu='".$_POST['StuID'][$i]."' and c_date='".$_POST['Date_id2']."' "); 
 		@$arr['chclass'] = $db->fetch(@$res['chclass']);
 		if(@$arr['chclass']['c_id']){
@@ -354,6 +403,7 @@ if($op=='AddTab2'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_k2"=>"".$Bad_tail."",
 				"c_date"=>"".$_POST['Date_id2']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -365,17 +415,34 @@ if($op=='AddTab2'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_k2"=>"".$Bad_tail."",
 				"c_date"=>"".$_POST['Date_id2']."",
 				"c_note"=>$_SESSION['admin_login']
 			));
 		}
-		} else {
-			$add="x";
 		}
 		}
 		}
    }
+
+		@$res['chkclass'] = $db->select_query("SELECT * FROM ".TB_CHK_CHCLASS." WHERE chk_area='".$_SESSION['admin_area']."' and chk_code='".$_SESSION['admin_school']."'  and chk_class='".$_POST['ClassID']."' and chk_cn='".$_POST['Stu_cn']."' and chk_gr='2' and chk_date='".$_POST['Date_id2']."' "); 
+		@$arr['chkclass'] = $db->fetch(@$res['chkclass']);
+		if(!$arr['chkclass']['chk_id']){
+			$add .=$db->add_db(TB_CHK_CHCLASS,array(
+				"chk_area"=>"".$_SESSION['admin_area']."",
+				"chk_code"=>"".$_SESSION['admin_school']."",
+				"chk_gr"=>"2",
+				"chk_class"=>"".$_POST['ClassID']."",
+				"chk_cn"=>"".$_POST['Stu_cn']."",
+				"chk_date"=>"".$_POST['Date_id2']."",
+				"chk_datetime"=>"".date("Y-m-d H:i:s")."",
+				"chk_note"=>$_SESSION['admin_login']
+			));
+		} else {
+			$add="x";
+		}
+
 //		$add.=$db->del(TB_CLASS," class_id='".$_GET['class_id']."' ");
 //		$add .=$_POST['ClassID']."<br>";
 //		$add .=$_POST['Date_id']."<br>";
@@ -386,17 +453,28 @@ if($op=='AddTab2'){
 		} else {
 		$error_warning=_text_report_add_fail;
 		}
+
+} else {
+
+		$error_warning= "คุณได้ทำการบันทึกรายการนี้แล้ว";
+}
+
 } 
 
 
 
 if($op=='AddTab3'){
+
+@$res['chkclass'] = $db->select_query("SELECT * FROM ".TB_CHK_CHCLASS." WHERE chk_area='".$_SESSION['admin_area']."' and chk_code='".$_SESSION['admin_school']."'  and chk_class='".$_POST['ClassID']."' and chk_cn='".$_POST['Stu_cn']."' and chk_gr='3' and chk_date='".$_POST['Date_id3']."' "); 
+@$arr['chkclass'] = $db->rows(@$res['chkclass']);
+if($arr['chkclass']==0){
+
 	list($Y , $m , $d) = explode("-" , $_POST['Date_id3']);
 	$y=$Y+543;
 	
-	@$RANK=count($rank)+1;					
+	@$RANK=count($rank2)+1;					
 
-	for ($i=0; $i < $RANK; $i++) {
+	for ($i=1; $i < $_POST['rank']; $i++) {
 		if(isset($_POST['StuID'][$i])){
 		$sq4=$db->select_query("SELECT * FROM ".TB_BAD." WHERE bad_area='".$_SESSION['admin_area']."' and bad_code='".$_SESSION['admin_school']."' and bad_stu='".$_POST['StuID'][$i]."' and b_date='".$_POST['Date_id3']."' ");
 		@$result4=$db->fetch($sq4);
@@ -450,6 +528,7 @@ if($op=='AddTab3'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_k3"=>"".$Bad_tail."",
 				"c_date"=>"".$_POST['Date_id3']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -461,6 +540,7 @@ if($op=='AddTab3'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_k3"=>"".$Bad_tail."",
 				"c_date"=>"".$_POST['Date_id3']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -516,6 +596,7 @@ if($op=='AddTab3'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_k3"=>"".$Bad_tail."",
 				"c_date"=>"".$_POST['Date_id3']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -527,13 +608,21 @@ if($op=='AddTab3'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_k3"=>"".$Bad_tail."",
 				"c_date"=>"".$_POST['Date_id3']."",
 				"c_note"=>$_SESSION['admin_login']
 			));
 		}
 		} else if($_POST['Bad_Status'][$i]=='2'){
-			$Bad_tail=_text_add_tab3_badtail_name_la;
+
+			if($_SESSION['person_school'] =='44012028'){ 
+				$Bad_tail="ลากิจกรรม Rivision";
+				//เพิ่มกิจกรรม Rivision
+			} else {
+				$Bad_tail=_text_add_tab3_badtail_name_la;
+			}
+
 		@$res['chclass'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." WHERE c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_stu='".$_POST['StuID'][$i]."' and c_date='".$_POST['Date_id3']."' "); 
 		@$arr['chclass'] = $db->fetch(@$res['chclass']);
 		if(@$arr['chclass']['c_id']){
@@ -544,6 +633,7 @@ if($op=='AddTab3'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_k3"=>"".$Bad_tail."",
 				"c_date"=>"".$_POST['Date_id3']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -555,17 +645,34 @@ if($op=='AddTab3'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_k3"=>"".$Bad_tail."",
 				"c_date"=>"".$_POST['Date_id3']."",
 				"c_note"=>$_SESSION['admin_login']
 			));
 		}
-		}else {
-			$add="x";
 		}
 		}
 		}
    }
+
+		@$res['chkclass'] = $db->select_query("SELECT * FROM ".TB_CHK_CHCLASS." WHERE chk_area='".$_SESSION['admin_area']."' and chk_code='".$_SESSION['admin_school']."'  and chk_class='".$_POST['ClassID']."' and chk_cn='".$_POST['Stu_cn']."' and chk_gr='3' and chk_date='".$_POST['Date_id3']."' "); 
+		@$arr['chkclass'] = $db->fetch(@$res['chkclass']);
+		if(!$arr['chkclass']['chk_id']){
+			$add .=$db->add_db(TB_CHK_CHCLASS,array(
+				"chk_area"=>"".$_SESSION['admin_area']."",
+				"chk_code"=>"".$_SESSION['admin_school']."",
+				"chk_gr"=>"3",
+				"chk_class"=>"".$_POST['ClassID']."",
+				"chk_cn"=>"".$_POST['Stu_cn']."",
+				"chk_date"=>"".$_POST['Date_id3']."",
+				"chk_datetime"=>"".date("Y-m-d H:i:s")."",
+				"chk_note"=>$_SESSION['admin_login']
+			));
+		} else {
+			$add="x";
+		}
+
 //		$add.=$db->del(TB_CLASS," class_id='".$_GET['class_id']."' ");
 //		$add .=$_POST['ClassID']."<br>";
 //		$add .=$_POST['Date_id']."<br>";
@@ -576,6 +683,12 @@ if($op=='AddTab3'){
 		} else {
 		$error_warning=_text_report_add_fail;
 		}
+
+} else {
+
+		$error_warning= "คุณได้ทำการบันทึกรายการนี้แล้ว";
+}
+
 } 
 
 ?>

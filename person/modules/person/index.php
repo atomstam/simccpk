@@ -21,7 +21,7 @@ $home ="index.php?name=admin&file=index&route=".$route."";
 <!-- top row -->
 <div class="col-xs-12">
 <?php
-if(!empty($_SESSION['admin_login'])){
+if(!empty($_SESSION['person_login'])){
 
 if($op=='edit' and $action=='edit'){
 
