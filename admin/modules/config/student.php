@@ -411,7 +411,7 @@ $(function(){
 							
 							@$res['prov'] = $db->select_query("SELECT * FROM ".TB_PROVINCE." order by id"); 
 							while (@$arr['prov'] = $db->fetch(@$res['prov'])){?>
-								<option value="<?php echo @$arr['prov']['id'];?>"><?php echo @$arr['prov']['name'];?></option>
+								<option value="<?php echo @$arr['prov']['code'];?>"><?php echo @$arr['prov']['name'];?></option>
 								<?php } ?>
 								</select>
 							</div>
