@@ -14,10 +14,6 @@ $arr['sch'] = $db->fetch($res['sch']);
 $_SESSION['sh_code']=$arr['sch']['sh_code'];
 $_SESSION['sh_name']=$arr['sch']['sh_name'];
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 056e755138115cb4f30fd6fec5924b9ca023bd3d
 @$res['schcon'] = $db->select_query("SELECT * FROM ".TB_SCHOOL_CONFIG." WHERE shc_area='".$arr['sch']['sh_area']."' and shc_code='".$arr['sch']['sh_code']."' "); 
 @$arr['schcon'] =$db->fetch(@$res['schcon']);
 

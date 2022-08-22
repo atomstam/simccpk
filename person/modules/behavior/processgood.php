@@ -57,7 +57,6 @@ if($_POST['OP']=='Add'){
 	for($x=0;$x<$Good_stu;$x++){
 		@$res['stu'] = $db->select_query("SELECT * FROM ".TB_STUDENT." left join ".TB_CLASS_GROUP." on clg_group=stu_class and clg_name=stu_cn left join ".TB_CLASS." on class_id=stu_class  WHERE stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."'  and stu_id='".$_POST['Good_stu'][$x]."' group by stu_id"); 
 		@$arr['stu'] = $db->fetch(@$res['stu']);
-<<<<<<< HEAD
 
 		$Stu_name[]=($x+1).".".$arr['stu']['stu_name']." ".$arr['stu']['stu_sur'];
 		$Stu_class[]=@$arr['stu']['stu_class'];
@@ -90,40 +89,6 @@ if($_POST['OP']=='Add'){
 			print_r(@$resx);
 		}
 
-=======
-
-		$Stu_name[]=($x+1).".".$arr['stu']['stu_name']." ".$arr['stu']['stu_sur'];
-		$Stu_class[]=@$arr['stu']['stu_class'];
-		$Stu_classgr[]=@$arr['stu']['stu_cn'];
-		$Clname[]=@$arr['stu']['class_short'];
-		$Stu_Token[]=@$arr['stu']['clg_LineId'];
-		//echo $arr['stu']['stu_class']."/".$arr['stu']['stu_cn'];
-
-//		$Stu_names[]=($x+1).".".@$arr['stu']['stu_name']." ".@$arr['stu']['stu_sur'];
-		//echo ($x+1).".".@$arr['stu']['stu_name']." ".@$arr['stu']['stu_sur']."|";
-	}
-		@$Stu_classx=count($Stu_class);
-		//$G_stunames=implode("\r\n",$Stu_name);
-		//$message1 = $G_stunames."\r\n";
-		$message1 = $Stu_name;
-		for($i=0;$i<@$Stu_classx;$i++){
-			$Mess[$i][] =$G_tail;
-			//$successx .=$message1[$i];
-			$vMess[$i] = implode(",", $Mess[$i]);
-			//$successx .=$vMess[$i];
-			//$div[$i] = explode("|",$message1);
-			for($ix=0;$ix<count($message1[$i]);$ix++){
-					$STU_Name[$i] .=$message1[$i]."\r\n";
-			}
-			//echo $vMess[$i];
-			$successx .="value : $Stu_class[$i],$Clname[$i],$Stu_classgr[$i],$STU_Name[$i],$vMess[$i],$message3,$Stu_Token[$i]";
-			$add="1";
-			//print_r($successx);
-			//@$resx = Line_To_Class_BG($Stu_class[$i],$Clname[$i],$Stu_classgr[$i],$STU_Name[$i],$vMess[$i],$message3,$Stu_Token[$i]);
-			//print_r(@$resx);
-		}
-		/*
->>>>>>> 056e755138115cb4f30fd6fec5924b9ca023bd3d
 		for($i=0;$i<$Good_stu;$i++){
 				for($a=0;$a<$Good_tail;$a++){
 						$add .=$db->add_db(TB_GOOD,array(
