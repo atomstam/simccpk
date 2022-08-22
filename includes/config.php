@@ -30,10 +30,10 @@ define('_facebook_api_secret','eaa6344df3e9ab2048e39780ecee02c3');
 //MySQL Connect
 define('DB_HOST','localhost');
 define('DB_NAME','stdkut');
-define('DB_USERNAME','stdkut');
-define('DB_PASSWORD','44012023');
-//define('DB_USERNAME','root');
-//define('DB_PASSWORD','');
+//define('DB_USERNAME','stdkut');
+//define('DB_PASSWORD','44012023');
+define('DB_USERNAME','root');
+define('DB_PASSWORD','');
 define('ISO','utf-8');
 define('WEB_TEMPLATES','shit');
 
@@ -262,5 +262,3 @@ define('_GOOGLE_Api_ID','770360926176-jg73mvl07k38ue2rk19lkh2jbpt7jqu5.apps.goog
 define('_GOOGLE_Api_Secret','1HyGV7WGKOlOZN8ODnzMolW3');
 
 define('LINE_API',"https://notify-api.line.me/api/notify");
-
-?>

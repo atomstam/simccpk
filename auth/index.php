@@ -14,7 +14,10 @@ $arr['sch'] = $db->fetch($res['sch']);
 $_SESSION['sh_code']=$arr['sch']['sh_code'];
 $_SESSION['sh_name']=$arr['sch']['sh_name'];
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 056e755138115cb4f30fd6fec5924b9ca023bd3d
 @$res['schcon'] = $db->select_query("SELECT * FROM ".TB_SCHOOL_CONFIG." WHERE shc_area='".$arr['sch']['sh_area']."' and shc_code='".$arr['sch']['sh_code']."' "); 
 @$arr['schcon'] =$db->fetch(@$res['schcon']);
 
@@ -85,43 +88,7 @@ $_SESSION['sh_logo']=$arr['schcon']['shc_logo'];
 		</style>
 </head>
 <body  >
-<script>
- $(function() {
-//twitter bootstrap script
-$("#recoverform").submit(function(e) {
-          e.preventDefault();
- //$("button#submitForm").click(function(){
-			$.ajax({
-			type: "POST",
-			url: "modules/admin/forget_pwd.php",
-			data: $('#recoverform').serialize(),
-		    dataType: 'json',
-			cache: 'false',
-			success: function(msg){
-				var messageText =msg.message;
-		//		alert(messageText);
-			if(messageText=='Success'){
-//                 $("#thanks").html(msg.message),
-				 $("#thanks").show();
-				 $("#error").hide();
-				 setTimeout(function() {
-  				 window.location='index.php?name=admin&file=login&route=<?php echo $route;?>';
-				}, 3000);
-			} else {
-//                $("#error").html(msg.message),
-				 $("#error").show();
-				 $("#success").hide();
-				 $('#recoverform')[0].reset();
-			}
-	//		$("#form-content").modal('hide'); 
-			},
-			error: function(){
-				alert("failure");
-			}
-			});
-			});
-});
-</script>
+
 <?php
 
 if(empty($_GET['FB'])){

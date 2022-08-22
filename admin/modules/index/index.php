@@ -275,7 +275,7 @@ $(document).ready(function(){
 
 
 		<!-- ChartJS 1.0.1 -->
-		<script src="../admin/modules/index/js/chart1.js"></script>
+		<script src="modules/index/js/chart1.js"></script>
 
 <script>
         $(document).ready(function() {
