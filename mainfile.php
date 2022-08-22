@@ -11,7 +11,7 @@ if (@count($arr) > 0)
 extract($arr, EXTR_SKIP);
 }
 }
-ini_set('display_errors', "1");
+ini_set('display_errors', "0");
 if (preg_match("/mainfile.php/i",$_SERVER['PHP_SELF'])) {
     Header("Location: index.php");
     die();
@@ -36,6 +36,12 @@ empty($_SESSION['user_login'])?$user_login="":$user_login=$_SESSION['user_login'
 empty($_SESSION['user_pwd'])?$user_pwd="":$user_pwd=$_SESSION['user_pwd'];
 empty($_SESSION['admin_login'])?$admin_login="":$user_login=$_SESSION['admin_login'];
 empty($_SESSION['admin_pwd'])?$admin_pwd="":$user_pwd=$_SESSION['admin_pwd'];
+empty($_SESSION['person_login'])?$person_login="":$person_login=$_SESSION['person_login'];
+empty($_SESSION['person_pwd'])?$person_pwd="":$person_pwd=$_SESSION['person_pwd'];
+empty($_SESSION['stu_login'])?$stu_login="":$stu_login=$_SESSION['stu_login'];
+empty($_SESSION['stu_pwd'])?$stu_pwd="":$stu_pwd=$_SESSION['stu_pwd'];
+empty($_SESSION['staff_login'])?$staff_login="":$staff_login=$_SESSION['staff_login'];
+empty($_SESSION['staff_pwd'])?$staff_pwd="":$staff_pwd=$_SESSION['staff_pwd'];
 empty($_GET['success'])?$success="":$success=$_GET['success'];
 empty($_GET['error_warning'])?$error_warning="":$error_warning=$_GET['error_warning'];
 //empty($_GET['home'])?$home="index.php":$home=$_GET['home'];
@@ -49,8 +55,8 @@ $route="index/index";
 } else {
 $route=$name."/".$file;
 }
-require_once("lang/index.php");
+	require_once("lang/index.php");
 if($name){
-require_once("modules/".$name."/lang/".$file.".php");
+	require_once("modules/".$name."/lang/".$file.".php");
 }
 ?>

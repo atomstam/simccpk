@@ -228,7 +228,8 @@ $res['user'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='"
 $arr['user'] = $db->fetch($res['user']);
 $res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".$arr['user']['stu_class']."' "); 
 $arr['class'] = $db->fetch($res['class']);
-
+@$res['sh'] = $db->select_query("SELECT * FROM ".TB_SCHOOL." WHERE sh_area='".$_SESSION['admin_area']."' and sh_code='".$_SESSION['admin_school']."' "); 
+@$arr['sh']= $db->fetch(@$res['sh']);
 ?>
 
 		<div align="right" >
@@ -251,13 +252,17 @@ $arr['class'] = $db->fetch($res['class']);
                                 <div class="box-body  ">
     <div class="card hovercard">
         <div class="card-background">
-            <img class="card-bkimg" alt="" src="<?php echo WEB_URL_IMG_STU.$arr['user']['stu_pic'];?>">
+            <img class="card-bkimg" alt="" src="<?php echo WEB_URL_IMG_SCHOOL.@$arr['sh']['sh_img'];?>">
             <!-- http://lorempixel.com/850/280/people/9/ -->
         </div>
         <div class="useravatar">
-            <img alt="" src="<?php echo WEB_URL_IMG_STU.$arr['user']['stu_pic'];?>">
+			<?php if(!empty($arr['user']['stu_pic'])){?>
+            <img alt="" src="<?php echo WEB_URL_IMG_STU.@$arr['user']['stu_pic'];?>">
+			<?php } else {?>
+            <img alt="" src="<?php echo WEB_URL_IMG_STU."no_image.jpg";?>">
+			<?php } ?>
         </div>
-        <div class="card-info"> <span class="card-title"><?php echo $arr['user']['stu_num'].$arr['user']['stu_name']." ".$arr['user']['stu_sur'];?></span>
+        <div class="card-info"> <span class="card-title"><?php echo @$arr['user']['stu_num'].@$arr['user']['stu_name']." ".@$arr['user']['stu_sur'];?></span>
         </div>
     </div>
 <div class="form-group">
@@ -500,7 +505,7 @@ $rows['sumg'] = $db->fetch($res['sumG']);
                  <i class="glyphicon glyphicon-folder-open"></i>
                  <h3 class="box-title"><?php echo _heading_title_tab_good; ?></h3>
               <div class="box-tools pull-right">
-			  <span class="badge bg-yellow"><?php echo _text_box_table_count." : ".$rows['countG'];?>&nbsp;(-<?php echo "".$rows['sumG']['SUMG'];?>)</span>
+			  <span class="badge bg-yellow"><?php echo _text_box_table_count." : ".$rows['countG'];?>&nbsp;(<?php echo "".$rows['sumg']['SUMG'];?>)</span>
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -533,7 +538,7 @@ $rows['sumg'] = $db->fetch($res['sumG']);
 		while ($arr['good'] = $db->fetch($res['good'])){
 		$res['tail'] = $db->select_query("SELECT * FROM ".TB_GOODTAIL." WHERE goodtail_id='".$arr['good']['good_tail']."' "); 
 		$arr['tail'] =$db->fetch($res['tail']);
-		$res['data'] = $db->select_query("SELECT * FROM ".TB_GOODDATA." WHERE bdata_id='".$arr['good']['good_t']."' "); 
+		$res['data'] = $db->select_query("SELECT * FROM ".TB_GOODDATA." WHERE gdata_id='".$arr['good']['good_t']."' "); 
 		$arr['data'] =$db->fetch($res['data']);
 		$res['level'] = $db->select_query("SELECT * FROM ".TB_GOODLEVEL." WHERE blevel_id='".$arr['tail']['goodtail_level']."' "); 
 		$arr['level'] =$db->fetch($res['level']);
@@ -551,8 +556,8 @@ $rows['sumg'] = $db->fetch($res['sumG']);
               <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo $arr['tail']['goodtail_name'];?></font></td>
               <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo $arr['level']['blevel_name'];?></font></td>
               <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo $arr['good']['good_name'];?></font></td>
-              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo $arr['data']['bdata_name'];?></font></td>
-              <td layout="block" style="text-align: center;"><font color="<?php echo $ColorFill;?>">-<?php echo $arr['tail']['goodtail_point'];?></font></td>
+              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo $arr['data']['gdata_name'];?></font></td>
+              <td layout="block" style="text-align: center;"><font color="<?php echo $ColorFill;?>"><?php echo $arr['tail']['goodtail_point'];?></font></td>
 			  <td style="text-align: center;">
 			 <a href="index.php?name=statistic&file=mainclass&op=cldetail&class_id=<?php echo $arr['num']['stu_class'];?>&route=<?php echo $route;?>" class="btn bg-aqua btn-flat btn-sm" ><i class="fa fa-search-plus "></i></a>
 			  </td>
@@ -675,10 +680,797 @@ $rows['sumg'] = $db->fetch($res['sumG']);
         <div class="tab-pane fade in" id="tab3">
 
 
+		<!-- คณะกรรมการนักเรียน -->
+		<?php
+		@$res['count2'] = $db->select_query("SELECT * FROM ".TB_COUNTAIL." WHERE cot_area='".$_SESSION['admin_area']."' and cot_code='".$_SESSION['admin_school']."' and cot_stu='".@$arr['user']['stu_id']."' "); 
+		@$rows['count2'] = $db->rows(@$res['count2']);		
+		if(@$rows['count2']){
+		?>
+							<div class="form-group">
+							<div class="col-sm-12" >
+							<br>
+							</div>
+							</div>
+
+<div class="row">
+<div class="col-xs-12 connectedSortable">
+
+    <div class="box box-info">
+		         <div class="box-header with-border">
+                 <i class="glyphicon glyphicon-user"></i>
+                 <h3 class="box-title"><?php echo _heading_title_council; ?>&nbsp;<?php echo @$arr['user']['stu_num'].@$arr['user']['stu_name']." ".@$arr['user']['stu_sur'];?></h3>
+              <div class="box-tools pull-right">
+			  <span class="badge bg-yellow"><?php echo _text_box_table_count." ".@$rows['count2'];?></span>
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+      <div class="box-body ">
+	  <?php
+		
+		@$res['num2'] = $db->select_query("SELECT * FROM ".TB_COUNTAIL." WHERE cot_area='".$_SESSION['admin_area']."' and cot_code='".$_SESSION['admin_school']."' and cot_stu='".@$arr['user']['stu_id']."' order by cot_id desc"); 
+//		@$rows['num1'] = $db->rows(@$res['num1']);
+		?>
+
+
+      <form method="post" enctype="multipart/form-data" id="form" class="form-inline">
+        <table id="example4" class="table table-bordered table-striped responsive" style="width:100%">
+          <thead>
+            <tr >
+              <th width="5%" style="text-align: center;">#</th>
+			  <th layout="block" style="text-align:center;" width="50%"><?php echo _text_box_table_council_name;?></th>
+			  <th layout="block" style="text-align:center;" width="10%"><?php echo _text_box_table_bg_date;?></th>
+              <th layout="block" style="text-align:center;" width="10%"><?php echo _text_box_table_pu_score; ?></th>
+            </tr>
+          </thead>
+          <tbody>
+		<?php
+		$i=1;
+//		@$res['nums'] = $db->select_query("SELECT * FROM ".TB_COUNCIL." WHERE co_stu='".$_GET['id']."' order by cot_id"); 
+		while (@$arr['num2'] = $db->fetch(@$res['num2'])){
+			@$res['tail2'] = $db->select_query("SELECT * FROM ".TB_COUNCIL." WHERE co_id='".@$arr['num2']['cot_co']."' "); 
+			@$arr['tail2'] =$db->fetch(@$res['tail2']);
+			?>
+            <tr>
+              <td style="text-align: center;"><font color="<?php echo $ColorFill;?>"><?php echo $i; ?></td>
+              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo @$arr['tail2']['co_name'];?></font></td>
+              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo ShortDateThai(@$arr['num2']['cot_date']);?></font></td>
+              <td layout="block" style="text-align: center;"><?php echo (int)@$arr['tail2']['co_point'];?></td>
+            </tr>
+
+            <?php $i++;} ?>
+          </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="3" style="text-align:right"><?php echo _text_box_table_good_score_sum;?> :</th>
+                <th></th>
+            </tr>
+        </tfoot>
+		  </table>
+
+		  
+	      </form>
+
+		<script type="text/javascript">
+        $(document).ready(function() {
+		pdfMake.fonts = {
+			THSarabun: {
+			normal: 'THSarabun.ttf',
+			bold: 'THSarabun-Bold.ttf',
+			italics: 'THSarabun-Italic.ttf',
+			bolditalics: 'THSarabun-BoldItalic.ttf'
+		}
+		}
+        var aoColumns4 = [
+                              /* 0 */ { "bSortable": false , 'aTargets': [ 0 ], "responsivePriority": [1]},
+                              /* 1 */ { "bSortable": true , 'aTargets': [ 1 ]},
+                              /* 2 */ { "bSortable": true , 'aTargets': [ 1 ]},
+                              /* 6 */ { "bSortable": false , 'aTargets': [ 0 ]}
+                                  ]
+                oTable4 = $("#example4").dataTable({
+								"aoColumns": aoColumns4,
+								"responsive" : true,
+								"dom" : 'lBfrtip',
+								"buttons": [
+									'copy', {"extend":'csv','charset': 'utf-8','bom': true,"exportOptions" : {columns: ':visible'},"filename" : '<?php echo _heading_title;?>'},,
+									{"extend" : 'excel','charset': 'utf-8','bom': true,"exportOptions" : {columns: ':visible'},"filename" : '<?php echo _heading_title;?>'}, 
+									{ // กำหนดพิเศษเฉพาะปุ่ม pdf
+									"extend": 'pdf', // ปุ่มสร้าง pdf ไฟล์
+									"exportOptions" : {
+										columns: ':visible'
+									},
+									"text": 'PDF', // ข้อความที่แสดง
+									"pageSize": 'A4',   // ขนาดหน้ากระดาษเป็น A4
+									"filename" : '<?php echo _heading_title;?>',
+									"title" : '<?php echo _heading_title;?>',
+									"customize":function(doc){ // ส่วนกำหนดเพิ่มเติม ส่วนนี้จะใช้จัดการกับ pdfmake
+									// กำหนด style หลัก
+										doc.defaultStyle = {
+										font:'THSarabun',
+										fontSize:16                                 
+										};
+										// กำหนดความกว้างของ header แต่ละคอลัมน์หัวข้อ
+////										doc.content[1].table.widths = [ 50, 'auto', '*', '*' ];
+////										doc.styles.tableHeader.fontSize = 16; // กำหนดขนาด font ของ header
+////										var rowCount = doc.content[1].table.body.length; // หาจำนวนแะวทั้งหมดในตาราง
+										// วนลูปเพื่อกำหนดค่าแต่ละคอลัมน์ เช่นการจัดตำแหน่ง
+////										for (i = 1; i < rowCount; i++) { // i เริ่มที่ 1 เพราะ i แรกเป็นแถวของหัวข้อ
+////											doc.content[1].table.body[i][0].alignment = 'center'; // คอลัมน์แรกเริ่มที่ 0
+////											doc.content[1].table.body[i][1].alignment = 'center';
+////											doc.content[1].table.body[i][2].alignment = 'left';
+////											doc.content[1].table.body[i][3].alignment = 'right';
+////										};                                  
+////										console.log(doc); // เอาไว้ debug ดู doc object proptery เพื่ออ้างอิงเพิ่มเติม
+									} // สิ้นสุดกำหนดพิเศษปุ่ม pdf
+									},
+									,{"extend" : 'print',"title" : '<?php echo _heading_title;?>'}
+								],
+								'drawCallback': function(){
+									$('input.flat[type="checkbox"]').iCheck({
+										checkboxClass: 'icheckbox_minimal-red',
+										radioClass: 'iradio_minimal-red'
+									});
+									$('input[name=toggle]').bootstrapToggle();
+									$('input.all[type="checkbox"]').on('ifToggled', function (event) {
+										var chkToggle;
+										$(this).is(':checked') ? chkToggle = "check" : chkToggle = "uncheck";
+										$('input.selector:not(.all)').iCheck(chkToggle);
+									});
+								},
+//								"tableTools": {
+//									"sSwfPath": "../plugins/datatables/swf/copy_csv_xls_pdf.swf"
+//								}
+        "footerCallback": function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+ 
+            // Remove the formatting to get integer data for summation
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+ 
+            // Total over all pages
+            total = api
+                .column( 3 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+ 
+            // Total over this page
+            pageTotal = api
+                .column( 3, { page: 'current'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+ 
+            // Update footer
+            $( api.column( 3 ).footer() ).html(
+                ''+pageTotal +' ( '+ total +' <?php echo _text_box_table_pu_score;?> )'
+            );
+        }
+								});
+
+            });
+        </script>
+
+    </div>
+    </div>
+    </div>
+
+	
+	</div>
+            <?php } ?>
+
+
+		<!-- คณะกรรมการห้องเรียนสีขาว -->
+		<?php
+		@$res['count3'] = $db->select_query("SELECT * FROM ".TB_WHITECLTAIL." WHERE whcl_area='".$_SESSION['admin_area']."' and whcl_code='".$_SESSION['admin_school']."' and whcl_stu='".@$arr['user']['stu_id']."' "); 
+		@$rows['count3'] = $db->rows(@$res['count3']);		
+		if(@$rows['count3']){
+		?>
+							<div class="form-group">
+							<div class="col-sm-12" >
+							<br>
+							</div>
+							</div>
+
+<div class="row">
+<div class="col-xs-12 connectedSortable">
+
+    <div class="box box-danger">
+		         <div class="box-header with-border">
+                 <i class="glyphicon glyphicon-signal"></i>
+                 <h3 class="box-title"><?php echo _heading_title_whiteclass; ?>&nbsp;<?php echo @$arr['user']['stu_num'].@$arr['user']['stu_name']." ".@$arr['user']['stu_sur'];?></h3>
+              <div class="box-tools pull-right">
+			  <span class="badge bg-yellow"><?php echo _text_box_table_count." ".@$rows['count3'];?></span>
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+      <div class="box-body ">
+	  <?php
+		
+		@$res['num3'] = $db->select_query("SELECT * FROM ".TB_WHITECLTAIL." WHERE whcl_area='".$_SESSION['admin_area']."' and whcl_code='".$_SESSION['admin_school']."' and whcl_stu='".@$arr['user']['stu_id']."' order by whcl_id desc"); 
+//		@$rows['num1'] = $db->rows(@$res['num1']);
+		?>
+
+
+      <form method="post" enctype="multipart/form-data" id="form" class="form-inline">
+        <table id="example5" class="table table-bordered table-striped responsive" style="width:100%">
+          <thead>
+            <tr >
+              <th width="5%" style="text-align: center;">#</th>
+			  <th layout="block" style="text-align:center;" width="50%"><?php echo _text_box_table_whiteclass_name;?></th>
+			  <th layout="block" style="text-align:center;" width="10%"><?php echo _text_box_table_bg_date;?></th>
+              <th layout="block" style="text-align:center;" width="10%"><?php echo _text_box_table_pu_score; ?></th>
+            </tr>
+          </thead>
+          <tbody>
+		<?php
+		$i=1;
+//		@$res['nums'] = $db->select_query("SELECT * FROM ".TB_WHITECLASS." WHERE wh_stu='".$_GET['id']."' order by whcl_id"); 
+		while (@$arr['num3'] = $db->fetch(@$res['num3'])){
+			@$res['tail3'] = $db->select_query("SELECT * FROM ".TB_WHITECLASS." WHERE wh_id='".@$arr['num3']['whcl_wh']."' "); 
+			@$arr['tail3'] =$db->fetch(@$res['tail3']);
+			?>
+            <tr>
+              <td style="text-align: center;"><?php echo $i; ?></td>
+              <td layout="block" style="text-align: left;"><?php echo @$arr['tail3']['wh_name'];?></td>
+              <td layout="block" style="text-align: left;"><?php echo ShortDateThai(@$arr['num3']['whcl_date']);?></td>
+              <td layout="block" style="text-align: center;"><?php echo (int)@$arr['tail3']['wh_point'];?></td>
+            </tr>
+
+            <?php $i++;} ?>
+          </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="3" style="text-align:right"><?php echo _text_box_table_good_score_sum;?> :</th>
+                <th></th>
+            </tr>
+        </tfoot>
+		  </table>
+
+		  
+	      </form>
+
+		<script type="text/javascript">
+        $(document).ready(function() {
+		pdfMake.fonts = {
+			THSarabun: {
+			normal: 'THSarabun.ttf',
+			bold: 'THSarabun-Bold.ttf',
+			italics: 'THSarabun-Italic.ttf',
+			bolditalics: 'THSarabun-BoldItalic.ttf'
+		}
+		}
+        var aoColumns5 = [
+                              /* 0 */ { "bSortable": false , 'aTargets': [ 0 ], "responsivePriority": [1]},
+                              /* 1 */ { "bSortable": true , 'aTargets': [ 1 ]},
+                              /* 2 */ { "bSortable": true , 'aTargets': [ 1 ]},
+                              /* 6 */ { "bSortable": false , 'aTargets': [ 0 ]}
+                                  ]
+                oTable5 = $("#example5").dataTable({
+								"aoColumns": aoColumns5,
+								"responsive" : true,
+								"dom" : 'lBfrtip',
+								"buttons": [
+									'copy', {"extend":'csv','charset': 'utf-8','bom': true,"exportOptions" : {columns: ':visible'},"filename" : '<?php echo _heading_title;?>'},,
+									{"extend" : 'excel','charset': 'utf-8','bom': true,"exportOptions" : {columns: ':visible'},"filename" : '<?php echo _heading_title;?>'}, 
+									{ // กำหนดพิเศษเฉพาะปุ่ม pdf
+									"extend": 'pdf', // ปุ่มสร้าง pdf ไฟล์
+									"exportOptions" : {
+										columns: ':visible'
+									},
+									"text": 'PDF', // ข้อความที่แสดง
+									"pageSize": 'A4',   // ขนาดหน้ากระดาษเป็น A4
+									"filename" : '<?php echo _heading_title;?>',
+									"title" : '<?php echo _heading_title;?>',
+									"customize":function(doc){ // ส่วนกำหนดเพิ่มเติม ส่วนนี้จะใช้จัดการกับ pdfmake
+									// กำหนด style หลัก
+										doc.defaultStyle = {
+										font:'THSarabun',
+										fontSize:16                                 
+										};
+										// กำหนดความกว้างของ header แต่ละคอลัมน์หัวข้อ
+////										doc.content[1].table.widths = [ 50, 'auto', '*', '*' ];
+////										doc.styles.tableHeader.fontSize = 16; // กำหนดขนาด font ของ header
+////										var rowCount = doc.content[1].table.body.length; // หาจำนวนแะวทั้งหมดในตาราง
+										// วนลูปเพื่อกำหนดค่าแต่ละคอลัมน์ เช่นการจัดตำแหน่ง
+////										for (i = 1; i < rowCount; i++) { // i เริ่มที่ 1 เพราะ i แรกเป็นแถวของหัวข้อ
+////											doc.content[1].table.body[i][0].alignment = 'center'; // คอลัมน์แรกเริ่มที่ 0
+////											doc.content[1].table.body[i][1].alignment = 'center';
+////											doc.content[1].table.body[i][2].alignment = 'left';
+////											doc.content[1].table.body[i][3].alignment = 'right';
+////										};                                  
+////										console.log(doc); // เอาไว้ debug ดู doc object proptery เพื่ออ้างอิงเพิ่มเติม
+									} // สิ้นสุดกำหนดพิเศษปุ่ม pdf
+									},
+									,{"extend" : 'print',"title" : '<?php echo _heading_title;?>'}
+								],
+								'drawCallback': function(){
+									$('input.flat[type="checkbox"]').iCheck({
+										checkboxClass: 'icheckbox_minimal-red',
+										radioClass: 'iradio_minimal-red'
+									});
+									$('input[name=toggle]').bootstrapToggle();
+									$('input.all[type="checkbox"]').on('ifToggled', function (event) {
+										var chkToggle;
+										$(this).is(':checked') ? chkToggle = "check" : chkToggle = "uncheck";
+										$('input.selector:not(.all)').iCheck(chkToggle);
+									});
+								},
+//								"tableTools": {
+//									"sSwfPath": "../plugins/datatables/swf/copy_csv_xls_pdf.swf"
+//								}
+        "footerCallback": function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+ 
+            // Remove the formatting to get integer data for summation
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+ 
+            // Total over all pages
+            total = api
+                .column( 3 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+ 
+            // Total over this page
+            pageTotal = api
+                .column( 3, { page: 'current'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+ 
+            // Update footer
+            $( api.column( 3 ).footer() ).html(
+                ''+pageTotal +' ( '+ total +' <?php echo _text_box_table_pu_score;?> )'
+            );
+        }
+								});
+
+            });
+        </script>
+
+    </div>
+    </div>
+    </div>
+
+	
+	</div>
+            <?php } ?>
+
+
+		<!-- หน้าที่พิเศษ -->
+		<?php
+		@$res['count1'] = $db->select_query("SELECT * FROM ".TB_PUTTAIL." WHERE pt_area='".$_SESSION['admin_area']."' and pt_code='".$_SESSION['admin_school']."'  and pt_stu='".@$arr['user']['stu_id']."' "); 
+		@$rows['count1'] = $db->rows(@$res['count1']);		
+		if(@$rows['count1']){
+		?>
+							<div class="form-group">
+							<div class="col-sm-12" >
+							<br>
+							</div>
+							</div>
+
+<div class="row">
+<div class="col-xs-12 connectedSortable">
+
+    <div class="box box-warning">
+		         <div class="box-header with-border">
+                 <i class="glyphicon glyphicon-th-list"></i>
+                 <h3 class="box-title"><?php echo _heading_title_put; ?>&nbsp;<?php echo @$arr['user']['stu_num'].@$arr['user']['stu_name']." ".@$arr['user']['stu_sur'];?></h3>
+              <div class="box-tools pull-right">
+			  <span class="badge bg-yellow"><?php echo _text_box_table_count." ".@$rows['count'];?></span>
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+      <div class="box-body ">
+	  <?php
+		
+		@$res['num'] = $db->select_query("SELECT * FROM ".TB_PUTTAIL." WHERE pt_area='".$_SESSION['admin_area']."' and pt_code='".$_SESSION['admin_school']."' and pt_stu='".@$arr['user']['stu_id']."' order by pt_id desc"); 
+//		@$rows['num1'] = $db->rows(@$res['num1']);
+		?>
+
+
+      <form method="post" enctype="multipart/form-data" id="form" class="form-inline">
+        <table id="example3" class="table table-bordered table-striped responsive" style="width:100%">
+          <thead>
+            <tr >
+              <th width="5%" style="text-align: center;">#</th>
+			  <th layout="block" style="text-align:center;" width="50%"><?php echo _text_box_table_pu_name;?></th>
+			  <th layout="block" style="text-align:center;" width="10%"><?php echo _text_box_table_bg_date;?></th>
+              <th layout="block" style="text-align:center;" width="10%"><?php echo _text_box_table_pu_score; ?></th>
+            </tr>
+          </thead>
+          <tbody>
+		<?php
+		$i=1;
+//		@$res['nums'] = $db->select_query("SELECT * FROM ".TB_PUT." WHERE pu_stu='".$_GET['id']."' order by cot_id"); 
+		while (@$arr['num'] = $db->fetch(@$res['num'])){
+			@$res['tail'] = $db->select_query("SELECT * FROM ".TB_PUT." WHERE pu_id='".@$arr['num']['pt_pu']."' "); 
+			@$arr['tail'] =$db->fetch(@$res['tail']);
+			?>
+            <tr>
+              <td style="text-align: center;"><font color="<?php echo $ColorFill;?>"><?php echo $i; ?></td>
+              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo @$arr['tail']['pu_name'];?></font></td>
+              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo ShortDateThai(@$arr['num']['pt_date']);?></font></td>
+              <td layout="block" style="text-align: center;"><?php echo @$arr['tail']['pu_point'];?></td>
+            </tr>
+
+            <?php $i++;} ?>
+          </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="3" style="text-align:right"><?php echo _text_box_table_good_score_sum;?> :</th>
+                <th></th>
+            </tr>
+        </tfoot>
+		  </table>
+
+		  
+	      </form>
+
+		<script type="text/javascript">
+        $(document).ready(function() {
+		pdfMake.fonts = {
+			THSarabun: {
+			normal: 'THSarabun.ttf',
+			bold: 'THSarabun-Bold.ttf',
+			italics: 'THSarabun-Italic.ttf',
+			bolditalics: 'THSarabun-BoldItalic.ttf'
+		}
+		}
+        var aoColumns3 = [
+                              /* 0 */ { "bSortable": false , 'aTargets': [ 0 ], "responsivePriority": [1]},
+                              /* 1 */ { "bSortable": true , 'aTargets': [ 1 ]},
+                              /* 2 */ { "bSortable": true , 'aTargets': [ 1 ]},
+                              /* 6 */ { "bSortable": false , 'aTargets': [ 0 ]}
+                                  ]
+                oTable3 = $("#example3").dataTable({
+								"aoColumns": aoColumns3,
+								"responsive" : true,
+								"dom" : 'lBfrtip',
+								"buttons": [
+									'copy', {"extend":'csv','charset': 'utf-8','bom': true,"exportOptions" : {columns: ':visible'},"filename" : '<?php echo _heading_title;?>'},,
+									{"extend" : 'excel','charset': 'utf-8','bom': true,"exportOptions" : {columns: ':visible'},"filename" : '<?php echo _heading_title;?>'}, 
+									{ // กำหนดพิเศษเฉพาะปุ่ม pdf
+									"extend": 'pdf', // ปุ่มสร้าง pdf ไฟล์
+									"exportOptions" : {
+										columns: ':visible'
+									},
+									"text": 'PDF', // ข้อความที่แสดง
+									"pageSize": 'A4',   // ขนาดหน้ากระดาษเป็น A4
+									"filename" : '<?php echo _heading_title;?>',
+									"title" : '<?php echo _heading_title;?>',
+									"customize":function(doc){ // ส่วนกำหนดเพิ่มเติม ส่วนนี้จะใช้จัดการกับ pdfmake
+									// กำหนด style หลัก
+										doc.defaultStyle = {
+										font:'THSarabun',
+										fontSize:16                                 
+										};
+										// กำหนดความกว้างของ header แต่ละคอลัมน์หัวข้อ
+////										doc.content[1].table.widths = [ 50, 'auto', '*', '*' ];
+////										doc.styles.tableHeader.fontSize = 16; // กำหนดขนาด font ของ header
+////										var rowCount = doc.content[1].table.body.length; // หาจำนวนแะวทั้งหมดในตาราง
+										// วนลูปเพื่อกำหนดค่าแต่ละคอลัมน์ เช่นการจัดตำแหน่ง
+////										for (i = 1; i < rowCount; i++) { // i เริ่มที่ 1 เพราะ i แรกเป็นแถวของหัวข้อ
+////											doc.content[1].table.body[i][0].alignment = 'center'; // คอลัมน์แรกเริ่มที่ 0
+////											doc.content[1].table.body[i][1].alignment = 'center';
+////											doc.content[1].table.body[i][2].alignment = 'left';
+////											doc.content[1].table.body[i][3].alignment = 'right';
+////										};                                  
+////										console.log(doc); // เอาไว้ debug ดู doc object proptery เพื่ออ้างอิงเพิ่มเติม
+									} // สิ้นสุดกำหนดพิเศษปุ่ม pdf
+									},
+									,{"extend" : 'print',"title" : '<?php echo _heading_title;?>'}
+								],
+								'drawCallback': function(){
+									$('input.flat[type="checkbox"]').iCheck({
+										checkboxClass: 'icheckbox_minimal-red',
+										radioClass: 'iradio_minimal-red'
+									});
+									$('input[name=toggle]').bootstrapToggle();
+									$('input.all[type="checkbox"]').on('ifToggled', function (event) {
+										var chkToggle;
+										$(this).is(':checked') ? chkToggle = "check" : chkToggle = "uncheck";
+										$('input.selector:not(.all)').iCheck(chkToggle);
+									});
+								},
+//								"tableTools": {
+//									"sSwfPath": "../plugins/datatables/swf/copy_csv_xls_pdf.swf"
+//								}
+        "footerCallback": function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+ 
+            // Remove the formatting to get integer data for summation
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+ 
+            // Total over all pages
+            total = api
+                .column( 3 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+ 
+            // Total over this page
+            pageTotal = api
+                .column( 3, { page: 'current'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+ 
+            // Update footer
+            $( api.column( 3 ).footer() ).html(
+                ''+pageTotal +' ( '+ total +' <?php echo _text_box_table_pu_score;?> )'
+            );
+        }
+								});
+
+            });
+        </script>
+
+    </div>
+    </div>
+    </div>
+
+	
+	</div>
+            <?php } ?>
+	<!-- /.col -->
+
+		<!-- กิจกรรมนักเรียน -->
+		<?php
+		@$res['count4'] = $db->select_query("SELECT * FROM ".TB_AFFTAIL." WHERE afft_area='".$_SESSION['admin_area']."' and afft_code='".$_SESSION['admin_school']."' and afft_stu='".@$arr['user']['stu_id']."' "); 
+		@$rows['count4'] = $db->rows(@$res['count4']);		
+		if(@$rows['count4']){
+		?>
+							<div class="form-group">
+							<div class="col-sm-12" >
+							<br>
+							</div>
+							</div>
+
+<div class="row">
+<div class="col-xs-12 connectedSortable">
+
+    <div class="box box-warning">
+		         <div class="box-header with-border">
+                 <i class="glyphicon glyphicon-book"></i>
+                 <h3 class="box-title"><?php echo _heading_title_affairs; ?>&nbsp;<?php echo @$arr['user']['stu_num'].@$arr['user']['stu_name']." ".@$arr['user']['stu_sur'];?></h3>
+              <div class="box-tools pull-right">
+			  <span class="badge bg-yellow"><?php echo _text_box_table_count." ".@$rows['count4'];?></span>
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+      <div class="box-body ">
+	  <?php
+		
+		@$res['num4'] = $db->select_query("SELECT * FROM ".TB_AFFTAIL." WHERE afft_area='".$_SESSION['admin_area']."' and afft_code='".$_SESSION['admin_school']."' and afft_stu='".@$arr['user']['stu_id']."' order by afft_id desc"); 
+//		@$rows['num1'] = $db->rows(@$res['num1']);
+		?>
+
+
+      <form method="post" enctype="multipart/form-data" id="form" class="form-inline">
+        <table id="example6" class="table table-bordered table-striped responsive" style="width:100%">
+          <thead>
+            <tr >
+              <th width="5%" style="text-align: center;">#</th>
+			  <th layout="block" style="text-align:center;" width="50%"><?php echo _text_box_table_afft_name;?></th>
+			  <th layout="block" style="text-align:center;" width="10%"><?php echo _text_box_table_bg_date;?></th>
+              <th layout="block" style="text-align:center;" width="10%"><?php echo _text_box_table_pu_score; ?></th>
+            </tr>
+          </thead>
+          <tbody>
+		<?php
+		$i=1;
+//		@$res['nums'] = $db->select_query("SELECT * FROM ".TB_AFFAIRS." WHERE aff_stu='".$_GET['id']."' order by afft_id"); 
+		while (@$arr['num4'] = $db->fetch(@$res['num4'])){
+			@$res['tail4'] = $db->select_query("SELECT * FROM ".TB_AFFAIRS." WHERE aff_id='".@$arr['num4']['afft_aff']."' "); 
+			@$arr['tail4'] =$db->fetch(@$res['tail4']);
+			?>
+            <tr>
+              <td style="text-align: center;"><font color="<?php echo $ColorFill;?>"><?php echo $i; ?></td>
+              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo @$arr['tail4']['aff_name'];?></font></td>
+              <td layout="block" style="text-align: left;"><font color="<?php echo $ColorFill;?>"><?php echo ShortDateThai(@$arr['num4']['afft_date']);?></font></td>
+              <td layout="block" style="text-align: center;"><?php echo (int)@$arr['tail4']['aff_point'];?></td>
+            </tr>
+
+            <?php $i++;} ?>
+          </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="3" style="text-align:right"><?php echo _text_box_table_good_score_sum;?> :</th>
+                <th></th>
+            </tr>
+        </tfoot>
+		  </table>
+
+		  
+	      </form>
+
+		<script type="text/javascript">
+        $(document).ready(function() {
+		pdfMake.fonts = {
+			THSarabun: {
+			normal: 'THSarabun.ttf',
+			bold: 'THSarabun-Bold.ttf',
+			italics: 'THSarabun-Italic.ttf',
+			bolditalics: 'THSarabun-BoldItalic.ttf'
+		}
+		}
+        var aoColumns6 = [
+                              /* 0 */ { "bSortable": false , 'aTargets': [ 0 ], "responsivePriority": [1]},
+                              /* 1 */ { "bSortable": true , 'aTargets': [ 1 ]},
+                              /* 2 */ { "bSortable": true , 'aTargets': [ 1 ]},
+                              /* 6 */ { "bSortable": false , 'aTargets': [ 0 ]}
+                                  ]
+                oTable6 = $("#example6").dataTable({
+								"aoColumns": aoColumns6,
+								"responsive" : true,
+								"dom" : 'lBfrtip',
+								"buttons": [
+									'copy', {"extend":'csv','charset': 'utf-8','bom': true,"exportOptions" : {columns: ':visible'},"filename" : '<?php echo _heading_title;?>'},,
+									{"extend" : 'excel','charset': 'utf-8','bom': true,"exportOptions" : {columns: ':visible'},"filename" : '<?php echo _heading_title;?>'}, 
+									{ // กำหนดพิเศษเฉพาะปุ่ม pdf
+									"extend": 'pdf', // ปุ่มสร้าง pdf ไฟล์
+									"exportOptions" : {
+										columns: ':visible'
+									},
+									"text": 'PDF', // ข้อความที่แสดง
+									"pageSize": 'A4',   // ขนาดหน้ากระดาษเป็น A4
+									"filename" : '<?php echo _heading_title;?>',
+									"title" : '<?php echo _heading_title;?>',
+									"customize":function(doc){ // ส่วนกำหนดเพิ่มเติม ส่วนนี้จะใช้จัดการกับ pdfmake
+									// กำหนด style หลัก
+										doc.defaultStyle = {
+										font:'THSarabun',
+										fontSize:16                                 
+										};
+										// กำหนดความกว้างของ header แต่ละคอลัมน์หัวข้อ
+////										doc.content[1].table.widths = [ 50, 'auto', '*', '*' ];
+////										doc.styles.tableHeader.fontSize = 16; // กำหนดขนาด font ของ header
+////										var rowCount = doc.content[1].table.body.length; // หาจำนวนแะวทั้งหมดในตาราง
+										// วนลูปเพื่อกำหนดค่าแต่ละคอลัมน์ เช่นการจัดตำแหน่ง
+////										for (i = 1; i < rowCount; i++) { // i เริ่มที่ 1 เพราะ i แรกเป็นแถวของหัวข้อ
+////											doc.content[1].table.body[i][0].alignment = 'center'; // คอลัมน์แรกเริ่มที่ 0
+////											doc.content[1].table.body[i][1].alignment = 'center';
+////											doc.content[1].table.body[i][2].alignment = 'left';
+////											doc.content[1].table.body[i][3].alignment = 'right';
+////										};                                  
+////										console.log(doc); // เอาไว้ debug ดู doc object proptery เพื่ออ้างอิงเพิ่มเติม
+									} // สิ้นสุดกำหนดพิเศษปุ่ม pdf
+									},
+									,{"extend" : 'print',"title" : '<?php echo _heading_title;?>'}
+								],
+								'drawCallback': function(){
+									$('input.flat[type="checkbox"]').iCheck({
+										checkboxClass: 'icheckbox_minimal-red',
+										radioClass: 'iradio_minimal-red'
+									});
+									$('input[name=toggle]').bootstrapToggle();
+									$('input.all[type="checkbox"]').on('ifToggled', function (event) {
+										var chkToggle;
+										$(this).is(':checked') ? chkToggle = "check" : chkToggle = "uncheck";
+										$('input.selector:not(.all)').iCheck(chkToggle);
+									});
+								},
+//								"tableTools": {
+//									"sSwfPath": "../plugins/datatables/swf/copy_csv_xls_pdf.swf"
+//								}
+        "footerCallback": function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+ 
+            // Remove the formatting to get integer data for summation
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+ 
+            // Total over all pages
+            total = api
+                .column( 3 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+ 
+            // Total over this page
+            pageTotal = api
+                .column( 3, { page: 'current'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+ 
+            // Update footer
+            $( api.column( 3 ).footer() ).html(
+                ''+pageTotal +' ( '+ total +' <?php echo _text_box_table_pu_score;?> )'
+            );
+        }
+								});
+
+            });
+        </script>
+
+    </div>
+    </div>
+    </div>
+	
+	</div>
+           <?php } ?>
+
         </div>
         <div class="tab-pane fade in" id="tab4">
 
+<br>
+<div class="col-xs-12">
+      <!-- Info boxes -->
+      <div class="row">
 
+        <div class="col-lg-6 col-xs-12" >
+          <!-- small box -->
+          <div class="small-box bg-green">
+            <div class="inner">
+              <h3><?php echo number_format(StatScore_GoodClass_PerStu($_SESSION['person_area'],$_SESSION['person_school'],$arr['user']['stu_class'],$arr['user']['stu_cn'],$arr['user']['stu_id']));?></h3>
+
+              <p>คะแนนพฤติกรรมบวก</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-bag"></i>
+            </div>
+            <a href="#" class="small-box-footer">รายละเอียด <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-6 col-xs-12">
+          <!-- small box -->
+          <div class="small-box bg-red">
+            <div class="inner">
+              <h3><?php echo number_format(StatScore_BadClass_PerStu($_SESSION['person_area'],$_SESSION['person_school'],$arr['user']['stu_class'],$arr['user']['stu_cn'],$arr['user']['stu_id']));?></h3>
+
+              <p>คะแนนพฤติกรรมลบ</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="#" class="small-box-footer">รายละเอียด <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+
+	</div><!-- /.row -->
+</div><!-- /.col -->
 
         </div>
 

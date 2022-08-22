@@ -25,6 +25,10 @@ if(!empty($_SESSION['auth']) && $_SESSION['auth']=="admin"){
 	echo "<meta http-equiv='refresh' content='0; url=admin/index.php'>";
 } else if(!empty($_SESSION['auth']) && $_SESSION['auth']=="person"){
 	echo "<meta http-equiv='refresh' content='0; url=person/index.php'>";
+} else if(!empty($_SESSION['auth']) && $_SESSION['auth']=="stu"){
+	echo "<meta http-equiv='refresh' content='0; url=stu/index.php'>";
+} else if(!empty($_SESSION['auth']) && $_SESSION['auth']=="staff"){
+	echo "<meta http-equiv='refresh' content='0; url=staff/index.php'>";
 } else {
 	echo "<meta http-equiv='refresh' content='0; url=auth/index.php'>";
 }

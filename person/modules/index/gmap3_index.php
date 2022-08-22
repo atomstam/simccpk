@@ -1,3 +1,4 @@
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAr6ZgHWvwwGvFEM2hAtmYr9rc-Ug2QFwU&callback=initMap&sensor=true&language=th" type="text/javascript"></script>
 <?php
 ob_start();
 //header('Content-Type: application/json');
@@ -13,12 +14,10 @@ $arr['sh'] = $db->fetch($res['sh']);
 //$Long=number_format((float)($arr['ar']['area_long']),4);
 //$Lat=number_format($arr['sh']['latitude']);
 //$Long=number_format($arr['sh']['longitude']);
-$Lat=$arr['sh']['latitude'];
-$Long=$arr['sh']['longitude'];
+$Lat=number_format($arr['sh']['latitude']);
+$Long=number_format($arr['sh']['longitude']);
 //echo $Lat;
 ?>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAr6ZgHWvwwGvFEM2hAtmYr9rc-Ug2QFwU&callback=initMap&sensor=true&language=th" type="text/javascript"></script>
-
 <script type="text/javascript" src="../../../js/gmap3.js"></script>
     <div class="row">
            <div class="col-lg-12 col-md-12 col-sm-12">
@@ -41,7 +40,7 @@ $Long=$arr['sh']['longitude'];
 								if($arr['marker']['stu_class']=='m5'){ $img="marker_05.png";}
 								if($arr['marker']['stu_class']=='m6'){ $img="marker_06.png";}
 							?>
-							<img src='../img/icon/<?php echo $img;?>' width='25' height='25'> <?php echo $arr['cl']['class_short'];?>
+							<img src='../../../img/icon/<?php echo $img;?>' width='25' height='25'> <?php echo $arr['cl']['class_short'];?>
 							<?php
 							}
 							?>
@@ -60,8 +59,8 @@ $Long=$arr['sh']['longitude'];
 
 <script type="text/javascript">
     var maps, marker, latlng;
-	var LAT = parseFloat('<?php echo $Lat;?>');
-	var LONG = parseFloat('<?php echo $Long;?>');
+	var LAT = parseInt('<?php echo $Lat;?>',10);
+	var LONG = parseInt('<?php echo $Long;?>',10);
 	//alert(LAT);
     $(function () {
 //	function initMap(markers) {
@@ -85,15 +84,15 @@ $Long=$arr['sh']['longitude'];
 					//$resultArray = array();
 					while($obResult =  $db->fetch($strSQL))
 					{
-						if($obResult['class_id']=='m1'){ $icon='../img/icon/marker_01.png';}
-						if($obResult['class_id']=='m2'){ $icon='../img/icon/marker_02.png';}
-						if($obResult['class_id']=='m3'){ $icon='../img/icon/marker_03.png';}
-						if($obResult['class_id']=='m4'){ $icon='../img/icon/marker_04.png';}
-						if($obResult['class_id']=='m5'){ $icon='../img/icon/marker_05.png';}
-						if($obResult['class_id']=='m6'){ $icon='../img/icon/marker_06.png';}
+						if($obResult['class_id']=='m1'){ $icon='../../img/icon/marker_01.png';}
+						if($obResult['class_id']=='m2'){ $icon='../../img/icon/marker_02.png';}
+						if($obResult['class_id']=='m3'){ $icon='../../img/icon/marker_03.png';}
+						if($obResult['class_id']=='m4'){ $icon='../../img/icon/marker_04.png';}
+						if($obResult['class_id']=='m5'){ $icon='../../img/icon/marker_05.png';}
+						if($obResult['class_id']=='m6'){ $icon='../../img/icon/marker_06.png';}
 
-						if($obResult['stu_lat']==''){ $LatStu=$Lat;}
-						if($obResult['stu_long']==''){ $LongStu=$Long;}
+						if($obResult['stu_lat']==''){ $LatStu=$Lat;} else {$LatStu=$obResult['stu_lat'];}
+						if($obResult['stu_long']==''){ $LongStu=$Long;} else {$LongStu=$obResult['stu_long'];}
 					?>
 						{
 						latLng:[<?php echo $LatStu;?> , <?php echo $LongStu;?>],

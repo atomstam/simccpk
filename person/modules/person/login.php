@@ -161,6 +161,8 @@ if(!empty(@$rows['user'])){
 	@$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS_PERSON." WHERE clper_code='".@$arr['user']['per_code']."' AND clper_area='".@$arr['user']['per_area']."' and clper_tech='".$arr['user']['per_ids']."' "); 
 	@$arr['class'] = $db->fetch(@$res['class']); 
 
+	if($arr['class']['clper_tech']){
+
 	$_SESSION['person_login'] = $Username ;
 	$_SESSION['person_pwd'] = $Password ;
 	$_SESSION['person_class'] = @$arr['class']['clper_class'] ;
@@ -221,6 +223,11 @@ if(!empty(@$rows['user'])){
 	$success ="<meta http-equiv='refresh' content='0; url=index.php'>";
 	$status  = 'success';
 	$message = _login_success_message;
+	
+	} else {	$error_warning =_login_status_no;
+	$status  = 'warning';
+	$message = _login_error_message;
+	}
 
 } else {
 	$error_warning =_login_status_no;

@@ -1,13 +1,13 @@
 <?php 
 //require_once ("mainfile.php"); 
 //require_once ("header.php"); 
-if(!empty($_SESSION['admin_login'])){
+if(!empty($_SESSION['person_login'])){
 ?>
 
 <div class="col-xs-12">
 <?php
 if($op=='cldetail' and $action=='' ){
-@$res['count'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_class='".$_GET['class_id']."' "); 
+@$res['count'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."' and stu_class='".$_GET['class_id']."' and stu_cn='".$_GET['class_cn']."'  "); 
 @$rows['count'] = $db->rows(@$res['count']);
 @$res['Cl'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".$_GET['class_id']."' "); 
 @$arr['Cl'] =$db->fetch(@$res['Cl']);
@@ -23,7 +23,7 @@ if($op=='cldetail' and $action=='' ){
     <div class="box box-danger">
 		         <div class="box-header with-border">
                  <i class="glyphicon glyphicon-folder-open"></i>
-                 <h3 class="box-title"><?php echo _heading_title;?>&nbsp;<span class="badge bg-green"><?php echo @$arr['Cl']['class_name']; ?></span></h3>
+                 <h3 class="box-title"><?php echo _heading_title;?>&nbsp;<span class="badge bg-green"><?php echo @$arr['Cl']['class_name']; ?>/<?=$_GET['class_cn'];?></span></h3>
               <div class="box-tools pull-right">
 			  <span class="badge bg-yellow"><?php echo _text_box_table_count." ".@$rows['count'];?></span>
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -35,7 +35,7 @@ if($op=='cldetail' and $action=='' ){
       <div class="box-body ">
 	  <?php
 		$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
-		@$res['num'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_class='".$_GET['class_id']."'  order by stu_class"); 
+		@$res['num'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."' and stu_class='".$_GET['class_id']."' and stu_cn='".$_GET['class_cn']."'  order by stu_class"); 
 		@$rows['num'] = $db->rows(@$res['num']);
 		if(@$rows['num']) {
 		?>
@@ -61,54 +61,54 @@ if($op=='cldetail' and $action=='' ){
 		@$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".@$arr['num']['stu_class']."' "); 
 		@$arr['class'] =$db->fetch(@$res['class']);
 
-		@$res['kad1'] = $db->select_query("select *,count(c_stu) as KAD1 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_k like '%ไม่มา%' and c_stu='".@$arr['num']['stu_id']."' group by c_stu"); 
+		@$res['kad1'] = $db->select_query("select *,count(c_stu) as KAD1 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_k like '%ไม่มา%' and c_stu='".@$arr['num']['stu_id']."' group by c_stu"); 
 		@$arr['kad1'] =$db->fetch(@$res['kad1']);
-		@$res['kad2'] = $db->select_query("select *,count(c_stu) as KAD2 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_k2 like '%ไม่มา%' and c_stu='".@$arr['num']['stu_id']."' group by c_stu"); 
+		@$res['kad2'] = $db->select_query("select *,count(c_stu) as KAD2 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_k2 like '%ไม่มา%' and c_stu='".@$arr['num']['stu_id']."' group by c_stu"); 
 		@$arr['kad2'] =$db->fetch(@$res['kad2']);
-		@$res['kad3'] = $db->select_query("select *,count(c_stu) as KAD3 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_k3 like '%ไม่มา%' and c_stu='".@$arr['num']['stu_id']."' group by c_stu"); 
+		@$res['kad3'] = $db->select_query("select *,count(c_stu) as KAD3 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_k3 like '%ไม่มา%' and c_stu='".@$arr['num']['stu_id']."' group by c_stu"); 
 		@$arr['kad3'] =$db->fetch(@$res['kad3']);
-		@$res['kad4'] = $db->select_query("select *,count(c_stu) as KAD4 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_k4 like '%ไม่มา%' and c_stu='".@$arr['num']['stu_id']."' group by c_stu"); 
+		@$res['kad4'] = $db->select_query("select *,count(c_stu) as KAD4 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_k4 like '%ไม่มา%' and c_stu='".@$arr['num']['stu_id']."' group by c_stu"); 
 		@$arr['kad4'] =$db->fetch(@$res['kad4']);
 
 		$KAD=@$arr['kad1']['KAD1']+@$arr['kad2']['KAD2']+@$arr['kad3']['KAD3']+@$arr['kad4']['KAD4'];
 
 
-		@$res['la1'] = $db->select_query("select *,count(c_stu) as LA1 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_k like '%ลา%' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
+		@$res['la1'] = $db->select_query("select *,count(c_stu) as LA1 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_k like '%ลา%' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
 		@$arr['la1'] =$db->fetch(@$res['la1']);
-		@$res['la2'] = $db->select_query("select *,count(c_stu) as LA2 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_k2 like '%ลา%' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
+		@$res['la2'] = $db->select_query("select *,count(c_stu) as LA2 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_k2 like '%ลา%' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
 		@$arr['la2'] =$db->fetch(@$res['la2']);
-		@$res['la3'] = $db->select_query("select *,count(c_stu) as LA3 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_k3 like '%ลา%' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
+		@$res['la3'] = $db->select_query("select *,count(c_stu) as LA3 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_k3 like '%ลา%' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
 		@$arr['la3'] =$db->fetch(@$res['la3']);
-		@$res['la4'] = $db->select_query("select *,count(c_stu) as LA4 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_k4 like '%ลา%' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
+		@$res['la4'] = $db->select_query("select *,count(c_stu) as LA4 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_k4 like '%ลา%' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
 		@$arr['la4'] =$db->fetch(@$res['la4']);
 
 		$LA=@$arr['la1']['LA1']+@$arr['la2']['LA2']+@$arr['la3']['LA3']+@$arr['la4']['LA4'];
 
 
-		@$res['sai1'] = $db->select_query("select *,count(c_stu) as SAI1 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_k like '%สาย%' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
+		@$res['sai1'] = $db->select_query("select *,count(c_stu) as SAI1 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_k like '%สาย%' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
 		@$arr['sai1'] =$db->fetch(@$res['sai1']);
-		@$res['sai2'] = $db->select_query("select *,count(c_stu) as SAI2 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_k2 like '%สาย%' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
+		@$res['sai2'] = $db->select_query("select *,count(c_stu) as SAI2 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_k2 like '%สาย%' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
 		@$arr['sai2'] =$db->fetch(@$res['sai2']);
-		@$res['sai3'] = $db->select_query("select *,count(c_stu) as SAI3 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_k3 like '%สาย%' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
+		@$res['sai3'] = $db->select_query("select *,count(c_stu) as SAI3 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_k3 like '%สาย%' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
 		@$arr['sai3'] =$db->fetch(@$res['sai3']);
-		@$res['sai4'] = $db->select_query("select *,count(c_stu) as SAI4 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_k4 like '%สาย%' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
+		@$res['sai4'] = $db->select_query("select *,count(c_stu) as SAI4 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_k4 like '%สาย%' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
 		@$arr['sai4'] =$db->fetch(@$res['sai4']);
 
 		$SAI=@$arr['sai1']['SAI1']+@$arr['sai2']['SAI2']+@$arr['sai3']['SAI3']+@$arr['sai4']['SAI4'];
 
-		@$res['op1'] = $db->select_query("select *,count(c_stu) as OP1 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_ch1= '1' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
+		@$res['op1'] = $db->select_query("select *,count(c_stu) as OP1 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_ch1= '1' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
 		@$arr['op1'] =$db->fetch(@$res['op1']);
-		@$res['op2'] = $db->select_query("select *,count(c_stu) as OP2 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_ch2= '2' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
+		@$res['op2'] = $db->select_query("select *,count(c_stu) as OP2 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_ch2= '2' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
 		@$arr['op2'] =$db->fetch(@$res['op2']);
-		@$res['op3'] = $db->select_query("select *,count(c_stu) as OP3 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_ch3= '3' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
+		@$res['op3'] = $db->select_query("select *,count(c_stu) as OP3 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_ch3= '3' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
 		@$arr['op3'] =$db->fetch(@$res['op3']);
-		@$res['op4'] = $db->select_query("select *,count(c_stu) as OP4 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_ch4= '4' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
+		@$res['op4'] = $db->select_query("select *,count(c_stu) as OP4 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_ch4= '4' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
 		@$arr['op4'] =$db->fetch(@$res['op4']);
-		@$res['op5'] = $db->select_query("select *,count(c_stu) as OP5 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_ch5= '5' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
+		@$res['op5'] = $db->select_query("select *,count(c_stu) as OP5 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_ch5= '5' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
 		@$arr['op5'] =$db->fetch(@$res['op5']);
-		@$res['op6'] = $db->select_query("select *,count(c_stu) as OP6 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_ch6= '6' and c_stu='".@$arr['num']['stu_id']."' group by c_stu"); 
+		@$res['op6'] = $db->select_query("select *,count(c_stu) as OP6 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_ch6= '6' and c_stu='".@$arr['num']['stu_id']."' group by c_stu"); 
 		@$arr['op6'] =$db->fetch(@$res['op6']);
-		@$res['op7'] = $db->select_query("select *,count(c_stu) as OP7 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_ch7= '7' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
+		@$res['op7'] = $db->select_query("select *,count(c_stu) as OP7 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_ch7= '7' and c_stu='".@$arr['num']['stu_id']."' group by c_stu "); 
 		@$arr['op7'] =$db->fetch(@$res['op7']);
 //		@$PerC=(100*(@$arr['num']['CO']))/(@$rows['count']);
 		$OPSS=@$arr['op1']['OP1']+@$arr['op2']['OP2']+@$arr['op3']['OP3']+@$arr['op4']['OP4']+@$arr['op5']['OP5']+@$arr['op6']['OP6']+@$arr['op7']['OP7'];
@@ -258,7 +258,7 @@ if($op=='cldetail' and $action=='' ){
 <?php
 } else if($op =='studetail' ){
 $db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
-@$res['user'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' and stu_id='".$_GET['stuid']."' order by stu_class,stu_id"); 
+@$res['user'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."' and stu_id='".$_GET['stuid']."' order by stu_class,stu_id"); 
 @$arr['user'] = $db->fetch(@$res['user']);
 @$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".@$arr['user']['stu_class']."' "); 
 @$arr['class'] = $db->fetch(@$res['class']);
@@ -301,7 +301,7 @@ $db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
 
 
 <?php
-@$res['countB'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." where c_stu='".$_GET['stuid']."' and c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' group by c_id"); 
+@$res['countB'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." where c_stu='".$_GET['stuid']."' and c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' group by c_id"); 
 @$rows['countB'] = $db->rows(@$res['countB']);
 if(@$rows['countB']) {
 ?>
@@ -323,7 +323,7 @@ if(@$rows['countB']) {
       <div class="box-body ">
 	  <?php
 		$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
-		@$res['bad'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." where c_stu='".$_GET['stuid']."' and c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' order by c_id desc"); 
+		@$res['bad'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." where c_stu='".$_GET['stuid']."' and c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' order by c_id desc"); 
 //		@$rows['num'] = $db->rows(@$res['num']);
 		?>
       <form id="form" class="form-inline">
@@ -343,7 +343,7 @@ if(@$rows['countB']) {
 		<?php
 		$i=1;
 		while (@$arr['bad'] = $db->fetch(@$res['bad'])){
-		@$res['ch'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." where c_date='".@$arr['bad']['c_date']."' and c_stu='".$_GET['stuid']."'  and c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' order by c_id desc"); 
+		@$res['ch'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." where c_date='".@$arr['bad']['c_date']."' and c_stu='".$_GET['stuid']."'  and c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' order by c_id desc"); 
 		@$arr['ch'] = $db->fetch(@$res['ch']);
 		?>
             <tr >
@@ -489,7 +489,7 @@ $(document).ready(function(){
 	  <div id="GraphMclass" ><center><img src="../img/ajax-loader1.gif" border="0"></center></div>
 	  </div>
 <?php
-@$res['count'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' group by stu_id"); 
+@$res['count'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."' group by stu_id"); 
 @$rows['count'] = $db->rows(@$res['count']);
 ?>
 <div class="row">
@@ -511,7 +511,7 @@ $(document).ready(function(){
       <div class="box-body ">
 	  <?php
 		$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
-		@$res['num'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' group by c_class order by c_class "); 
+		@$res['num'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' group by c_class,c_cn order by c_class,c_cn "); 
 		@$rows['num'] = $db->rows(@$res['num']);
 		if(@$rows['num']) {
 		?>
@@ -535,54 +535,54 @@ $(document).ready(function(){
 		@$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".@$arr['num']['c_class']."' "); 
 		@$arr['class'] =$db->fetch(@$res['class']);
 
-		@$res['kad1'] = $db->select_query("select *,count(c_stu) as KAD1 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_k like '%ไม่มา%' and c_class='".@$arr['num']['c_class']."'   group by c_class"); 
+		@$res['kad1'] = $db->select_query("select *,count(c_stu) as KAD1 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_k like '%ไม่มา%' and c_class='".@$arr['num']['c_class']."'   and c_cn='".$arr['num']['c_cn']."' group by c_class,c_cn"); 
 		@$arr['kad1'] =$db->fetch(@$res['kad1']);
-		@$res['kad2'] = $db->select_query("select *,count(c_stu) as KAD2 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_k2 like '%ไม่มา%' and c_class='".@$arr['num']['c_class']."'   group by c_class"); 
+		@$res['kad2'] = $db->select_query("select *,count(c_stu) as KAD2 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_k2 like '%ไม่มา%' and c_class='".@$arr['num']['c_class']."'   and c_cn='".$arr['num']['c_cn']."' group by c_class,c_cn"); 
 		@$arr['kad2'] =$db->fetch(@$res['kad2']);
-		@$res['kad3'] = $db->select_query("select *,count(c_stu) as KAD3 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_k3 like '%ไม่มา%' and c_class='".@$arr['num']['c_class']."'   group by c_class"); 
+		@$res['kad3'] = $db->select_query("select *,count(c_stu) as KAD3 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_k3 like '%ไม่มา%' and c_class='".@$arr['num']['c_class']."'   and c_cn='".$arr['num']['c_cn']."' group by c_class,c_cn"); 
 		@$arr['kad3'] =$db->fetch(@$res['kad3']);
-		@$res['kad4'] = $db->select_query("select *,count(c_stu) as KAD4 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_k4 like '%ไม่มา%' and c_class='".@$arr['num']['c_class']."'   group by c_class"); 
+		@$res['kad4'] = $db->select_query("select *,count(c_stu) as KAD4 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_k4 like '%ไม่มา%' and c_class='".@$arr['num']['c_class']."'   and c_cn='".$arr['num']['c_cn']."' group by c_class,c_cn"); 
 		@$arr['kad4'] =$db->fetch(@$res['kad4']);
 
 		$KAD=@$arr['kad1']['KAD1']+@$arr['kad2']['KAD2']+@$arr['kad3']['KAD3']+@$arr['kad4']['KAD4'];
 
 
-		@$res['la1'] = $db->select_query("select *,count(c_stu) as LA1 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_k like '%ลา%' and c_class='".@$arr['num']['c_class']."'   group by c_class "); 
+		@$res['la1'] = $db->select_query("select *,count(c_stu) as LA1 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_k like '%ลา%' and c_class='".@$arr['num']['c_class']."'   and c_cn='".$arr['num']['c_cn']."' group by c_class,c_cn "); 
 		@$arr['la1'] =$db->fetch(@$res['la1']);
-		@$res['la2'] = $db->select_query("select *,count(c_stu) as LA2 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_k2 like '%ลา%' and c_class='".@$arr['num']['c_class']."'   group by c_class "); 
+		@$res['la2'] = $db->select_query("select *,count(c_stu) as LA2 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_k2 like '%ลา%' and c_class='".@$arr['num']['c_class']."'   and c_cn='".$arr['num']['c_cn']."' group by c_class,c_cn "); 
 		@$arr['la2'] =$db->fetch(@$res['la2']);
-		@$res['la3'] = $db->select_query("select *,count(c_stu) as LA3 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_k3 like '%ลา%' and c_class='".@$arr['num']['c_class']."'   group by c_class "); 
+		@$res['la3'] = $db->select_query("select *,count(c_stu) as LA3 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_k3 like '%ลา%' and c_class='".@$arr['num']['c_class']."'   and c_cn='".$arr['num']['c_cn']."' group by c_class,c_cn "); 
 		@$arr['la3'] =$db->fetch(@$res['la3']);
-		@$res['la4'] = $db->select_query("select *,count(c_stu) as LA4 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_k4 like '%ลา%' and c_class='".@$arr['num']['c_class']."'   group by c_class "); 
+		@$res['la4'] = $db->select_query("select *,count(c_stu) as LA4 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_k4 like '%ลา%' and c_class='".@$arr['num']['c_class']."'   and c_cn='".$arr['num']['c_cn']."' group by c_class,c_cn"); 
 		@$arr['la4'] =$db->fetch(@$res['la4']);
 
 		$LA=@$arr['la1']['LA1']+@$arr['la2']['LA2']+@$arr['la3']['LA3']+@$arr['la4']['LA4'];
 
 
-		@$res['sai1'] = $db->select_query("select *,count(c_stu) as SAI1 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_k like '%สาย%' and c_class='".@$arr['num']['c_class']."'   group by c_class "); 
+		@$res['sai1'] = $db->select_query("select *,count(c_stu) as SAI1 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_k like '%สาย%' and c_class='".@$arr['num']['c_class']."'   and c_cn='".$arr['num']['c_cn']."' group by c_class,c_cn "); 
 		@$arr['sai1'] =$db->fetch(@$res['sai1']);
-		@$res['sai2'] = $db->select_query("select *,count(c_stu) as SAI2 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_k2 like '%สาย%' and c_class='".@$arr['num']['c_class']."'   group by c_class "); 
+		@$res['sai2'] = $db->select_query("select *,count(c_stu) as SAI2 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_k2 like '%สาย%' and c_class='".@$arr['num']['c_class']."'   and c_cn='".$arr['num']['c_cn']."' group by c_class,c_cn "); 
 		@$arr['sai2'] =$db->fetch(@$res['sai2']);
-		@$res['sai3'] = $db->select_query("select *,count(c_stu) as SAI3 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_k3 like '%สาย%' and c_class='".@$arr['num']['c_class']."'   group by c_class "); 
+		@$res['sai3'] = $db->select_query("select *,count(c_stu) as SAI3 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_k3 like '%สาย%' and c_class='".@$arr['num']['c_class']."'   and c_cn='".$arr['num']['c_cn']."' group by c_class,c_cn"); 
 		@$arr['sai3'] =$db->fetch(@$res['sai3']);
-		@$res['sai4'] = $db->select_query("select *,count(c_stu) as SAI4 from ".TB_CHCLASS."   where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_k4 like '%สาย%' and c_class='".@$arr['num']['c_class']."'   group by c_class "); 
+		@$res['sai4'] = $db->select_query("select *,count(c_stu) as SAI4 from ".TB_CHCLASS."   where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_k4 like '%สาย%' and c_class='".@$arr['num']['c_class']."'   and c_cn='".$arr['num']['c_cn']."' group by c_class,c_cn "); 
 		@$arr['sai4'] =$db->fetch(@$res['sai4']);
 
 		$SAI=@$arr['sai1']['SAI1']+@$arr['sai2']['SAI2']+@$arr['sai3']['SAI3']+@$arr['sai4']['SAI4'];
 
-		@$res['op1'] = $db->select_query("select *,count(c_stu) as OP1 from ".TB_CHCLASS."  where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_ch1= '1' and c_class='".@$arr['num']['c_class']."' group by c_class "); 
+		@$res['op1'] = $db->select_query("select *,count(c_stu) as OP1 from ".TB_CHCLASS."  where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_ch1= '1' and c_class='".@$arr['num']['c_class']."' and c_cn='".$arr['num']['c_cn']."' group by c_class,c_cn "); 
 		@$arr['op1'] =$db->fetch(@$res['op1']);
-		@$res['op2'] = $db->select_query("select *,count(c_stu) as OP2 from ".TB_CHCLASS."  where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_ch2= '2' and c_class='".@$arr['num']['c_class']."' group by c_class "); 
+		@$res['op2'] = $db->select_query("select *,count(c_stu) as OP2 from ".TB_CHCLASS."  where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_ch2= '2' and c_class='".@$arr['num']['c_class']."' and c_cn='".$arr['num']['c_cn']."' group by c_class,c_cn "); 
 		@$arr['op2'] =$db->fetch(@$res['op2']);
-		@$res['op3'] = $db->select_query("select *,count(c_stu) as OP3 from ".TB_CHCLASS."  where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_ch3= '3' and c_class='".@$arr['num']['c_class']."' group by c_class "); 
+		@$res['op3'] = $db->select_query("select *,count(c_stu) as OP3 from ".TB_CHCLASS."  where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_ch3= '3' and c_class='".@$arr['num']['c_class']."' and c_cn='".$arr['num']['c_cn']."' group by c_class,c_cn "); 
 		@$arr['op3'] =$db->fetch(@$res['op3']);
-		@$res['op4'] = $db->select_query("select *,count(c_stu) as OP4 from ".TB_CHCLASS."  where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_ch4= '4' and c_class='".@$arr['num']['c_class']."' group by c_class "); 
+		@$res['op4'] = $db->select_query("select *,count(c_stu) as OP4 from ".TB_CHCLASS."  where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_ch4= '4' and c_class='".@$arr['num']['c_class']."' and c_cn='".$arr['num']['c_cn']."' group by c_class,c_cn "); 
 		@$arr['op4'] =$db->fetch(@$res['op4']);
-		@$res['op5'] = $db->select_query("select *,count(c_stu) as OP5 from ".TB_CHCLASS."  where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_ch5= '5' and c_class='".@$arr['num']['c_class']."' group by c_class "); 
+		@$res['op5'] = $db->select_query("select *,count(c_stu) as OP5 from ".TB_CHCLASS."  where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_ch5= '5' and c_class='".@$arr['num']['c_class']."' and c_cn='".$arr['num']['c_cn']."' group by c_class,c_cn "); 
 		@$arr['op5'] =$db->fetch(@$res['op5']);
-		@$res['op6'] = $db->select_query("select *,count(c_stu) as OP6 from ".TB_CHCLASS."  where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_ch6= '6' and c_class='".@$arr['num']['c_class']."' group by c_class "); 
+		@$res['op6'] = $db->select_query("select *,count(c_stu) as OP6 from ".TB_CHCLASS."  where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_ch6= '6' and c_class='".@$arr['num']['c_class']."' and c_cn='".$arr['num']['c_cn']."' group by c_class,c_cn "); 
 		@$arr['op6'] =$db->fetch(@$res['op6']);
-		@$res['op7'] = $db->select_query("select *,count(c_stu) as OP7 from ".TB_CHCLASS."  where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_ch7= '7' and c_class='".@$arr['num']['c_class']."' group by c_class "); 
+		@$res['op7'] = $db->select_query("select *,count(c_stu) as OP7 from ".TB_CHCLASS."  where c_area='".$_SESSION['person_area']."' and c_code='".$_SESSION['person_school']."' and c_ch7= '7' and c_class='".@$arr['num']['c_class']."' and c_cn='".$arr['num']['c_cn']."' group by c_class,c_cn "); 
 		@$arr['op7'] =$db->fetch(@$res['op7']);
 //		@$PerC=(100*(@$arr['num']['CO']))/(@$rows['count']);
 		$OPSS=@$arr['op1']['OP1']+@$arr['op2']['OP2']+@$arr['op3']['OP3']+@$arr['op4']['OP4']+@$arr['op5']['OP5']+@$arr['op6']['OP6']+@$arr['op7']['OP7'];
@@ -590,13 +590,13 @@ $(document).ready(function(){
 		?>
             <tr>
               <td style="text-align: center;"><?php echo $i;?></td>
-              <td layout="block" style="text-align: left;"><?php echo @$arr['class']['class_name'];?></td>
+              <td layout="block" style="text-align: left;"><?php echo @$arr['class']['class_name'];?>/<?php echo @$arr['num']['c_cn'];?></td>
               <td layout="block" style="text-align: center;"><?php echo number_format(($KAD),0);?></td>
               <td layout="block" style="text-align: center;"><?php echo number_format(($LA),0);?></td>
                <td layout="block" style="text-align: center;"><?php echo number_format(($SAI),0);?></td>
               <td layout="block" style="text-align: center;"><?php echo number_format(($OPSS),0);?></td>
 			  <td style="text-align: center;">
-			 <a href="index.php?name=statistic&file=goschclass&op=cldetail&class_id=<?php echo @$arr['num']['c_class'];?>&route=<?php echo $route;?>" class="btn bg-aqua btn-flat btn-sm" ><i class="fa fa-search-plus "></i></a>
+			 <a href="index.php?name=statistic&file=goschclass&op=cldetail&class_id=<?php echo @$arr['num']['c_class'];?>&class_cn=<?php echo @$arr['num']['c_cn'];?>&route=<?php echo $route;?>" class="btn bg-aqua btn-flat btn-sm" ><i class="fa fa-search-plus "></i></a>
 			  </td>
             </tr>
 

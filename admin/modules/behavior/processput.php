@@ -16,8 +16,14 @@ if($_POST['OP']=='Add'){
 		list($Y , $m , $d) = explode("-" , $_POST['Pu_Dtime']);
 		$y=$Y+543;
 		$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
+		$Arr_Best_stu=is_array($_POST['Best_stu']);
+		if($Arr_Best_stu){
 		@$Put=count($_POST['Best_stu']);
 		for($i=0;$i<$Put;$i++){
+
+					$sql_put=$db->select_query("SELECT * FROM ".TB_PUT." WHERE pu_area='".$_SESSION['person_area']."' and pu_code='".$_SESSION['person_school']."' and pu_id like '".$_POST['Stu_best']."' ");
+					@$result_put=$db->fetch($sql_put);
+
 						$add .=$db->add_db(TB_PUTTAIL,array(
 						"pt_area"=>"".$_SESSION['admin_area']."",
 						"pt_code"=>"".$_SESSION['admin_school']."",
@@ -28,7 +34,7 @@ if($_POST['OP']=='Add'){
 						"pt_per"=>"".$_POST['Btail_per'].""
 						));
 
-					$sql=$db->select_query("SELECT * FROM ".TB_GOODTAIL." WHERE goodtail_area='".$_SESSION['admin_area']."' and goodtail_code='".$_SESSION['admin_school']."' and goodtail_name like '%ช่วยเหลืองานโรงเรียน%' ");
+					$sql=$db->select_query("SELECT * FROM ".TB_GOODTAIL." WHERE goodtail_area='".$_SESSION['admin_area']."' and goodtail_code='".$_SESSION['admin_school']."' and goodtail_name like '%".$result_put['pu_name']."%' ");
 					@$result=$db->fetch($sql);
 					$Good_tail= $_POST['Btail_name'];
 					$gtailid=@$result['goodtail_id'];
@@ -46,10 +52,50 @@ if($_POST['OP']=='Add'){
 					"good_t"=>"1",
 					"g_date"=>"".$_POST['Pu_Dtime']."",
 					"g_Mtime"=>"".$Mtime."",
-					"good_sess"=>"".$_SESSION['admin_login'].""
+					"good_sess"=>"".$_SESSION['admin_login']."",
+					"role"=>"1"
 					));	
 
 		}
+
+		} else {
+					$sql_put=$db->select_query("SELECT * FROM ".TB_PUT." WHERE pu_area='".$_SESSION['person_area']."' and pu_code='".$_SESSION['person_school']."' and pu_id like '".$_POST['Stu_best']."' ");
+					@$result_put=$db->fetch($sql_put);
+
+						$add .=$db->add_db(TB_PUTTAIL,array(
+						"pt_area"=>"".$_SESSION['admin_area']."",
+						"pt_code"=>"".$_SESSION['admin_school']."",
+						"pt_pu"=>"".$_POST['Stu_best']."",
+						"pt_stu"=>"".$_POST['Best_stu']."",
+						"pt_name"=>"".$_POST['Btail_name']."",
+						"pt_date"=>"".$_POST['Pu_Dtime']."",
+						"pt_per"=>"".$_POST['Btail_per'].""
+						));
+
+					$sql=$db->select_query("SELECT * FROM ".TB_GOODTAIL." WHERE goodtail_area='".$_SESSION['admin_area']."' and goodtail_code='".$_SESSION['admin_school']."' and goodtail_name like '%".$result_put['pu_name']."%' ");
+					@$result=$db->fetch($sql);
+					$Good_tail= $_POST['Btail_name'];
+					$gtailid=@$result['goodtail_id'];
+
+					$add .=$db->add_db(TB_GOOD,array(
+					"good_area"=>"".$_SESSION['admin_area']."",
+					"good_code"=>"".$_SESSION['admin_school']."",
+					"good_stu"=>"".$_POST['Best_stu']."",
+					"good_tail"=>"".$gtailid."",
+					"good_name"=>"".$Good_tail."",
+					"good_date"=>"".$d."",
+					"good_mouth"=>"".$m."",
+					"good_year"=>"".$y."",
+					"good_dam"=>"".$_SESSION['admin_login']."",
+					"good_t"=>"1",
+					"g_date"=>"".$_POST['Pu_Dtime']."",
+					"g_Mtime"=>"".$Mtime."",
+					"good_sess"=>"".$_SESSION['admin_login']."",
+					"role"=>"1"
+					));	
+
+		}
+
 
 	} else {
 		$add .='';

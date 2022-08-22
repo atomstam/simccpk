@@ -14,6 +14,10 @@ $arr['sch'] = $db->fetch($res['sch']);
 $_SESSION['sh_code']=$arr['sch']['sh_code'];
 $_SESSION['sh_name']=$arr['sch']['sh_name'];
 
+@$res['schcon'] = $db->select_query("SELECT * FROM ".TB_SCHOOL_CONFIG." WHERE shc_area='".$arr['sch']['sh_area']."' and shc_code='".$arr['sch']['sh_code']."' "); 
+@$arr['schcon'] =$db->fetch(@$res['schcon']);
+
+$_SESSION['sh_logo']=$arr['schcon']['shc_logo'];
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo ISO; ?>">
@@ -80,43 +84,7 @@ $_SESSION['sh_name']=$arr['sch']['sh_name'];
 		</style>
 </head>
 <body  >
-<script>
- $(function() {
-//twitter bootstrap script
-$("#recoverform").submit(function(e) {
-          e.preventDefault();
- //$("button#submitForm").click(function(){
-			$.ajax({
-			type: "POST",
-			url: "modules/admin/forget_pwd.php",
-			data: $('#recoverform').serialize(),
-		    dataType: 'json',
-			cache: 'false',
-			success: function(msg){
-				var messageText =msg.message;
-		//		alert(messageText);
-			if(messageText=='Success'){
-//                 $("#thanks").html(msg.message),
-				 $("#thanks").show();
-				 $("#error").hide();
-				 setTimeout(function() {
-  				 window.location='index.php?name=admin&file=login&route=<?php echo $route;?>';
-				}, 3000);
-			} else {
-//                $("#error").html(msg.message),
-				 $("#error").show();
-				 $("#success").hide();
-				 $('#recoverform')[0].reset();
-			}
-	//		$("#form-content").modal('hide'); 
-			},
-			error: function(){
-				alert("failure");
-			}
-			});
-			});
-});
-</script>
+
 <?php
 
 if(empty($_GET['FB'])){
@@ -263,6 +231,8 @@ if(!empty(@$rows['user'])){
 	@$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS_PERSON." WHERE clper_code='".@$arr['user']['per_code']."' AND clper_area='".@$arr['user']['per_area']."' and clper_tech='".$arr['user']['per_ids']."' "); 
 	@$arr['class'] = $db->fetch(@$res['class']); 
 
+	if($arr['class']['clper_tech']){
+
 	$_SESSION['person_login'] = $Username ;
 	$_SESSION['person_pwd'] = $Password ;
 	$_SESSION['person_class'] = @$arr['class']['clper_class'] ;
@@ -324,6 +294,11 @@ if(!empty(@$rows['user'])){
 	$status  = 'success';
 	$message = _login_success_message;
 
+	} else {	$error_warning =_login_status_no;
+	$status  = 'warning';
+	$message = _login_error_message;
+	}
+
 	} else {
 		$error_warning =_login_status_no;
 		$status  = 'warning';
@@ -361,7 +336,9 @@ echo $success;
 
 <div class="login-box">
   <div class="login-logo">
-    <b><a href="../index.php"><img src="../img/logo_login.png"  alt="Home" width="100" class="logo"/></a></b>
+    <b><a href="../index.php">
+		<?php if($_SESSION['sh_logo'] !=''){?><img src="../uploads/<?=$_SESSION['sh_logo'];?>" border="0" width="120"><?php } else { ?><img src="../img/logo_login.png" border="0" width="120"><?php } ?>
+	</a></b>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body ">

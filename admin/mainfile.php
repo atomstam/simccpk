@@ -27,7 +27,7 @@ $db = New DB();
 $db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
 empty($_GET['name'])?$name="":$name=$_GET['name'];
 empty($_GET['file'])?$file="":$file=$_GET['file'];
-
+empty($_SESSION['auth'])?$auth="":$auth=$_SESSION['auth'];
 empty($_GET['index'])?$index="modules/index/index.php":$index=$_GET['index'];
 empty($_GET['header'])?$header="modules/index/header.php":$header=$_GET['header'];
 empty($_SESSION['admin_login'])?$admin_login="":$admin_login=$_SESSION['admin_login'];
@@ -50,8 +50,8 @@ $route=$name."/".$file;
 }
 
 if($name){
-require_once("modules/".$name."/lang/".$file.".php");
+	require_once("modules/".$name."/lang/".$file.".php");
 } else {
-require_once("../lang/index.php");
+	require_once("../lang/index.php");
 }
 ?>

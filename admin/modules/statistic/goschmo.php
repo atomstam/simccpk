@@ -12,9 +12,9 @@ if($op=='cldetail' and $action=='' ){
 		//echo $DD1;
 		$get_month = $DD[1];
 		$year = $DD[0]+543;
-			$month = array("01"=>"ม.ค.","02"=>"ก.พ","03"=>"มี.ค.","04"=>"เม.ย.","05"=>"พ.ค.","06"=>"มิ.ย.","07"=>"ก.ค.","08"=>"ส.ค.","09"=>"ก.ย.","10"=>"ต.ค.","11"=>"พ.ย.","12"=>"ธ.ค.");
-		$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
-		@$res['num'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."'  DATE_FORMAT(c_date, '%Y-%m')='".$DD1."' group by c_date order by c_date ");  
+		$month = array("01"=>"ม.ค.","02"=>"ก.พ","03"=>"มี.ค.","04"=>"เม.ย.","05"=>"พ.ค.","06"=>"มิ.ย.","07"=>"ก.ค.","08"=>"ส.ค.","09"=>"ก.ย.","10"=>"ต.ค.","11"=>"พ.ย.","12"=>"ธ.ค.");
+		//$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
+		@$res['num'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and DATE_FORMAT(c_date, '%Y-%m') like '%".$_GET['mo_id']."%' group by c_date order by c_date ");  
 		@$rows['num'] = $db->rows(@$res['num']);
 ?>
 <div class="row">
@@ -25,7 +25,7 @@ if($op=='cldetail' and $action=='' ){
 		</div>
 		</div>
 
-    <div class="box box-danger">
+		<div class="box box-danger">
 		         <div class="box-header with-border">
                  <i class="glyphicon glyphicon-folder-open"></i>
                  <h3 class="box-title"><?php echo _heading_title;?>&nbsp;<span class="badge bg-green"><?php echo $month[$get_month]." ".$year; ?></span></h3>
@@ -38,10 +38,7 @@ if($op=='cldetail' and $action=='' ){
             </div>
             <!-- /.box-header -->
       <div class="box-body ">
-	  <?php
 
-		if(@$rows['num']) {
-		?>
       <form  method="post" enctype="multipart/form-data" id="form" class="form-inline">
         <table id="example1" class="table table-bordered table-striped responsive" style="width:100%">
           <thead>
@@ -139,13 +136,6 @@ if($op=='cldetail' and $action=='' ){
 		  </table>
 	      </form>
 
-            <?php } else { ?>
-			<table>
-            <tr>
-              <td class="center" colspan="7"><?php echo _text_no_results; ?></td>
-            </tr>
-			</table>
-            <?php } ?>
 
     </div>
     </div>
@@ -244,6 +234,7 @@ if($op=='cldetail' and $action=='' ){
 
 <?php
 } else if($op=='datedetail' and $action=='' ){
+
 		$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
 		@$res['num'] = $db->select_query("SELECT * FROM ".TB_CHCLASS." where c_area='".$_SESSION['admin_area']."' and c_code='".$_SESSION['admin_school']."' and c_date='".$_GET['moid']."'  group by c_stu order by c_class,c_stu"); 
 		@$rows['num'] = $db->rows(@$res['num']);
@@ -259,7 +250,7 @@ if($op=='cldetail' and $action=='' ){
     <div class="box box-danger">
 		         <div class="box-header with-border">
                  <i class="glyphicon glyphicon-folder-open"></i>
-                 <h3 class="box-title"><?php echo _heading_title;?>&nbsp;<span class="badge bg-green"><?php echo $_GET['moid']; ?></span></h3>
+                 <h3 class="box-title"><?php echo _heading_title;?>&nbsp;<span class="badge bg-green"><?php echo DateThai($_GET['moid']); ?></span></h3>
               <div class="box-tools pull-right">
 			  <span class="badge bg-yellow"><?php echo _text_box_table_count." ".@$rows['num'];?></span>
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -354,7 +345,7 @@ if($op=='cldetail' and $action=='' ){
               <td style="text-align: center;"><?php echo $i;?></td>
               <td layout="block" style="text-align: left;"><?php echo @$arr['stu']['stu_id']; ?></td>
               <td layout="block" style="text-align: left;"><?php echo @$arr['stu']['stu_num'].@$arr['stu']['stu_name']." " .@$arr['stu']['stu_sur'];?>&nbsp;<?php if(@$arr['stu']['stu_pic']){?><a href="#" data-toggle="modal" data-target="#myModal<?php echo $i;?>" data-artid="<?php echo @$arr['stu']['stu_id']; ?>" class="btn" id="Mybtn"><i class="glyphicon glyphicon-user"></i></a><?php } ?></td>
-              <td layout="block" style="text-align: left;"><?php echo @$arr['class']['class_name']; ?></td>
+              <td layout="block" style="text-align: left;"><?php echo @$arr['class']['class_name']; ?>/<?php echo @$arr['stu']['stu_cn']; ?></td>
               <td layout="block" style="text-align: center;"><?php echo number_format(($KAD),0);?></td>
               <td layout="block" style="text-align: center;"><?php echo number_format(($LA),0);?></td>
                <td layout="block" style="text-align: center;"><?php echo number_format(($SAI),0);?></td>

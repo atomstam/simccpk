@@ -257,7 +257,7 @@ $(function(){
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_sphone; ?></label>
-							<div class="col-sm-2"><input type="text" name="Stu_sphone"  class="form-control"  maxlength="9" data-minlength="9"  pattern="^[0-9]{1,}$" placeholder="0899345556" required><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>						
+							<div class="col-sm-2"><input type="text" name="Stu_sphone"  class="form-control"  maxlength="10" data-minlength="10"  pattern="^[0-9]{1,}$" placeholder="0899345556" required><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>						
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_email; ?></label>
@@ -499,7 +499,7 @@ $(function(){
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_fphone; ?></label>
-							<div class="col-sm-2"><input type="text" name="Stu_fphone"  class="form-control css-require" placeholder="0899346667" maxlength="9" data-minlength="9"  pattern="^[0-9]{1,}$"><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>
+							<div class="col-sm-2"><input type="text" name="Stu_fphone"  class="form-control css-require" placeholder="0899346667" maxlength="10" data-minlength="10"  pattern="^[0-9]{1,}$"><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_femail; ?></label>
@@ -522,7 +522,7 @@ $(function(){
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_mphone; ?></label>
-							<div class="col-sm-2"><input type="text" name="Stu_mphone"  class="form-control css-require" placeholder="0899346667" maxlength="9" data-minlength="9"  pattern="^[0-9]{1,}$"><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>
+							<div class="col-sm-2"><input type="text" name="Stu_mphone"  class="form-control css-require" placeholder="0899346667" maxlength="10" data-minlength="10"  pattern="^[0-9]{1,}$"><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_memail; ?></label>
@@ -556,7 +556,7 @@ $(function(){
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_ophone; ?></label>
-							<div class="col-sm-2"><input type="text" name="Stu_ophone"  class="form-control css-require" placeholder="0899346667" maxlength="9" data-minlength="9"  pattern="^[0-9]{1,}$"><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>
+							<div class="col-sm-2"><input type="text" name="Stu_ophone"  class="form-control css-require" placeholder="0899346667" maxlength="10" data-minlength="10"  pattern="^[0-9]{1,}$"><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_oemail; ?></label>
@@ -882,7 +882,7 @@ $(function(){
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_sphone; ?></label>
-							<div class="col-sm-2"><input type="text" name="Stu_sphone"  class="form-control"  maxlength="9" data-minlength="9"  pattern="^[0-9]{1,}$" placeholder="0899345556" value="<?php echo @$arr['user']['stu_sphone']; ?>"><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>						
+							<div class="col-sm-2"><input type="text" name="Stu_sphone"  class="form-control"  maxlength="10" data-minlength="10"  pattern="^[0-9]{1,}$" placeholder="0899345556" value="<?php echo @$arr['user']['stu_sphone']; ?>"><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>						
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_email; ?></label>
@@ -1137,7 +1137,7 @@ $(function(){
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_fphone; ?></label>
-							<div class="col-sm-2"><input type="text" name="Stu_fphone"  value="<?php echo @$arr['user']['stu_fphone']; ?>" class="form-control css-require" placeholder="0899346667" maxlength="9" data-minlength="9"  pattern="^[0-9]{1,}$"><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>
+							<div class="col-sm-2"><input type="text" name="Stu_fphone"  value="<?php echo @$arr['user']['stu_fphone']; ?>" class="form-control css-require" placeholder="0899346667" maxlength="10" data-minlength="10"  pattern="^[0-9]{1,}$"><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_femail; ?></label>
@@ -1160,7 +1160,7 @@ $(function(){
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_mphone; ?></label>
-							<div class="col-sm-2"><input type="text" name="Stu_mphone"  value="<?php echo @$arr['user']['stu_mphone']; ?>" class="form-control css-require" placeholder="0899346667" maxlength="9" data-minlength="9"  pattern="^[0-9]{1,}$" ><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>
+							<div class="col-sm-2"><input type="text" name="Stu_mphone"  value="<?php echo @$arr['user']['stu_mphone']; ?>" class="form-control css-require" placeholder="0899346667" maxlength="10" data-minlength="10"  pattern="^[0-9]{1,}$" ><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_memail; ?></label>
@@ -1193,7 +1193,7 @@ $(function(){
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_ophone; ?></label>
-							<div class="col-sm-2"><input type="text" name="Stu_ophone"  value="<?php echo @$arr['user']['stu_ophone']; ?>" class="form-control css-require" placeholder="0899346667" maxlength="9" data-minlength="9"  pattern="^[0-9]{1,}$"><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>
+							<div class="col-sm-2"><input type="text" name="Stu_ophone"  value="<?php echo @$arr['user']['stu_ophone']; ?>" class="form-control css-require" placeholder="0899346667" maxlength="10" data-minlength="10"  pattern="^[0-9]{1,}$"><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_oemail; ?></label>
@@ -1623,7 +1623,7 @@ initialize();
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" >ระยะทางจากบ้านถึงโรงเรียน(ก.ม.)</label>
-							<div class="col-sm-2"><input type="text" name="Stu_distance" id="Stu_distance"   class="form-control"  placeholder="distance" value="<?php echo number_format($arr['user']['stu_distance']/1000,2); ?>" readonly><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>						
+							<div class="col-sm-2"><input type="text" name="Stu_distn" id="Stu_distn"   class="form-control"  placeholder="distance" value="<?php echo number_format($arr['user']['stu_distance']/1000,2); ?>" readonly><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>						
 							</div>
 							<div class="form-group" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_time; ?></label>

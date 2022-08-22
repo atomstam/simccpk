@@ -280,7 +280,7 @@ function GETMODULELOGIN($name,$file){
 	$MODPATHFILE = $modpathfile;
 	$MODPATH = $targetPath."/signin/modules/".$names."/";
 	}else{
-	header( 'Content-Type:text/html; charset='.ISO.'');
+	header( 'Content-Type:text/html; charset=utf-8');
 	die (""._NO_MOD."");
 	}
 }
@@ -610,6 +610,146 @@ while(@$arr = $db->fetch(@$result)){
 @$rows=@$db->rows(@$result1);
 
 	@$result2 = $db->select_query("SELECT * FROM ".TB_GOODTAIL." where goodtail_area='".$_SESSION['admin_area']."' and goodtail_code='".$_SESSION['admin_school']."' and goodtail_id='".@$arr['good_tail']."' ");
+	@$arr2 = $db->fetch(@$result2);
+	//$data=(int)(@$arr['COO']);
+	if($i !=3){ $bb="border-right";} else {$bb='';}
+
+	if(@$rows>@$rows3){
+	$caret="fa-caret-down";
+	$color="text-danger";
+	if((int)@$rows3==0){
+	$RowX=(int)@$rows;
+	} else {
+	$RowX=(int)@$rows3-(int)@$rows;
+	}
+	$PerC=(100*(int)$RowX)/(int)@$rows;
+	$PerCC=number_format(($PerC),2);
+	$Num="(".(int)@$rows."/".(int)@$rows3.")";
+	} else if(@$rows==@$rows3){
+	$caret="fa-caret-left";
+	$color="text-warning";
+	$PerCC='0.00';
+	$Num="ไม่เปลี่ยนแปลง";
+	} else if(@$rows<@$rows3){
+	$caret="fa-caret-up";
+	$color="text-green";
+	if(@$rows==''){ 
+	$Row=0;
+	$RowX=(int)@$rows3-(int)@$rows;
+	//$PerC=(100*$RowX)/$Row;
+	$PerCC=number_format((@$rows3),2);
+	} else { 
+	$Row=@$rows;
+	$RowX=(int)@$rows3-(int)@$rows;
+	$PerC=(100*(int)$RowX)/(int)$Row;
+	$PerCC=number_format(($PerC),2);
+	}
+	$Num="(".(int)$Row."/".(int)@$rows3.")";
+	}
+	$PPix="<div class=\"col-sm-3 col-xs-6\">
+                  <div class=\"description-block ".$bb."\">
+                    <span class=\"description-percentage ".$color."\"><i class=\"fa ".$caret."\"></i> ".$PerCC."%</span>
+                    <h5 class=\"description-header\">".$Num."</h5>
+                    <span class=\"description-text\">".@$arr2['goodtail_name']."</span>
+                  </div>
+                </div>";
+			echo $PPix;
+$i++;
+}
+
+//return $PPx;
+
+}
+
+
+function index_bad_person(){
+global $db;
+$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
+$bar=array("aqua","red","green","yellow");
+
+@$result = $db->select_query("SELECT *,count(bad_id) as COO FROM ".TB_BAD.",".TB_STUDENT." where bad_area='".$_SESSION['person_area']."' and bad_code='".$_SESSION['person_school']."' and stu_id=bad_stu and stu_suspend='0' group by bad_tail order by COO desc limit 4"); 
+$i=0;
+
+while(@$arr = $db->fetch(@$result)){
+
+@$result3= $db->select_query("SELECT count(bad_id) as CO3 FROM ".TB_BAD.",".TB_STUDENT."  where bad_area='".$_SESSION['person_area']."' and bad_code='".$_SESSION['person_school']."' and stu_id=bad_stu and stu_suspend='0' and month(b_date) = DATE_FORMAT(NOW() ,'%m') and bad_tail='".@$arr['bad_tail']."' group by bad_id "); 
+@$rows3 = @$db->rows(@$result3);
+
+@$result1 = $db->select_query("SELECT count(bad_id) as CI FROM ".TB_BAD.",".TB_STUDENT."  where bad_area='".$_SESSION['person_area']."' and bad_code='".$_SESSION['person_school']."' and stu_id=bad_stu and stu_suspend='0' and month(b_date) = DATE_FORMAT(NOW() - INTERVAL 1 MONTH,'%m') and bad_tail='".@$arr['bad_tail']."' group by bad_id");
+@$rows=@$db->rows(@$result1);
+
+	@$result2 = $db->select_query("SELECT * FROM ".TB_BADTAIL." where badtail_area='".$_SESSION['person_area']."' and badtail_code='".$_SESSION['person_school']."' and badtail_id='".@$arr['bad_tail']."' ");
+	@$arr2 = $db->fetch(@$result2);
+
+//$data=(int)(@$arr['COO']);
+	if($i !=3){ $bb="border-right";} else {$bb='';}
+
+
+	if(@$rows>@$rows3){
+	$caret="fa-caret-up";
+	$color="text-green";
+	if((int)@$rows3==0){
+	$RowX=(int)@$rows;
+	} else {
+	$RowX=(int)@$rows3-(int)@$rows;
+	}
+	$PerC=(100*(int)$RowX)/(int)@$rows;
+	$PerCC=number_format(($PerC),2);
+	$Num="(".(int)@$rows."/".(int)@$rows3.")";
+	} else if(@$rows==@$rows3){
+	$caret="fa-caret-left";
+	$color="text-warning";
+	$PerCC='0.00';
+	$Num="ไม่เปลี่ยนแปลง";
+	} else if(@$rows<@$rows3){
+	$caret="fa-caret-down";
+	$color="text-danger";
+	if(@$rows==''){ 
+	$Row=0;
+	@$RowX=(int)@$rows3-(int)@$rows;
+	@$PerC=(100*$RowX)/(int)$Row;
+	@$PerCC=number_format((@$rows3),2);
+	} else { 
+	$Row=@$rows;
+	@$RowX=(int)@$rows3-(int)@$rows;
+	@$PerC=(100*(int)$RowX)/(int)$Row;
+	@$PerCC=number_format(($PerC),2);
+	}
+	$Num="(".(int)$Row."/".(int)@$rows3.")";
+	}
+@$Percent=number_format($PerCC,2);
+	$PPi ="<div class=\"col-sm-3 col-xs-6\">
+                  <div class=\"description-block ".$bb."\">
+                    <span class=\"description-percentage ".$color."\"><i class=\"fa ".$caret."\"></i> ".$PerCC."%</span>";
+	$PPi .="<h5 class=\"description-header\">".$Num."</h5>
+                    <span class=\"description-text\">".@$arr2['badtail_name']."</span>
+                  </div>
+                </div>";
+	echo $PPi;
+$i++;
+}
+
+//return $PPi;
+
+}
+
+function index_good_person(){
+global $db;
+$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
+$bar=array("aqua","red","green","yellow");
+
+@$result = $db->select_query("SELECT *,count(good_id) as COO FROM ".TB_GOOD.",".TB_STUDENT."  where good_area='".$_SESSION['person_area']."' and good_code='".$_SESSION['person_school']."' and stu_id=good_stu and stu_suspend='0' group by good_tail order by COO desc limit 4"); 
+$i=0;
+
+while(@$arr = $db->fetch(@$result)){
+
+@$result3= $db->select_query("SELECT count(good_id) as CO3 FROM ".TB_GOOD.",".TB_STUDENT."  where  good_area='".$_SESSION['person_area']."' and good_code='".$_SESSION['person_school']."' and stu_id=good_stu and stu_suspend='0' and month(g_date) = DATE_FORMAT(NOW() ,'%m') and good_tail='".@$arr['good_tail']."' group by good_id "); 
+@$rows3 = @$db->rows(@$result3);
+
+@$result1 = $db->select_query("SELECT count(good_id) as CI FROM ".TB_GOOD.",".TB_STUDENT."  where  good_area='".$_SESSION['person_area']."' and good_code='".$_SESSION['person_school']."' and stu_id=good_stu and stu_suspend='0' and month(g_date) = DATE_FORMAT(NOW() - INTERVAL 1 MONTH,'%m') and good_tail='".@$arr['good_tail']."' group by good_id");
+@$rows=@$db->rows(@$result1);
+
+	@$result2 = $db->select_query("SELECT * FROM ".TB_GOODTAIL." where goodtail_area='".$_SESSION['person_area']."' and goodtail_code='".$_SESSION['person_school']."' and goodtail_id='".@$arr['good_tail']."' ");
 	@$arr2 = $db->fetch(@$result2);
 	//$data=(int)(@$arr['COO']);
 	if($i !=3){ $bb="border-right";} else {$bb='';}
@@ -2018,7 +2158,7 @@ function GETMODULE($name,$file){
 	$MODPATHFILE = $modpathfile;
 	$MODPATH = $targetPath."/modules/".$names."/";
 	}else{
-	header( 'Content-Type:text/html; charset='.ISO.'');
+	header( 'Content-Type:text/html; charset=utf-8');
 	die (""._NO_MOD."");
 	}
 }
@@ -2035,7 +2175,7 @@ function GETMODULEADMIN($name,$file){
 	$MODPATHFILE = $modpathfile;
 	$MODPATH = $targetPath."/admin/modules/".$names."/";
 	}else{
-	header( 'Content-Type:text/html; charset='.ISO.'');
+	header( 'Content-Type:text/html; charset=utf-8');
 	//die (""._NO_MOD."");
 	echo "<meta http-equiv='refresh' content='0; url=../../404.php'>";
 	}
@@ -2054,7 +2194,7 @@ function GETMODULEPERSON($name,$file){
 	$MODPATHFILE = $modpathfile;
 	$MODPATH = $targetPath."/person/modules/".$names."/";
 	}else{
-	header( 'Content-Type:text/html; charset='.ISO.'');
+	header( 'Content-Type:text/html; charset=utf-8');
 	//die (""._NO_MOD."");
 	echo "<meta http-equiv='refresh' content='0; url=../../404.php'>";
 	}
@@ -2072,7 +2212,7 @@ function GETMODULEUSER($name,$file){
 	$MODPATHFILE = $modpathfile;
 	$MODPATH = $targetPath."/user/modules/".$names."/";
 	}else{
-	header( 'Content-Type:text/html; charset='.ISO.'');
+	header( 'Content-Type:text/html; charset=utf-8 ');
 	//die (""._NO_MOD."");
 	echo "<meta http-equiv='refresh' content='0; url=../../404.php'>";
 	}
@@ -2487,19 +2627,9 @@ function DateThai($strDate){
 function formatDateThai($date){
 $list= array("",""._Month_1."",""._Month_2."",""._Month_3."",""._Month_4."",""._Month_5."",""._Month_6."",""._Month_7."",""._Month_8."",""._Month_9."",""._Month_10."",""._Month_11."",""._Month_12."");
 list($d,$m,$y) =preg_split("/\//",$date);
-$DD = substr($d, 1, 1); 
-$MM = substr($m, 1, 1); 
-if($DD==0){
-	$Dy=10;
-} else {
-	$Dy=$DD;
-}
-if($MM==0){
-	$My=10;
-} else {
-	$My=$MM;
-}
-return "$Dy {$list[$My]} $y";
+//$DD = substr($d, 1, 1); 
+//$MM = substr($m, 1, 1); 
+return "$d {$list[$m]} $y";
 }
 
 //เปลี่ยนจาก 11/2/2022  เป็น 11 ก.พ. 2554
@@ -3072,4 +3202,62 @@ $sqls = $db->select_query(" select COUNT(ct_no) AS ct_count from ".TB_ACTIVEUSER
 return @$rows;
 }
 
+
+///////////////// stat
+function StatScore_GoodClass($area="",$code="",$class="",$cn=""){
+	global $db;
+	$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
+	@$res['num'] = $db->select_query("select stu_id,stu_pic,stu_pid,stu_num,stu_name,stu_sur,class_name,stu_class,sum(goodtail_point) as GO  from ".TB_GOOD." ,".TB_STUDENT.",".TB_GOODTAIL.",".TB_CLASS." where stu_area='".$area."' and stu_code='".$code."' and stu_id=good_stu and good_tail=goodtail_id and class_id=stu_class and stu_class='".$class."' and stu_cn='".$cn."'  and stu_suspend ='0' group by stu_class,stu_cn "); 
+	@$arr['num'] = $db->fetch(@$res['num']);
+
+	if(@$arr['num']['GO']){
+		return @$arr['num']['GO'];
+	} else {
+		return '0';
+	}
+
+}
+
+function StatScore_BadClass($area="",$code="",$class="",$cn=""){
+	global $db;
+	$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
+	@$res['num'] = $db->select_query("select stu_id,stu_pic,stu_pid,stu_num,stu_name,stu_sur,class_name,stu_class,sum(badtail_point) as GO  from ".TB_BAD." ,".TB_STUDENT.",".TB_BADTAIL.",".TB_CLASS." where stu_area='".$area."' and stu_code='".$code."' and stu_id=bad_stu and bad_tail=badtail_id and class_id=stu_class and stu_class='".$class."' and stu_cn='".$cn."'  and stu_suspend ='0' group by stu_class,stu_cn "); 
+	@$arr['num'] = $db->fetch(@$res['num']);
+
+	if(@$arr['num']['GO']){
+		return @$arr['num']['GO'];
+	} else {
+		return '0';
+	}
+
+}
+
+
+function StatScore_GoodClass_PerStu($area="",$code="",$class="",$cn="",$stu=""){
+	global $db;
+	$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
+	@$res['num'] = $db->select_query("select stu_id,stu_pic,stu_pid,stu_num,stu_name,stu_sur,class_name,stu_class,sum(goodtail_point) as GO  from ".TB_GOOD." ,".TB_STUDENT.",".TB_GOODTAIL.",".TB_CLASS." where stu_area='".$area."' and stu_code='".$code."' and stu_id=good_stu and good_tail=goodtail_id and class_id=stu_class and stu_class='".$class."' and stu_cn='".$cn."' and stu_id='".$stu."'  and stu_suspend ='0' group by stu_class,stu_cn "); 
+	@$arr['num'] = $db->fetch(@$res['num']);
+
+	if(@$arr['num']['GO']){
+		return @$arr['num']['GO'];
+	} else {
+		return '0';
+	}
+
+}
+
+function StatScore_BadClass_PerStu($area="",$code="",$class="",$cn="",$stu=""){
+	global $db;
+	$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
+	@$res['num'] = $db->select_query("select stu_id,stu_pic,stu_pid,stu_num,stu_name,stu_sur,class_name,stu_class,sum(badtail_point) as GO  from ".TB_BAD." ,".TB_STUDENT.",".TB_BADTAIL.",".TB_CLASS." where stu_area='".$area."' and stu_code='".$code."' and stu_id=bad_stu and bad_tail=badtail_id and class_id=stu_class and stu_class='".$class."' and stu_cn='".$cn."' and stu_id='".$stu."' and stu_suspend ='0' group by stu_class,stu_cn "); 
+	@$arr['num'] = $db->fetch(@$res['num']);
+
+	if(@$arr['num']['GO']){
+		return @$arr['num']['GO'];
+	} else {
+		return '0';
+	}
+
+}
 ?>

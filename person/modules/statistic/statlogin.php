@@ -19,7 +19,7 @@
 </style>
 
 <?php
-if(!empty($_SESSION['admin_login'])){
+if(!empty($_SESSION['person_login'])){
 ?>
 <div class="col-xs-12">
       <?php if ($success) { ?>
@@ -37,9 +37,9 @@ if(!empty($_SESSION['admin_login'])){
 
 <?php if( $op=='shdetail'){
 
-@$res['num'] = $db->select_query("SELECT * FROM ".TB_ACTIVEUSER." where ct_area='".$_SESSION['admin_area']."' and ct_school='".$_SESSION['admin_school']."' and ct_user='".$_GET['id']."' order by ct_no desc "); 
+@$res['num'] = $db->select_query("SELECT * FROM ".TB_ACTIVEUSER." where ct_area='".$_SESSION['person_area']."' and ct_school='".$_SESSION['person_school']."' and ct_user='".$_GET['id']."' order by ct_no desc "); 
 @$rows['num'] = $db->rows(@$res['num']);
-@$res['user'] = $db->select_query("SELECT * FROM ".TB_ADMIN." WHERE area_code ='".$_SESSION['admin_area']."' and school_code='".$_SESSION['admin_school']."'  and username='".$_GET['id']."' "); 
+@$res['user'] = $db->select_query("SELECT * FROM ".TB_ADMIN." WHERE area_code ='".$_SESSION['person_area']."' and school_code='".$_SESSION['person_school']."'  and username='".$_GET['id']."' "); 
 @$arr['user']=$db->fetch(@$res['user']);
 ?>
 <div class="row">
@@ -215,7 +215,7 @@ $(document).on('click', '[data-toggle="lightbox"]', function(event) {
       <div class="box-body ">
 	  <?php
 		
-		@$res['num'] = $db->select_query("SELECT *,count(ct_no) as NO FROM ".TB_ACTIVEUSER." where ct_area='".$_SESSION['admin_area']."' and ct_school='".$_SESSION['admin_school']."' group by ct_user order by ct_no desc"); 
+		@$res['num'] = $db->select_query("SELECT *,count(ct_no) as NO FROM ".TB_ACTIVEUSER." where ct_area='".$_SESSION['person_area']."' and ct_school='".$_SESSION['person_school']."' group by ct_user order by ct_no desc"); 
 		@$rows['num'] = $db->rows(@$res['num']);
 		if(@$rows['num']) {
 		?>
@@ -235,11 +235,11 @@ $(document).on('click', '[data-toggle="lightbox"]', function(event) {
 		<?php
 		$i=1;
 		while (@$arr['num'] = $db->fetch(@$res['num'])){
-		@$res['user'] = $db->select_query("SELECT * FROM ".TB_ADMIN." WHERE area_code ='".$_SESSION['admin_area']."' and school_code='".$_SESSION['admin_school']."'  and username='".@$arr['num']['ct_user']."' "); 
+		@$res['user'] = $db->select_query("SELECT * FROM ".TB_ADMIN." WHERE area_code ='".$_SESSION['person_area']."' and school_code='".$_SESSION['person_school']."'  and username='".@$arr['num']['ct_user']."' "); 
 		@$arr['user']=$db->fetch(@$res['user']);
-		@$res['count'] = $db->select_query("SELECT * FROM ".TB_ACTIVEUSER." where ct_area='".$_SESSION['admin_area']."' and ct_school='".$_SESSION['admin_school']."' and ct_user='".@$arr['num']['ct_user']."' "); 
+		@$res['count'] = $db->select_query("SELECT * FROM ".TB_ACTIVEUSER." where ct_area='".$_SESSION['person_area']."' and ct_school='".$_SESSION['person_school']."' and ct_user='".@$arr['num']['ct_user']."' "); 
 		@$rows['count'] = $db->rows(@$res['count']);
-		@$res['nums'] = $db->select_query("SELECT * FROM ".TB_ACTIVEUSER." where ct_area='".$_SESSION['admin_area']."' and ct_school='".$_SESSION['admin_school']."' and ct_user='".@$arr['num']['ct_user']."'  "); 
+		@$res['nums'] = $db->select_query("SELECT * FROM ".TB_ACTIVEUSER." where ct_area='".$_SESSION['person_area']."' and ct_school='".$_SESSION['person_school']."' and ct_user='".@$arr['num']['ct_user']."'  "); 
 		@$arr['nums'] = $db->fetch(@$res['nums']);
 		?>
             <tr>

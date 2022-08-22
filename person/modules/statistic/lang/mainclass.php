@@ -1,7 +1,10 @@
 <?php
 // header
 define('_heading_title', 'ข้อมูลนักเรียนรายห้องเรียน');
-
+define('_heading_title_put', 'ข้อมูลหน้าที่พิเศษ');
+define('_heading_title_council', 'ข้อมูลคณะกรรมการสภานักเรียน');
+define('_heading_title_whiteclass', 'ข้อมูลคณะกรรมการห้องเรียนสีขาว');
+define('_heading_title_affairs', 'ข้อมูลกิจกรรมนักเรียน');
 // Button
 define('_button_add', 'เพิ่มข้อมูลใหม่');
 define('_button_reset', 'ยกเลิก');
@@ -83,5 +86,17 @@ define('_heading_table_header_good_level', 'ระดับ');
 define('_heading_table_header_good_name', 'รายละเอียด');
 define('_heading_table_header_good_data', 'การชมเชย');
 define('_heading_table_header_good_score', 'คะแนน');
+
+define('_text_box_table_bg_date', 'วัน เดือน ปี');
+define('_text_box_table_good_score_sum', 'คะแนนพฤติกรรมรวม');
+
+define('_text_box_table_pu_name', 'หน้าที่พิเศษ');
+define('_text_box_table_afft_name', 'กิจกรรมนักเรียน');
+define('_text_box_table_council_name', 'สภานักเรียน');
+define('_text_box_table_whiteclass_name', 'ห้องเรียนสีขาว');
+define('_text_box_table_pu_score', 'คะแนน');
+define('_text_box_table_datetime', 'วัน เวลา');
+
+define('_text_box_table_spacial_score', 'คะแนนพฤติกรรมพิเศษ');
 
 ?>

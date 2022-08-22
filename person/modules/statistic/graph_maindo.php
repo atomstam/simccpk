@@ -287,9 +287,9 @@ $db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
 		$COLOR=array('#3c8dbc','#f56954','#00a65a','#f94634','#4851fc','#56d40a','#f320ce','#dbdd0a','#f54865','#48f595','#48d2f5','#f548e3','#f5b248','#f548a6','#4cf548','#487df5','#fb6841','#12b38b','#f9155a');
 
 
-		@$res['counts'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' group by stu_id"); 
+		@$res['counts'] = $db->select_query("SELECT * FROM ".TB_STUDENT." where stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."' group by stu_id"); 
 		@$rows['counts'] = $db->rows(@$res['counts']);
-		@$res['provx'] = $db->select_query("SELECT *,count(stu_id) as CO FROM ".TB_STUDENT." where stu_area='".$_SESSION['admin_area']."' and stu_code='".$_SESSION['admin_school']."' group by stu_prov order by stu_prov "); 
+		@$res['provx'] = $db->select_query("SELECT *,count(stu_id) as CO FROM ".TB_STUDENT." where stu_area='".$_SESSION['person_area']."' and stu_code='".$_SESSION['person_school']."' group by stu_prov order by stu_prov "); 
 
 		$i=0;
 		while (@$arr['provx'] = $db->fetch(@$res['provx'])){

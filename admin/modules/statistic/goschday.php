@@ -18,6 +18,8 @@ $db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
 @$arr['amp'] = $db->fetch(@$res['amp']);
 @$res['prov'] = $db->select_query("SELECT * FROM ".TB_PROVINCE." where id='".@$arr['user']['stu_prov']."' ");
 @$arr['prov'] = $db->fetch(@$res['prov']);
+@$res['sh'] = $db->select_query("SELECT * FROM ".TB_SCHOOL." WHERE sh_area='".$_SESSION['admin_area']."' and sh_code='".$_SESSION['admin_school']."' "); 
+ @$arr['sh']= $db->fetch(@$res['sh']);
 ?>
 
 		<div align="right" >
@@ -40,11 +42,15 @@ $db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
                                 <div class="box-body  ">
     <div class="card hovercard">
         <div class="card-background">
-            <img class="card-bkimg" alt="" src="<?php echo WEB_URL_IMG_STU.@$arr['user']['stu_pic'];?>">
+            <img class="card-bkimg" alt="" src="<?php echo WEB_URL_IMG_SCHOOL.@$arr['sh']['sh_img'];?>">
             <!-- http://lorempixel.com/850/280/people/9/ -->
         </div>
         <div class="useravatar">
+			<?php if(!empty($arr['user']['stu_pic'])){?>
             <img alt="" src="<?php echo WEB_URL_IMG_STU.@$arr['user']['stu_pic'];?>">
+			<?php } else {?>
+            <img alt="" src="<?php echo WEB_URL_IMG_STU."no_image.jpg";?>">
+			<?php } ?>
         </div>
         <div class="card-info"> <span class="card-title"><?php echo @$arr['user']['stu_num'].@$arr['user']['stu_name']." ".@$arr['user']['stu_sur'];?></span>
         </div>
@@ -300,6 +306,8 @@ $db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
 @$arr['amp'] = $db->fetch(@$res['amp']);
 @$res['prov'] = $db->select_query("SELECT * FROM ".TB_PROVINCE." where id='".@$arr['user']['stu_prov']."' ");
 @$arr['prov'] = $db->fetch(@$res['prov']);
+@$res['sh'] = $db->select_query("SELECT * FROM ".TB_SCHOOL." WHERE sh_area='".$_SESSION['admin_area']."' and sh_code='".$_SESSION['admin_school']."' "); 
+ @$arr['sh']= $db->fetch(@$res['sh']);
 ?>
 
 		<div align="right" >
@@ -322,11 +330,15 @@ $db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
                                 <div class="box-body  ">
     <div class="card hovercard">
         <div class="card-background">
-            <img class="card-bkimg" alt="" src="<?php echo WEB_URL_IMG_STU.@$arr['user']['stu_pic'];?>">
+            <img class="card-bkimg" alt="" src="<?php echo WEB_URL_IMG_SCHOOL.@$arr['sh']['sh_img'];?>">
             <!-- http://lorempixel.com/850/280/people/9/ -->
         </div>
         <div class="useravatar">
+			<?php if(!empty($arr['user']['stu_pic'])){?>
             <img alt="" src="<?php echo WEB_URL_IMG_STU.@$arr['user']['stu_pic'];?>">
+			<?php } else {?>
+            <img alt="" src="<?php echo WEB_URL_IMG_STU."no_image.jpg";?>">
+			<?php } ?>
         </div>
         <div class="card-info"> <span class="card-title"><?php echo @$arr['user']['stu_num'].@$arr['user']['stu_name']." ".@$arr['user']['stu_sur'];?></span>
         </div>

@@ -7,12 +7,31 @@ $error_warning='';
 if(!empty($_SESSION['admin_login'])){
 $Mtime=date("H:i:s");
 if($op=='AddTab4'){
+
+
+	@$res['chkmclass'] = $db->select_query("SELECT * FROM ".TB_CHK_CHMCLASS." WHERE chkm_area='".$_SESSION['admin_area']."' and chkm_code='".$_SESSION['admin_school']."'  and chkm_class='".$_POST['ClassID']."' and chkm_cn='".$_POST['Stu_cn']."' and chkm_date='".$_POST['DateID']."' "); 
+	@$arr['chkmclass'] = $db->fetch(@$res['chkmclass']);
+
+	if(!$arr['chkmclass']['chkm_id']){
+
+		$add .=$db->add_db(TB_CHK_CHMCLASS,array(
+			"chkm_area"=>"".$_SESSION['person_area']."",
+			"chkm_code"=>"".$_SESSION['person_school']."",
+			"chkm_class"=>"".$_POST['ClassID']."",
+			"chkm_cn"=>"".$_POST['Stu_cn']."",
+			"chkm_date"=>"".$_POST['DateID']."",
+			"chkm_datetime"=>"".date("Y-m-d H:i:s")."",
+			"chkm_note"=>$_SESSION['person_login']
+		));
+
+		} 
+
 	list($Y , $m , $d) = explode("-" , $_POST['DateID']);
 	$y=$Y+543;
 	
-	$RANK=$rank+1;					
+	@$RANK=$rank;					
 
-	for ($i=0; $i < $RANK; $i++) {
+	for ($i=1; $i <= $rank; $i++) {
 		if(isset($_POST['StuID'][$i])){
 		if(empty($_POST['Ck1'][$i])){
 		if(isset($_POST['Ch1'][$i])){
@@ -59,6 +78,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch1"=>"".$_POST['Ch1'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -69,6 +89,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch1"=>"".$_POST['Ch1'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -119,6 +140,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch2"=>"".$_POST['Ch2'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -129,6 +151,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch2"=>"".$_POST['Ch2'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -181,6 +204,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch3"=>"".$_POST['Ch3'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -193,6 +217,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch3"=>"".$_POST['Ch3'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -243,6 +268,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch4"=>"".$_POST['Ch4'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -253,6 +279,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch4"=>"".$_POST['Ch4'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -303,6 +330,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch5"=>"".$_POST['Ch5'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -313,6 +341,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch5"=>"".$_POST['Ch5'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -363,6 +392,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch6"=>"".$_POST['Ch6'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -373,6 +403,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch6"=>"".$_POST['Ch6'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -423,6 +454,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch7"=>"".$_POST['Ch7'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -433,6 +465,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_ch7"=>"".$_POST['Ch7'][$i]."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -478,6 +511,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_k"=>"",
 				"c_k2"=>"",
 				"c_k3"=>"",
@@ -498,6 +532,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_k4"=>""._text_box_table_tab4_value_kad."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -516,6 +551,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_k"=>"",
 				"c_k2"=>"",
 				"c_k3"=>"",
@@ -536,6 +572,7 @@ if($op=='AddTab4'){
 				"c_code"=>"".$_SESSION['admin_school']."",
 				"c_stu"=>"".$_POST['StuID'][$i]."",
 				"c_class"=>"".$_POST['ClassID']."",
+				"c_cn"=>"".$_POST['Stu_cn']."",
 				"c_k4"=>""._text_box_table_tab4_value_la."",
 				"c_date"=>"".$_POST['DateID']."",
 				"c_note"=>$_SESSION['admin_login']
@@ -560,6 +597,7 @@ if($op=='AddTab4'){
 		} else {
 		$error_warning=_text_report_add_fail;
 		}
+
 } 
 ?>
 
@@ -626,8 +664,6 @@ $(function(){
 
 </script>
 
-
-
 		<form method="post" action="index.php?name=academic&file=mclass&op=AddTab4&route=<?php echo $route;?>" enctype="multipart/form-data" id="formAdd" role="formAdd" data-toggle="validator" class="form-horizontal bootstrap-validator-form" >
 		<div class="col-xs-12" align="center" >
 		<h4 class="box-title"><?php echo _heading_title_M_tab4; ?></h4>
@@ -654,7 +690,7 @@ $(function(){
 						     <div class="form-group has-feedback">
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_class; ?></label>
 							<div class="col-sm-4" >
-							<select  class="form-control css-require" id="Stu_class4" name="Stu_class4" required="required">
+							<select  class="form-control css-require" id="Stu_class4" name="ClassID" required="required">
 							<option value="" selected disabled><?php echo _text_box_table_stu_class_select;?></option>
 							<?php
 							
