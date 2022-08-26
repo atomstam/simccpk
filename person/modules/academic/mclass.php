@@ -9,9 +9,9 @@ $Mtime=date("H:i:s");
 if($op=='AddTab4'){
 
 	@$res['chkmclass'] = $db->select_query("SELECT * FROM ".TB_CHK_CHMCLASS." WHERE chkm_area='".$_SESSION['person_area']."' and chkm_code='".$_SESSION['person_school']."'  and chkm_class='".$_POST['ClassID']."' and chkm_cn='".$_POST['Stu_cn']."' and chkm_date='".$_POST['DateID']."' "); 
-	@$arr['chkmclass'] = $db->fetch(@$res['chkmclass']);
+	@$arr['chkmclass'] = $db->rows(@$res['chkmclass']);
 
-	if(!$arr['chkmclass']['chkm_id']){
+	if($arr['chkmclass']==0){
 		$add .=$db->add_db(TB_CHK_CHMCLASS,array(
 			"chkm_area"=>"".$_SESSION['person_area']."",
 			"chkm_code"=>"".$_SESSION['person_school']."",
@@ -19,9 +19,8 @@ if($op=='AddTab4'){
 			"chkm_cn"=>"".$_POST['Stu_cn']."",
 			"chkm_date"=>"".$_POST['DateID']."",
 			"chkm_datetime"=>"".date("Y-m-d H:i:s")."",
-			"chkm_note"=>$_SESSION['person_login']
+			"chkm_note"=> "".$_SESSION['person_login'].""
 		));
-		} 
 
 	list($Y , $m , $d) = explode("-" , $_POST['DateID']);
 	$y=$Y+543;
@@ -589,6 +588,10 @@ if($op=='AddTab4'){
 //		$add .=$_POST['DateID']."<br>";
 //		$add .=$_POST['StuID']."<br>";
 //echo $add;
+		} else {
+			$add .='x';
+
+		}
 
     	if($add){
 		$success =_text_report_add_ok;
