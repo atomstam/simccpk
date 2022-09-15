@@ -2,7 +2,7 @@
 //require_once ("mainfile.php"); 
 if(time() > $_SESSION['timeout'] || empty($_SESSION['stu_login']) || empty($_SESSION['stu_area']) || empty($_SESSION['stu_school']) ){
 session_unset();
-setcookie("admin_login");
+setcookie("stu_login");
 echo "<meta http-equiv='refresh' content='0; url=index.php'>";
 }
 

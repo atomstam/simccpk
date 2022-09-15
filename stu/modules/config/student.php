@@ -166,7 +166,7 @@ $(function(){
 							</div>
 							<div class="form-group has-feedback" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_id; ?></label>
-							<div class="col-sm-2"><input type="text" name="Stu_id"  class="form-control css-require" placeholder="12345" maxlength="5" data-minlength="4"  pattern="^[0-9]{1,}$" value="<?php echo @$arr['user']['stu_id']; ?>" readonly><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>
+							<div class="col-sm-2"><input type="text" name="Stu_id"  class="form-control css-require" placeholder="12345" maxlength="5" data-minlength="4"  pattern="^[0-9]{1,}$" value="<?php echo $_SESSION['stu_pwd']; ?>" readonly><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>
 							</div>
 							<div class="form-group has-feedback" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_pid; ?></label>
@@ -549,7 +549,7 @@ $(function(){
         </div>
 
 							<div class="form-group">
-							<div class="col-sm-4" ><input type="hidden" name="OP"  value="Edit"><input name="SID" type="hidden" value="<?php echo @$arr['user']['stu_id'];?>">
+							<div class="col-sm-4" ><input type="hidden" name="OP"  value="Edit"><input name="SID" type="hidden" value="<?php echo $_SESSION['stu_pwd'];?>">
 							<br>
 							</div>
 							</div>
@@ -781,7 +781,7 @@ initialize();
 							</div>
 							<div class="form-group has-feedback" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_id; ?></label>
-							<div class="col-sm-2"><input type="text" name="Stu_id"  class="form-control css-require" placeholder="12345" maxlength="5" data-minlength="4"  pattern="^[0-9]{1,}$" value="<?php echo @$arr['user']['stu_id']; ?>" readonly><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>
+							<div class="col-sm-2"><input type="text" name="Stu_id"  class="form-control css-require" placeholder="12345" maxlength="5" data-minlength="4"  pattern="^[0-9]{1,}$" value="<?php echo $_SESSION['stu_pwd']; ?>" readonly><span class="glyphicon form-control-feedback" aria-hidden="true"></span></div>
 							</div>
 							<div class="form-group has-feedback" >
 							<label class="col-sm-3 control-label" ><?php echo _text_box_table_stu_pid; ?></label>
@@ -1023,10 +1023,10 @@ initialize();
 		<!-- ความดี -->
 
 		<?php
-		@$res['count'] = $db->select_query("SELECT * FROM ".TB_GOOD." WHERE good_area='".$_SESSION['stu_area']."' and good_code='".$_SESSION['stu_school']."' and good_stu='".@$arr['user']['stu_id']."' "); 
+		@$res['count'] = $db->select_query("SELECT * FROM ".TB_GOOD." WHERE good_area='".$_SESSION['stu_area']."' and good_code='".$_SESSION['stu_school']."' and good_stu='".$_SESSION['stu_pwd']."' "); 
 		@$rows['count'] = $db->rows(@$res['count']);
 		if(@$rows['count']){
-		@$res['score'] = $db->select_query("SELECT *,sum(b.goodtail_point) as SCO FROM ".TB_GOOD." as a, ".TB_GOODTAIL." as b WHERE a.good_stu='".@$arr['user']['stu_id']."' and good_area='".$_SESSION['stu_area']."' and good_code='".$_SESSION['stu_school']."' and and a.good_tail=b.goodtail_id "); 
+		@$res['score'] = $db->select_query("SELECT *,sum(b.goodtail_point) as SCO FROM ".TB_GOOD." as a, ".TB_GOODTAIL." as b WHERE a.good_stu='".$_SESSION['stu_pwd']."' and good_area='".$_SESSION['stu_area']."' and good_code='".$_SESSION['stu_school']."' and and a.good_tail=b.goodtail_id "); 
 		@$arr['score'] = $db->fetch(@$res['score']);
 		?>
 							<div class="form-group">
@@ -1058,7 +1058,7 @@ initialize();
       <div class="box-body ">
 	  <?php
 		
-		@$res['num'] = $db->select_query("SELECT * FROM ".TB_GOOD." WHERE good_area='".$_SESSION['stu_area']."' and good_code='".$_SESSION['stu_school']."' and good_stu='".@$arr['user']['stu_id']."' order by good_id desc"); 
+		@$res['num'] = $db->select_query("SELECT * FROM ".TB_GOOD." WHERE good_area='".$_SESSION['stu_area']."' and good_code='".$_SESSION['stu_school']."' and good_stu='".$_SESSION['stu_pwd']."' order by good_id desc"); 
 		@$rows['num'] = $db->rows(@$res['num']);
 		?>
 
@@ -1081,7 +1081,7 @@ initialize();
 		while (@$arr['num'] = $db->fetch(@$res['num'])){
 			@$res['tail'] = $db->select_query("SELECT * FROM ".TB_GOODTAIL." WHERE goodtail_id='".@$arr['num']['good_tail']."' "); 
 			@$arr['tail'] =$db->fetch(@$res['tail']);
-			@$res['stu'] = $db->select_query("SELECT * FROM ".TB_STUDENT." WHERE stu_area='".$_SESSION['stu_area']."' and stu_code='".$_SESSION['stu_school']."' and stu_id='".@$arr['user']['stu_id']."' "); 
+			@$res['stu'] = $db->select_query("SELECT * FROM ".TB_STUDENT." WHERE stu_area='".$_SESSION['stu_area']."' and stu_code='".$_SESSION['stu_school']."' and stu_id='".$_SESSION['stu_pwd']."' "); 
 			@$arr['stu'] =$db->fetch(@$res['stu']);
 //		@$PerC=(100*(@$arr['num']['CO']))/(@$rows['count']);
 			@$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".@$arr['stu']['stu_class']."' "); 
@@ -1236,7 +1236,7 @@ initialize();
 
 		<!-- คณะกรรมการนักเรียน -->
 		<?php
-		@$res['count2'] = $db->select_query("SELECT * FROM ".TB_COUNTAIL." WHERE cot_area='".$_SESSION['stu_area']."' and cot_code='".$_SESSION['stu_school']."' and cot_stu='".@$arr['user']['stu_id']."' "); 
+		@$res['count2'] = $db->select_query("SELECT * FROM ".TB_COUNTAIL." WHERE cot_area='".$_SESSION['stu_area']."' and cot_code='".$_SESSION['stu_school']."' and cot_stu='".$_SESSION['stu_pwd']."' "); 
 		@$rows['count2'] = $db->rows(@$res['count2']);		
 		if(@$rows['count2']){
 		?>
@@ -1264,7 +1264,7 @@ initialize();
       <div class="box-body ">
 	  <?php
 		
-		@$res['num2'] = $db->select_query("SELECT * FROM ".TB_COUNTAIL." WHERE cot_area='".$_SESSION['stu_area']."' and cot_code='".$_SESSION['stu_school']."' and cot_stu='".@$arr['user']['stu_id']."' order by cot_id desc"); 
+		@$res['num2'] = $db->select_query("SELECT * FROM ".TB_COUNTAIL." WHERE cot_area='".$_SESSION['stu_area']."' and cot_code='".$_SESSION['stu_school']."' and cot_stu='".$_SESSION['stu_pwd']."' order by cot_id desc"); 
 //		@$rows['num1'] = $db->rows(@$res['num1']);
 		?>
 
@@ -1424,7 +1424,7 @@ initialize();
 
 		<!-- คณะกรรมการห้องเรียนสีขาว -->
 		<?php
-		@$res['count3'] = $db->select_query("SELECT * FROM ".TB_WHITECLTAIL." WHERE whcl_area='".$_SESSION['stu_area']."' and whcl_code='".$_SESSION['stu_school']."' and whcl_stu='".@$arr['user']['stu_id']."' "); 
+		@$res['count3'] = $db->select_query("SELECT * FROM ".TB_WHITECLTAIL." WHERE whcl_area='".$_SESSION['stu_area']."' and whcl_code='".$_SESSION['stu_school']."' and whcl_stu='".$_SESSION['stu_pwd']."' "); 
 		@$rows['count3'] = $db->rows(@$res['count3']);		
 		if(@$rows['count3']){
 		?>
@@ -1452,7 +1452,7 @@ initialize();
       <div class="box-body ">
 	  <?php
 		
-		@$res['num3'] = $db->select_query("SELECT * FROM ".TB_WHITECLTAIL." WHERE whcl_area='".$_SESSION['stu_area']."' and whcl_code='".$_SESSION['stu_school']."' and whcl_stu='".@$arr['user']['stu_id']."' order by whcl_id desc"); 
+		@$res['num3'] = $db->select_query("SELECT * FROM ".TB_WHITECLTAIL." WHERE whcl_area='".$_SESSION['stu_area']."' and whcl_code='".$_SESSION['stu_school']."' and whcl_stu='".$_SESSION['stu_pwd']."' order by whcl_id desc"); 
 //		@$rows['num1'] = $db->rows(@$res['num1']);
 		?>
 
@@ -1612,7 +1612,7 @@ initialize();
 
 		<!-- หน้าที่พิเศษ -->
 		<?php
-		@$res['count1'] = $db->select_query("SELECT * FROM ".TB_PUTTAIL." WHERE pt_area='".$_SESSION['stu_area']."' and pt_code='".$_SESSION['stu_school']."'  and pt_stu='".@$arr['user']['stu_id']."' "); 
+		@$res['count1'] = $db->select_query("SELECT * FROM ".TB_PUTTAIL." WHERE pt_area='".$_SESSION['stu_area']."' and pt_code='".$_SESSION['stu_school']."'  and pt_stu='".$_SESSION['stu_pwd']."' "); 
 		@$rows['count1'] = $db->rows(@$res['count1']);		
 		if(@$rows['count1']){
 		?>
@@ -1640,7 +1640,7 @@ initialize();
       <div class="box-body ">
 	  <?php
 		
-		@$res['num'] = $db->select_query("SELECT * FROM ".TB_PUTTAIL." WHERE pt_area='".$_SESSION['stu_area']."' and pt_code='".$_SESSION['stu_school']."' and pt_stu='".@$arr['user']['stu_id']."' order by pt_id desc"); 
+		@$res['num'] = $db->select_query("SELECT * FROM ".TB_PUTTAIL." WHERE pt_area='".$_SESSION['stu_area']."' and pt_code='".$_SESSION['stu_school']."' and pt_stu='".$_SESSION['stu_pwd']."' order by pt_id desc"); 
 //		@$rows['num1'] = $db->rows(@$res['num1']);
 		?>
 
@@ -1800,7 +1800,7 @@ initialize();
 
 		<!-- กิจกรรมนักเรียน -->
 		<?php
-		@$res['count4'] = $db->select_query("SELECT * FROM ".TB_AFFTAIL." WHERE afft_area='".$_SESSION['stu_area']."' and afft_code='".$_SESSION['stu_school']."' and afft_stu='".@$arr['user']['stu_id']."' "); 
+		@$res['count4'] = $db->select_query("SELECT * FROM ".TB_AFFTAIL." WHERE afft_area='".$_SESSION['stu_area']."' and afft_code='".$_SESSION['stu_school']."' and afft_stu='".$_SESSION['stu_pwd']."' "); 
 		@$rows['count4'] = $db->rows(@$res['count4']);		
 		if(@$rows['count4']){
 		?>
@@ -1828,7 +1828,7 @@ initialize();
       <div class="box-body ">
 	  <?php
 		
-		@$res['num4'] = $db->select_query("SELECT * FROM ".TB_AFFTAIL." WHERE afft_area='".$_SESSION['stu_area']."' and afft_code='".$_SESSION['stu_school']."' and afft_stu='".@$arr['user']['stu_id']."' order by afft_id desc"); 
+		@$res['num4'] = $db->select_query("SELECT * FROM ".TB_AFFTAIL." WHERE afft_area='".$_SESSION['stu_area']."' and afft_code='".$_SESSION['stu_school']."' and afft_stu='".$_SESSION['stu_pwd']."' order by afft_id desc"); 
 //		@$rows['num1'] = $db->rows(@$res['num1']);
 		?>
 
@@ -1989,10 +1989,10 @@ initialize();
 
         <div class="tab-pane fade in" id="tab5">
 		<?php
-		@$res['countB'] = $db->select_query("SELECT * FROM ".TB_BAD." WHERE bad_stu='".@$arr['user']['stu_id']."' "); 
+		@$res['countB'] = $db->select_query("SELECT * FROM ".TB_BAD." WHERE bad_stu='".$_SESSION['stu_pwd']."' "); 
 		@$rows['countB'] = $db->rows(@$res['countB']);
 		if(@$rows['countB']){
-		@$res['scoreB'] = $db->select_query("SELECT *,sum(b.badtail_point) as BCO FROM ".TB_BAD." as a, ".TB_BADTAIL." as b WHERE a.bad_stu='".@$arr['user']['stu_id']."' and a.bad_tail=b.badtail_id "); 
+		@$res['scoreB'] = $db->select_query("SELECT *,sum(b.badtail_point) as BCO FROM ".TB_BAD." as a, ".TB_BADTAIL." as b WHERE a.bad_stu='".$_SESSION['stu_pwd']."' and a.bad_tail=b.badtail_id "); 
 		@$arr['scoreB'] = $db->fetch(@$res['scoreB']);
 		?>
 							<div class="form-group">
@@ -2024,7 +2024,7 @@ initialize();
       <div class="box-body ">
 	  <?php
 		
-		@$res['num'] = $db->select_query("SELECT * FROM ".TB_BAD." WHERE bad_stu='".@$arr['user']['stu_id']."' order by bad_id desc"); 
+		@$res['num'] = $db->select_query("SELECT * FROM ".TB_BAD." WHERE bad_stu='".$_SESSION['stu_pwd']."' order by bad_id desc"); 
 		@$rows['num'] = $db->rows(@$res['num']);
 		?>
 
@@ -2048,7 +2048,7 @@ initialize();
 		while (@$arr['num'] = $db->fetch(@$res['num'])){
 			@$res['tail'] = $db->select_query("SELECT * FROM ".TB_BADTAIL." WHERE badtail_id='".@$arr['num']['bad_tail']."' "); 
 			@$arr['tail'] =$db->fetch(@$res['tail']);
-			@$res['stu'] = $db->select_query("SELECT * FROM ".TB_STUDENT." WHERE stu_id='".@$arr['user']['stu_id']."' "); 
+			@$res['stu'] = $db->select_query("SELECT * FROM ".TB_STUDENT." WHERE stu_id='".$_SESSION['stu_pwd']."' "); 
 			@$arr['stu'] =$db->fetch(@$res['stu']);
 //		@$PerC=(100*(@$arr['num']['CO']))/(@$rows['count']);
 			@$res['class'] = $db->select_query("SELECT * FROM ".TB_CLASS." WHERE class_id='".@$arr['stu']['stu_class']."' "); 
@@ -2210,7 +2210,7 @@ initialize();
         </div>
 
 							<div class="form-group">
-							<div class="col-sm-4" ><input type="hidden" name="OP"  value="Edit"><input name="SID" type="hidden" value="<?php echo @$arr['user']['stu_id'];?>">
+							<div class="col-sm-4" ><input type="hidden" name="OP"  value="Edit"><input name="SID" type="hidden" value="<?php echo $_SESSION['stu_pwd'];?>">
 							<br>
 							</div>
 							</div>
