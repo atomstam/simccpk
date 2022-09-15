@@ -486,7 +486,6 @@ $gClient->revokeToken();
 	}
 }
 
-
 //ตรวจสอบว่าเป็น Admin จริงหรือไม่จริง
 function CheckPerson($user = "", $pwd ="" , $gr =""  ){
 	global $db ;
@@ -506,6 +505,42 @@ setcookie("person_pwd");
 setcookie("person_school");
 setcookie("person_area");
 setcookie("person_name");
+setcookie("strFacebookID");
+setcookie("facebook_access_token");
+//google AIP
+if(!empty($_SESSION['access_token'])){
+require_once "../includes/GoogleAPI/vendor/autoload.php";
+$gClient = new Google_Client();
+$gClient->setClientId(""._GOOGLE_Api_ID."");
+$gClient->setClientSecret(""._GOOGLE_Api_Secret."");
+unset($_SESSION['access_token']);
+$gClient->revokeToken();
+}
+		echo "<meta http-equiv='refresh' content='1; url=../index.php'>";
+//		exit();
+	}
+}
+
+//ตรวจสอบว่าเป็น Admin จริงหรือไม่จริง
+function CheckStu($user = "", $pwd ="" , $gr =""  ){
+	global $db ;
+	$db->connectdb(DB_NAME,DB_USERNAME,DB_PASSWORD);
+	@$res['userx'] = $db->select_query("SELECT * FROM ".TB_STUDENT." WHERE stu_pid='$user' AND stu_id='$pwd' ");
+	@$arr['userx'] = @$db->rows(@$res['userx']);
+	if(!@$arr['userx']){
+//		echo "<script language='javascript'>" ;
+//		echo "alert('"._ADMIN_SIT."')" ;
+//		echo ""._ADMIN_SIT."" ;
+////		echo "</script>" ;
+session_unset();
+//session_destroy();
+setcookie("stu_login");
+setcookie("stu_group");
+setcookie("stu_pwd");
+setcookie("stu_school");
+setcookie("stu_area");
+setcookie("stu_name");
+setcookie("stu_class");
 setcookie("strFacebookID");
 setcookie("facebook_access_token");
 //google AIP
@@ -1184,7 +1219,11 @@ return '0';
 
 }
 
+//ตรวจสอบว่ามีโมดูลหรือไม่ (โมดูลStu)
+function getTotalStu($Mod,$File,$user){
+global $db;
 
+}
 
 //ตรวจสอบว่ามีโมดูลหรือไม่ (โมดูลADmin)
 function getTotalAdmin($Mod,$File,$user){
@@ -2146,6 +2185,8 @@ return '0';
 }
 
 
+
+
 function GETMODULE($name,$file){
 	global $MODPATH, $MODPATHFILE ;
 	$targetPath = WEB_PATH;
@@ -2193,6 +2234,24 @@ function GETMODULEPERSON($name,$file){
 	if (file_exists($modpathfile)) {
 	$MODPATHFILE = $modpathfile;
 	$MODPATH = $targetPath."/person/modules/".$names."/";
+	}else{
+	header( 'Content-Type:text/html; charset=utf-8');
+	//die (""._NO_MOD."");
+	echo "<meta http-equiv='refresh' content='0; url=../../404.php'>";
+	}
+}
+
+function GETMODULESTU($name,$file){
+	global $MODPATH, $MODPATHFILE ;
+	$targetPath = WEB_PATH;
+	if(empty($name)){$name= "index";}
+	if(empty($file)){$file = "index";}
+	$files = str_replace('../', '', $file);
+	$names = str_replace('../', '', $name);
+	$modpathfile=$targetPath."/stu/modules/".$names."/".$files.".php";
+	if (file_exists($modpathfile)) {
+	$MODPATHFILE = $modpathfile;
+	$MODPATH = $targetPath."/stu/modules/".$names."/";
 	}else{
 	header( 'Content-Type:text/html; charset=utf-8');
 	//die (""._NO_MOD."");

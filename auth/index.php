@@ -309,6 +309,81 @@ if(!empty(@$rows['user'])){
 
 } else if(!empty($_POST['role']) && $_POST['role']==3){
 
+//echo $_POST['role'];
+@$res['user'] = $db->select_query("SELECT * FROM ".TB_STUDENT." WHERE stu_pid='".$Username."' AND stu_id='".$Password."' and stu_code='".$_SESSION['sh_code']."' and stu_suspend ='0' "); 
+@$rows['user'] = $db->rows(@$res['user']); 
+
+if(!empty(@$rows['user'])){
+	@$arr['user'] = $db->fetch(@$res['user']);
+	ob_start();
+
+	$_SESSION['stu_login'] = $Username ;
+	$_SESSION['stu_pwd'] = $Password ;
+	$_SESSION['stu_name'] = $arr['user']['stu_num']."".$arr['user']['stu_name']." ".$arr['user']['stu_sur'];
+	$_SESSION['stu_class'] = @$arr['user']['stu_class'] ;
+	$_SESSION['stu_cn'] = @$arr['user']['stu_cn'] ;
+	$_SESSION['stu_school'] = @$arr['user']['stu_code'] ;
+	$_SESSION['stu_area'] = @$arr['user']['stu_area'] ;
+	$_SESSION['auth'] = "stu";
+
+	@$res['sh'] = $db->select_query("SELECT * FROM ".TB_SCHOOL." WHERE sh_code='".@$arr['user']['stu_code']."' AND sh_area='".@$arr['user']['stu_area']."' "); 
+	@$arr['sh'] = $db->fetch(@$res['sh']);
+	$_SESSION['school_name']=@$arr['sh']['sh_name'];
+
+
+	$_SESSION['uaAd'] = $_SESSION['stu_login'].":".$_SERVER['HTTP_USER_AGENT'].":".$IPADDRESS.":".$_SERVER['HTTP_ACCEPT_LANGUAGE'];
+	$timeoutseconds=24*30*60*60; // 30 นาที
+//	$_SESSION['timestamp2']=time();
+	$timeout=time() + $timeoutseconds;
+	$_SESSION['timeout']=$timeout;
+
+	$ct_ip = $_SERVER["REMOTE_ADDR"];
+	$ct_yyyy = date("Y") ;
+	$ct_mm = date("m") ;
+	$ct_dd = date("d") ;
+	$ct_time = time();
+
+		$db->add_db(TB_ACTIVEUSER,array(
+			"ct_user"=>"".$_SESSION['stu_login']."",
+			"ct_area"=>"".$_SESSION['stu_area']."",
+			"ct_school"=>"".$_SESSION['stu_school']."",
+			"ct_yyyy"=>"".$ct_yyyy."",
+			"ct_mm"=>"".$ct_mm."",
+			"ct_dd"=>"".$ct_dd."",
+			"ct_ip"=>"".$ct_ip."",
+			"ct_count"=>"1",
+			"ct_time"=>"".$ct_time."",
+			"ct_timeout"=>"".$timeout.""
+		));
+
+		@$res['online'] = $db->select_query("SELECT * FROM ".TB_STUDENT_ONLINE." WHERE u_user='".$_SESSION['stu_login']."' "); 
+		@$rows['online'] = $db->rows(@$res['online']); 
+		if(@$rows['online']){
+		$db->update_db(TB_STUDENT_ONLINE,array(
+			"u_ip"=>"".$ct_ip."",
+			"u_timein"=>"".$ct_time."",
+			"u_timeout"=>"".$timeout.""
+		),"  u_user='".$_SESSION['stu_login']."' " );
+		} else {
+		$db->add_db(TB_STUDENT_ONLINE,array(
+			"area_code"=>"".$_SESSION['stu_area']."",
+			"school_code"=>"".$_SESSION['stu_school']."",
+			"u_user"=>"".$_SESSION['stu_login']."",
+			"u_ip"=>"".$ct_ip."",
+			"u_timein"=>"".$ct_time."",
+			"u_timeout"=>"".$timeout.""
+		));
+		}
+
+	$success ="<meta http-equiv='refresh' content='0; url=../stu/index.php'>";
+	$status  = 'success';
+	$message = _login_success_message;
+
+	} else {	$error_warning =_login_status_no;
+	$status  = 'warning';
+	$message = _login_error_message;
+	}
+
 } else {
 	$error_warning =_error_warning;
 	$status  = 'error';
